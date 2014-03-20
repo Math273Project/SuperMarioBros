@@ -1,10 +1,11 @@
-#define WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN //throws out stuff you dont need
 #include <Windows.h>
 #include <d3d9.h>
+#include <d3dx9tex.h>
 #include <mmsystem.h>
 
-
-LPDIRECT3D9 direct3d;
+//directx constants, pointers have to point to an object
+LPDIRECT3D9 direct3d;  //pointer object means you use arrors not dots
 LPDIRECT3DDEVICE9 device3d;
 const double FRAME_RATE = 200.0;
 const double MIN_FRAME_RATE = 10.0;
@@ -24,8 +25,10 @@ bool AnotherInstance();
 void InitializeDirectX(HWND& hWnd, int width, int height, bool fullscreen);
 void ReleaseAll();
 HRESULT ShowBackBuffer();
+HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
+	LPDIRECT3DTEXTURE9& texture);
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow) //args come from OS
 {
 	HWND hWnd;
 	MSG msg;
@@ -37,6 +40,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	double frametime = 0.0;
 	DWORD sleepTime = 0;
 	double fps = 0;
+	HRESULT hResult;
+	UINT textureWidth;
+	UINT textureHeight;
+	LPDIRECT3DTEXTURE9 texture = NULL;
+	LPD3DXSPRITE sprite;
+
+	int x = WINDOW_WIDTH / 2;
+	int y = WINDOW_HEIGHT / 2;
+	int frameWidth = 24;
+	int frameHeight = 48;
+	int horizontalFrame = 0; //
+	int verticalFrame = 1; //
+
+	double scale = 1.0;
+	double angle = 0;
+	bool flipVertical = false;
+	bool flipHorizontal = false;
+
+	RECT frameRect;
+
 
 	if (AnotherInstance())
 	{
@@ -49,12 +72,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	{
 		return 1;
 	}
-	
+
 	//initialize directx
 	InitializeDirectX(hWnd, WINDOW_WIDTH, WINDOW_HEIGHT, fullscreen);
 	QueryPerformanceFrequency(&timerFrequency);
-
 	QueryPerformanceCounter(&timeStart);
+	hResult = LoadTexture("ninjagirl.bmp", D3DCOLOR_XRGB(255, 0, 255), textureWidth, textureHeight, texture);
+
+	if (FAILED(hResult))
+	{
+		MessageBox(hWnd, "LoadTexture failed", "Error", MB_OK);
+	}
+	hResult = D3DXCreateSprite(device3d, &sprite);
+	if (FAILED(hResult))
+	{
+		MessageBox(hWnd, "D3DXCreateSprite failed", "Error", MB_OK);
+	}
+
 	//message loop
 	while (!done)
 	{
@@ -64,20 +98,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 			{
 				done = true;
 			}
+
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 		else
 		{
 			// run game here
 			QueryPerformanceCounter(&timeEnd);
 
-			frametime = (double) (timeEnd.QuadPart - timeStart.QuadPart) / (double) timerFrequency.QuadPart;
+			frametime = (double)(timeEnd.QuadPart - timeStart.QuadPart) / (double)timerFrequency.QuadPart;
 
 			// if the frame time is less than MIN_FRAME_TIME do idle processing
 			//otherwise run game
 			if (frametime < MIN_FRAME_TIME)
 			{
 				//figure out how long to sleep for
-				sleepTime = (DWORD) (MIN_FRAME_TIME - frametime) * 1000;
+				sleepTime = (DWORD)(MIN_FRAME_TIME - frametime) * 1000;
 				timeBeginPeriod(1);
 				Sleep(sleepTime);
 			}
@@ -96,18 +133,61 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 				timeStart = timeEnd;
 
 				//game processing
-				if (FAILED(ShowBackBuffer()))
+				//move
+				horizontalFrame++;
+				if (horizontalFrame > 2)
 				{
-					MessageBox(hWnd, "ShowBackBuffer failed", "Error", MB_OK);
+					horizontalFrame = 0;
 				}
+				//render
+				device3d->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0, 0);
+				device3d->BeginScene();
+
+				//call draw funtions for each object
+				sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+				frameRect.left = frameWidth*horizontalFrame;
+				frameRect.top = frameHeight * verticalFrame;
+				frameRect.right = frameRect.left + frameWidth - 1;
+				frameRect.bottom = frameRect.top + frameHeight - 1;
+
+				D3DXVECTOR2 center(frameWidth / 2 * scale, frameHeight / 2 * scale);
+				D3DXVECTOR2 position(x, y);
+				D3DXVECTOR2 scaling(scale, scale);
+
+				if (flipVertical)
+				{
+					scaling.y *= -1;
+					center.y -= textureHeight * scale;
+					position.y += textureHeight *scale;
+				}
+				if (flipHorizontal)
+				{
+					scaling.x *= -1;
+					center.x -= textureWidth * scale;
+					position.x += textureWidth * scale;
+				}
+
+				D3DXMATRIX matrix;
+				D3DXMatrixTransformation2D(&matrix, NULL, 0.0, &scaling, &center, angle, &position);
+
+				sprite->SetTransform(&matrix);
+				hResult = sprite->Draw(texture, &frameRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
+
+				if (FAILED(hResult))
+				{
+					MessageBox(hWnd, "draw failed", "Error", MB_OK);
+				}
+				sprite->End();
+				device3d->EndScene();
+				device3d->Present(NULL, NULL, NULL, NULL);
 			}
 		}
-
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
 	}
 
 	//kill all pointer objects
+	sprite->Release();
+	texture->Release();
 	ReleaseAll();
 
 	//return value
@@ -122,7 +202,7 @@ bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscr
 
 
 	wcx.cbSize = sizeof(wcx);
-	wcx.style = CS_HREDRAW | CS_VREDRAW; 
+	wcx.style = CS_HREDRAW | CS_VREDRAW;
 	wcx.lpfnWndProc = WinProc;
 	wcx.cbClsExtra = 0;
 	wcx.cbWndExtra = 0;
@@ -150,7 +230,7 @@ bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscr
 	}
 
 	hWnd = CreateWindow(CLASS_NAME, WINDOW_NAME, style, CW_USEDEFAULT, CW_USEDEFAULT,
-		WINDOW_WIDTH, WINDOW_HEIGHT, (HWND) NULL, (HMENU) NULL, hInstance, (LPVOID)NULL);
+		WINDOW_WIDTH, WINDOW_HEIGHT, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
 	if (hWnd == NULL)
 	{
 		MessageBox(NULL, "CreateWindow failed", "Error!", MB_OK);
@@ -175,6 +255,7 @@ bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscr
 
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static TCHAR tChar = NULL;
 
 	switch (msg)
 	{
@@ -187,12 +268,12 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case VK_ESCAPE:
 			PostQuitMessage(0);
 			break;
+		case VK_SPACE:
+			ShowBackBuffer();
+			break;
 		}
-		break;
-		//case WM_RBUTTONDOWN:
-		//case WM_KEYDOWN:
-		//case WM_KEYUP:
-		//....
+
+
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -200,12 +281,12 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool AnotherInstance()
 {
-	HANDLE outMutex = CreateMutex(NULL, true, "ksjdfghlksjfhghs;ldfj");
+	HANDLE ourMutex = CreateMutex(NULL, true, "ksjdfghlksjfhghs;ldfj");
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
 		return true;
 	}
-	
+
 	return false;
 
 }
@@ -216,7 +297,7 @@ void InitializeDirectX(HWND& hWnd, int width, int height, bool fullscreen)
 	HRESULT hResult;
 
 	direct3d = Direct3DCreate9(D3D_SDK_VERSION);
-	if(direct3d == NULL)
+	if (direct3d == NULL)
 	{
 		MessageBox(hWnd, "Direct3DCreate9 failed", "Error", MB_OK);
 		return;
@@ -253,7 +334,6 @@ void InitializeDirectX(HWND& hWnd, int width, int height, bool fullscreen)
 
 void ReleaseAll()
 {
-	//destroy in reverse of creation so keep track as you go
 	device3d->Release();
 	direct3d->Release();
 }
@@ -262,7 +342,34 @@ HRESULT ShowBackBuffer()
 {
 	HRESULT hResult = device3d->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 0.0, 0);
 
-	hResult =  device3d->Present(NULL, NULL, NULL, NULL);
+	device3d->Present(NULL, NULL, NULL, NULL);
+
+	return hResult;
+}
+
+HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
+	LPDIRECT3DTEXTURE9& texture)
+{
+	D3DXIMAGE_INFO info;
+	HRESULT hResult;
+
+	if (filename == NULL)
+	{
+		texture = NULL;
+		return D3DERR_INVALIDCALL; //bad file name return error
+	}
+
+	hResult = D3DXGetImageInfoFromFile(filename, &info);
+	if (hResult != D3D_OK)
+	{
+		return hResult;
+	}
+
+	width = info.Width;    //returns width
+	height = info.Height;  //return height
+
+	hResult = D3DXCreateTextureFromFileEx(device3d, filename, width, height, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
+		D3DX_DEFAULT, D3DX_DEFAULT, transparencyColor, &info, NULL, &texture);
 
 	return hResult;
 }
