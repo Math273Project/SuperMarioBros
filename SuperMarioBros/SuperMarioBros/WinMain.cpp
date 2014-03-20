@@ -53,8 +53,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	//initialize directx
 	InitializeDirectX(hWnd, WINDOW_WIDTH, WINDOW_HEIGHT, fullscreen);
 	QueryPerformanceFrequency(&timerFrequency);
-
 	QueryPerformanceCounter(&timeStart);
+
 	//message loop
 	while (!done)
 	{
