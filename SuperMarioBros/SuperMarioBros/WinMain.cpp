@@ -1,11 +1,7 @@
-#define WIN32_LEAN_AND_MEAN //throws out stuff you dont need
-#include <Windows.h>
-#include <d3d9.h>
-#include <d3dx9tex.h>
-#include <mmsystem.h>
+#include "Game.h"
 
-//directx constants, pointers have to point to an object
-LPDIRECT3D9 direct3d;  //pointer object means you use arrors not dots
+//directx constants
+LPDIRECT3D9 direct3d;
 LPDIRECT3DDEVICE9 device3d;
 const double FRAME_RATE = 200.0;
 const double MIN_FRAME_RATE = 10.0;
@@ -28,7 +24,7 @@ HRESULT ShowBackBuffer();
 HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
 	LPDIRECT3DTEXTURE9& texture);
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow) //args come from OS
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
 {
 	HWND hWnd;
 	MSG msg;
@@ -50,8 +46,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	int y = WINDOW_HEIGHT / 2;
 	int frameWidth = 24;
 	int frameHeight = 48;
-	int horizontalFrame = 0; //
-	int verticalFrame = 1; //
+	int horizontalFrame = 0; 
+	int verticalFrame = 1; 
 
 	double scale = 1.0;
 	double angle = 0;
