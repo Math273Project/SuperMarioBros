@@ -12,15 +12,20 @@ class Object
 public:
 	Object();
 	~Object();
-	bool inVisible(); // return true if object changed to invisible. If it is originally invisible, return false.
-	bool Visible();
+	bool disable();
+	bool enable();
+	void setPosition(int x, int y);
 	virtual bool draw(); 
-	virtual bool move(int direction);
+	virtual bool move(int direction, int distance);
 	
 protected:
 	int x_;
 	int y_;
 	int width_;
 	int height_;
-	bool isVisible_;
+	bool isEnabled_;
+	int priority_; // The object with higher priority will be drawn at the top of the object with low priority.
+					// Change a name?
+	char* pic_; // What is shown on the screen. The typename should not char*, but I forgot what it should be.
+
 };
