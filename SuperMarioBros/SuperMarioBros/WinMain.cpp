@@ -9,8 +9,8 @@ const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
 const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
 //constants
-const char CLASS_NAME[] = "DirectX Example";
-const char WINDOW_NAME[] = "DirectX Example!";
+const char CLASS_NAME[] = "Super Mario Bros";
+const char WINDOW_NAME[] = "Super Mario Bros";
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
