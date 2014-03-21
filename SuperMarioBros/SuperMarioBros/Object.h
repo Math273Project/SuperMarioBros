@@ -11,14 +11,16 @@ class Object
 {
 public:
 	Object();
-	Object();
+	~Object();
 	bool inVisible(); // return true if object changed to invisible. If it is originally invisible, return false.
 	bool Visible();
-	virtual void draw();
-	virtual void move(int direction);
+	virtual bool draw(); 
+	virtual bool move(int direction);
 	
 protected:
-	int x;
-	int y;
-	bool isVisible;
+	int x_;
+	int y_;
+	int width_;
+	int height_;
+	bool isVisible_;
 };
