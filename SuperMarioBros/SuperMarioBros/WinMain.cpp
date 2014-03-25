@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	HWND hWnd;
 	MSG msg;
 	bool done = false;
-	bool fullscreen = false;
+	bool fullscreen = true;
 	LARGE_INTEGER timeEnd;
 	LARGE_INTEGER timeStart;
 	LARGE_INTEGER timerFrequency;
