@@ -11,25 +11,33 @@ class Object
 {
 public:
 	Object();
-	~Object();
+	virtual ~Object();
 	bool disable();
 	bool enable();
 	void setPosition(int x, int y);
 	virtual bool draw(); 
 	virtual bool move(int direction, int distance);
-	bool isCollide(const Object& object);
-	bool virtual dosomething(); // Check every other Objects position or velocity and do sth according to it
-								// Change name?
+	virtual bool move(int time);
+	bool didCollide(const Object& object); // Check if two objects are collide
+	virtual bool collide(const);
 	
 protected:
+	enum
+	{
+		MARIO,
+		BLOCK,
+		FLOWER,
+		MUSHROOM,
+				// etc...
+	} type;
 	int x_;
 	int y_;
 	int vx_;
 	int vy_;
 	int width_;
 	int height_;
-	bool isEnabled_;
-	bool isPassable_; // example: block, not passable. coins passable.
+	bool enabled_;
+	bool passable_; // example: block, not passable. coins passable.
 	int priority_; // The object with higher priority will be drawn at the top of the object with low priority.
 					// Change a name?
 	LPD3DXSPRITE sprite_; // What is shown on the screen. The typename should not char*, but I forgot what it should be.
