@@ -4,6 +4,10 @@
 #include <d3d9.h>
 #include <d3dx9tex.h>
 #include <mmsystem.h>
+#include "Graphics.h"
+#include "Input.h"
+#include "Constants.h"
+#include "GameError.h"
 
 ///Game will hold all DirectX functionality
 class Game
@@ -11,7 +15,10 @@ class Game
 public:
 	Game();
 	~Game();
+	//message handler handles all windows messages
 	LRESULT messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	// Initialize the game
+	// Pre: hwnd is handle to window
 	virtual void initialize(HWND hwnd);
 	// Call run repeatedly by the main message loop in WinMain
 	virtual void run(HWND);

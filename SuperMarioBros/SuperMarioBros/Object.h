@@ -40,6 +40,6 @@ protected:
 	bool passable_; // example: block, not passable. coins passable.
 	int priority_; // The object with higher priority will be drawn at the top of the object with low priority.
 					// Change a name?
-	LPD3DXSPRITE sprite_; // What is shown on the screen. The typename should not char*, but I forgot what it should be.
+	LPD3DXSPRITE sprite_; // used to draw the sprites to the screen
 
 };

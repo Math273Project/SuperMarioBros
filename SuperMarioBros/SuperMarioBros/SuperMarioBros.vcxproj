@@ -15,10 +15,9 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Arena.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="message.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B453679A-2FF2-4DA4-A821-1307D56949D6}</ProjectGuid>

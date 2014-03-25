@@ -29,10 +29,7 @@
     <ClInclude Include="Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="message.h">
+    <ClInclude Include="Arena.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
