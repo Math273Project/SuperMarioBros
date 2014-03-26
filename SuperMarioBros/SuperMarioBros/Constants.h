@@ -1,7 +1,5 @@
 
 //directx constants
-LPDIRECT3D9 direct3d;
-LPDIRECT3DDEVICE9 device3d;
 const double FRAME_RATE = 200.0;
 const double MIN_FRAME_RATE = 10.0;
 const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
