@@ -1,8 +1,5 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
-#ifdef _DEBUG
-#define D3D_DEBUG_INFO
-#endif
 #include <d3d9.h>
 #include "constants.h"
 #include "gameError.h"
