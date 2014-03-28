@@ -46,4 +46,3 @@ protected:
 	bool paused; // True if game is paused
 	bool initialized;
 };
-
