@@ -6,20 +6,6 @@
 
 class Graphics
 {
-private:
-	// DirectX pointers and stuff
-	LPDIRECT3D9 direct3d;
-	LPDIRECT3DDEVICE9 device3d;
-	D3DPRESENT_PARAMETERS d3dpp;
-	// Other variables
-	HRESULT result; // Standard Windows return codes
-	HWND hwnd;
-	bool fullscreen;
-	int width;
-	int height;
-	// (For internal engine use only. No user serviceable parts inside.)
-	// Initialize D3D presentation parameters
-	void initD3Dpp();
 public:
 	// Constructor
 	Graphics();
@@ -28,12 +14,21 @@ public:
 	// Releases direct3d and device3d
 	void releaseAll();
 	// Initialize DirectX graphics
-	// hw = handle to window
-	// width = width in pixels
-	// height = height in pixels
-	// Fullscreen = true for full screen, false for window
-	// Throws GameError on error
-	void initialize(HWND hw, int width, int height, bool fullscreen);
+	void initialize(HWND hWnd, int width, int height, bool fullscreen);
 	// Display the offscreen backbuffer to the screen
 	HRESULT showBackbuffer();
+private:
+	// DirectX pointers
+	LPDIRECT3D9 direct3d_;
+	LPDIRECT3DDEVICE9 device3d_;
+	D3DPRESENT_PARAMETERS d3dpp_;
+	// Other variables
+	HRESULT hResult_; // Standard Windows return codes
+	HWND hWnd_;
+	bool fullscreen_;
+	int width_;
+	int height_;
+	// (For internal engine use only)
+	// Initialize D3D presentation parameters
+	void initD3Dpp();
 };

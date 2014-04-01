@@ -29,20 +29,20 @@ public:
 	// Delete all reserved memory
 	virtual void deleteAll();
 	// Render game items
-	virtual void renderGame();
-	void exitGame() { PostMessage(hwnd, WM_DESTROY, 0, 0); }
+	virtual void renderGame() = 0;
+	void exitGame() { PostMessage(hwnd_, WM_DESTROY, 0, 0); }
 	virtual void update();
 	virtual void collisions();
 
 protected:
-	HWND hwnd; // Window handle
-	HRESULT hr; // Standard return type
-	LARGE_INTEGER timeStart; // Performance Counter start value
-	LARGE_INTEGER timeEnd; // Performance Counter end value
-	LARGE_INTEGER timerFreq; // Performance Counter frequency
-	float frameTime; // Time required for last frame
-	float fps; // Frames per second
-	DWORD sleepTime; // Milliseconds to sleep between frames
-	bool paused; // True if game is paused
-	bool initialized;
+	HWND hwnd_; // Window handle
+	HRESULT hResult_; // Standard return type
+	LARGE_INTEGER timeStart_; // Performance Counter start value
+	LARGE_INTEGER timeEnd_; // Performance Counter end value
+	LARGE_INTEGER timerFreq_; // Performance Counter frequency
+	float frameTime_; // Time required for last frame
+	float fps_; // Frames per second
+	DWORD sleepTime_; // Milliseconds to sleep between frames
+	bool paused_; // True if game is paused
+	bool initialized_;
 };
