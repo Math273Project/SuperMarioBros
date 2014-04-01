@@ -2,12 +2,16 @@
 
 Graphics::Graphics()
 {
-
+	direct3d_ = NULL;
+	device3d_ = NULL;
+	fullscreen_ = false;
+	width_ = GAME_WIDTH; // Width & height are replaced in initialize()
+	height_ = GAME_HEIGHT;
 }
 
 Graphics::~Graphics()
 {
-
+	releaseAll();
 }
 
 void Graphics::releaseAll()
@@ -18,45 +22,54 @@ void Graphics::releaseAll()
 
 void Graphics::initD3Dpp()
 {
-	//set up the presentaion parameters
-	ZeroMemory(&d3dpp_, sizeof(d3dpp_));
+	try{
+		//set up the presentaion parameters
+		ZeroMemory(&d3dpp_, sizeof(d3dpp_));
 
-	d3dpp_.BackBufferWidth = width_;
-	d3dpp_.BackBufferHeight = height_;
-	if (fullscreen_)
-	{
-		d3dpp_.BackBufferFormat = D3DFMT_X8R8G8B8;
+		d3dpp_.BackBufferWidth = width_;
+		d3dpp_.BackBufferHeight = height_;
+		if (fullscreen_)
+		{
+			d3dpp_.BackBufferFormat = D3DFMT_X8R8G8B8;
+		}
+		else
+		{
+			d3dpp_.BackBufferFormat = D3DFMT_UNKNOWN;
+		}
+		d3dpp_.BackBufferCount = 1;
+		d3dpp_.SwapEffect = D3DSWAPEFFECT_DISCARD;
+		d3dpp_.hDeviceWindow = hWnd_;
+		d3dpp_.Windowed = !fullscreen_;
+		d3dpp_.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	}
-	else
+	catch (...)
 	{
-		d3dpp_.BackBufferFormat = D3DFMT_UNKNOWN;
+		throw(GameError(gameErrorNS::FATAL_ERROR,"Error initializing D3D presentation parameters"));
 	}
-	d3dpp_.BackBufferCount = 1;
-	d3dpp_.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp_.hDeviceWindow = hWnd_;
-	d3dpp_.Windowed = !fullscreen_;
-	d3dpp_.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+}
+
+void Graphics::initialize(HWND hWnd, int width, int height, bool fullscreen)
+{
+	hWnd_ = hWnd;
+	width_ = width;
+	height_ = height;
+	fullscreen_ = fullscreen;
+
+	direct3d_ = Direct3DCreate9(D3D_SDK_VERSION);
+	if (direct3d_ == NULL)
+	{
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Direct3D"));
+	}
+
+	initD3Dpp();
 
 	hResult_ = direct3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd_,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp_, &device3d_);
 
 	if (FAILED(hResult_))
 	{
-		MessageBox(hWnd_, "CreateDevice failed", "Error", MB_OK);
-		return;
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D device"));
 	}
-}
-
-void Graphics::initialize(HWND hWnd, int width, int height, bool fullscreen)
-{
-	direct3d_ = Direct3DCreate9(D3D_SDK_VERSION);
-	if (direct3d_ == NULL)
-	{
-		MessageBox(hWnd, "Direct3DCreate9 failed", "Error", MB_OK);
-		return;
-	}
-
-	initD3Dpp();
 }
 
 HRESULT Graphics::showBackbuffer()

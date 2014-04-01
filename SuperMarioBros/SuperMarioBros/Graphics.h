@@ -24,10 +24,10 @@ private:
 	D3DPRESENT_PARAMETERS d3dpp_;
 	// Other variables
 	HRESULT hResult_; // Standard Windows return codes
-	HWND hWnd_;
-	bool fullscreen_;
-	int width_;
-	int height_;
+	HWND hWnd_;   //HANDLE to the window
+	bool fullscreen_;  //true if scree is fullscreen, false otherwise
+	int width_;  //width of the window
+	int height_;   //height of the window
 	// (For internal engine use only)
 	// Initialize D3D presentation parameters
 	void initD3Dpp();
