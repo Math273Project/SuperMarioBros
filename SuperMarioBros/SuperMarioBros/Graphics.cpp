@@ -12,7 +12,8 @@ Graphics::~Graphics()
 
 void Graphics::releaseAll()
 {
-
+	device3d_->Release();
+	direct3d_->Release();
 }
 
 void Graphics::initD3Dpp()
@@ -56,4 +57,13 @@ void Graphics::initialize(HWND hWnd, int width, int height, bool fullscreen)
 	}
 
 	initD3Dpp();
+}
+
+HRESULT Graphics::showBackbuffer()
+{
+	HRESULT hResult = device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 0.0, 0);
+
+	device3d_->Present(NULL, NULL, NULL, NULL);
+
+	return hResult;
 }
