@@ -14,13 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	MSG msg;
 
 	bool fullscreen = false;
-	LARGE_INTEGER timeEnd;
-	LARGE_INTEGER timeStart;
-	LARGE_INTEGER timerFrequency;
-	double frametime = 0.0;
-	DWORD sleepTime = 0;
-	double fps = 0;
-	HRESULT hResult;
+
 	UINT textureWidth;
 	UINT textureHeight;
 	//LPDIRECT3DTEXTURE9 texture = NULL;
