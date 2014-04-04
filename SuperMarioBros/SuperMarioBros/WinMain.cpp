@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "Object.h"
 #include <mmsystem.h>
+#include "Global.h"
 
 //function prototypes
 bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
@@ -9,7 +10,6 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool AnotherInstance();
 HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
 	LPDIRECT3DTEXTURE9& texture);
-Graphics* graphics = new Graphics;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
 {
@@ -21,7 +21,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 
 	UINT textureWidth;
 	UINT textureHeight;
-	LPDIRECT3DTEXTURE9 texture = NULL;
+	
     LPD3DXSPRITE sprite;
 	Mario mario;
 
@@ -32,17 +32,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 
 	int x = GAME_WIDTH / 2;
 	int y = GAME_HEIGHT / 2;
-	int frameWidth = 24;
-	int frameHeight = 48;
-	int horizontalFrame = 0; 
-	int verticalFrame = 1; 
+	
 
 	double scale = 1.0;
 	double angle = 0;
 	bool flipVertical = false;
 	bool flipHorizontal = false;
 
-	RECT frameRect;
+	
 
 
 	if (AnotherInstance())
@@ -120,51 +117,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 
 				//game processing
 				//move
-				horizontalFrame++;
-				if (horizontalFrame > 2)
-				{
-					horizontalFrame = 0;
-				}
+				//horizontalFrame++;
+				//if (horizontalFrame > 2)
+				//{
+				//	horizontalFrame = 0;
+				//}
 				//render
 				graphics->getDevice3d_()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0, 0);
 				graphics->getDevice3d_()->BeginScene();
 
 				//call draw funtions for each object
-				sprite->Begin(D3DXSPRITE_ALPHABLEND);
-
-				frameRect.left = frameWidth*horizontalFrame;
-				frameRect.top = frameHeight * verticalFrame;
-				frameRect.right = frameRect.left + frameWidth - 1;
-				frameRect.bottom = frameRect.top + frameHeight - 1;
-
-				D3DXVECTOR2 center(frameWidth / 2 * scale, frameHeight / 2 * scale);
-				D3DXVECTOR2 position(x, y);
-				D3DXVECTOR2 scaling(scale, scale);
-
-				if (flipVertical)
-				{
-					scaling.y *= -1;
-					center.y -= textureHeight * scale;
-					position.y += textureHeight *scale;
-				}
-				if (flipHorizontal)
-				{
-					scaling.x *= -1;
-					center.x -= textureWidth * scale;
-					position.x += textureWidth * scale;
-				}
-
-				D3DXMATRIX matrix;
-				D3DXMatrixTransformation2D(&matrix, NULL, 0.0, &scaling, &center, angle, &position);
-
-				sprite->SetTransform(&matrix);
-				hResult = sprite->Draw(texture, &frameRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-
-				if (FAILED(hResult))
-				{
-					MessageBox(hWnd, "draw failed", "Error", MB_OK);
-				}
-				sprite->End();
+				
 				graphics->getDevice3d_()->EndScene();
 				graphics->getDevice3d_()->Present(NULL, NULL, NULL, NULL);
 			}

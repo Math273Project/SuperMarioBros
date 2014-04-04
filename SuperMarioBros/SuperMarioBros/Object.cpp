@@ -163,3 +163,45 @@ void Object::setSprite(LPD3DXSPRITE sprite)
 {
 	sprite_ = sprite;
 }
+
+void Object::initializeSprite(int horizontalFrame, int verticalFrame)
+{
+	int frameWidth = 24;
+	int frameHeight = 48;
+	RECT frameRect;
+	sprite_->Begin(D3DXSPRITE_ALPHABLEND);
+
+	frameRect.left = frameWidth*horizontalFrame;
+	frameRect.top = frameHeight * verticalFrame;
+	frameRect.right = frameRect.left + frameWidth - 1;
+	frameRect.bottom = frameRect.top + frameHeight - 1;
+
+	//D3DXVECTOR2 center(frameWidth / 2, frameHeight / 2);
+	//D3DXVECTOR2 position(x_, y_);
+	//D3DXVECTOR2 scaling(1, 1);
+	/*
+	if (flipVertical)
+	{
+		scaling.y *= -1;
+		center.y -= textureHeight * scale;
+		position.y += textureHeight *scale;
+	}
+	if (flipHorizontal)
+	{
+		scaling.x *= -1;
+		center.x -= textureWidth * scale;
+		position.x += textureWidth * scale;
+	}*/
+
+	//D3DXMATRIX matrix;
+	//D3DXMatrixTransformation2D(&matrix, NULL, 0.0, &scaling, &center, 0, &position);
+
+	//sprite_->SetTransform(&matrix);
+	HRESULT hResult = sprite_->Draw(texture, &frameRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
+	/*
+	if (FAILED(hResult))
+	{
+		MessageBox(hWnd, "draw failed", "Error", MB_OK);
+	}*/
+	sprite_->End();
+}

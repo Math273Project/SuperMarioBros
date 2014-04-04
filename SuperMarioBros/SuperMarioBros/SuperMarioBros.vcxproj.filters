@@ -15,5 +15,6 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="Global.h" />
   </ItemGroup>
 </Project>

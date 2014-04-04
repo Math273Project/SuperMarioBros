@@ -11,5 +11,6 @@ Mario::Mario() : Object(MARIO, 0, INT_MAX, true) // id 0, highest priority
 	height_ = 32;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
+	initializeSprite(0, 0);
 	// need sprite
 }

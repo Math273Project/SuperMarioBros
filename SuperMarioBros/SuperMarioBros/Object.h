@@ -4,6 +4,7 @@
 #include <d3d9.h>
 #include <d3dx9tex.h>
 #include <mmsystem.h>
+#include "Global.h"
 
 // This class is the base class of all the objects.
 enum ObjectType
@@ -62,6 +63,7 @@ public:
 	virtual void setFacingDirection(FacingDirection facingDirection); // Change sprite at the same time
 	void setSprite(LPD3DXSPRITE sprite);
 
+	void initializeSprite(int horizontalFrame, int verticalFrame);
 	
 protected:
 	int x_;
