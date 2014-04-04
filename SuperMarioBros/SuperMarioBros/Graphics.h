@@ -17,6 +17,14 @@ public:
 	void initialize(HWND hWnd, int width, int height, bool fullscreen);
 	// Display the offscreen backbuffer to the screen
 	HRESULT showBackbuffer();
+	//Returns the state of device to determine if reset is needed
+	HRESULT getDeviceState();
+	//If device is lost use to reinitialize D3D presentation parameters
+	HRESULT reset();
+	//Begin a DirectX scene
+	HRESULT beginScene();
+	//End a DirectX scene
+	HRESULT endScene();
 private:
 	// DirectX pointers
 	LPDIRECT3D9 direct3d_;
@@ -25,7 +33,7 @@ private:
 	// Other variables
 	HRESULT hResult_; // Standard Windows return codes
 	HWND hWnd_;   //HANDLE to the window
-	bool fullscreen_;  //true if scree is fullscreen, false otherwise
+	bool fullscreen_;  //true if screen is fullscreen, false otherwise
 	int width_;  //width of the window
 	int height_;   //height of the window
 	// (For internal engine use only)

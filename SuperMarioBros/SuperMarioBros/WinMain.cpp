@@ -9,14 +9,14 @@ HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& widt
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
 {
-	Graphics* graphics = new Graphics;
+	MarioGame marioGame = new MarioGame;
 	HWND hWnd;
 	MSG msg;
 
 	bool fullscreen = false;
 
-	UINT textureWidth;
-	UINT textureHeight;
+	//UINT textureWidth;
+	//UINT textureHeight;
 	//LPDIRECT3DTEXTURE9 texture = NULL;
 	//LPD3DXSPRITE sprite;
 
@@ -47,11 +47,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 		return 1;
 	}
 
-	graphics->initialize(hWnd, GAME_WIDTH, GAME_HEIGHT, fullscreen);
+	marioGame->initialize(hWnd, GAME_WIDTH, GAME_HEIGHT, fullscreen);
 
 	/*initialize directx
-	QueryPerformanceFrequency(&timerFrequency);
-	QueryPerformanceCounter(&timeStart);
 
 	hResult = LoadTexture("ninjagirl.bmp", D3DCOLOR_XRGB(255, 0, 255), textureWidth, textureHeight, texture);
 
@@ -81,35 +79,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 		}
 		else
 		{
-			graphics->showBackbuffer();
-			/*// run game here
-			QueryPerformanceCounter(&timeEnd);
-
-			frametime = (double)(timeEnd.QuadPart - timeStart.QuadPart) / (double)timerFrequency.QuadPart;
-
-			// if the frame time is less than MIN_FRAME_TIME do idle processing
-			//otherwise run game
-			if (frametime < MIN_FRAME_TIME)
-			{
-				//figure out how long to sleep for
-				sleepTime = (DWORD)(MIN_FRAME_TIME - frametime) * 1000;
-				timeBeginPeriod(1);
-				Sleep(sleepTime);
-			}
-			else
-			{
-				if (frametime > 0.0)
-				{
-					fps = (fps + .99) + (0.1 / frametime);
-				}
-				if (frametime > MAX_FRAME_TIME)
-				{
-					frametime = MAX_FRAME_TIME;
-				}
-
-				// reset the elapsed time to 0
-				timeStart = timeEnd;
-
+			marioGame->run(hWnd);
+			/*
 				//game processing
 				//move
 				horizontalFrame++;
@@ -166,7 +137,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	//kill all pointer objects
 	//sprite->Release();
 	//texture->Release();
-	graphics->releaseAll();
+	marioGame->releaseAll();
 
 	//return value
 	return msg.wParam;
@@ -233,23 +204,7 @@ bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscr
 
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static TCHAR tChar = NULL;
-
-	switch (msg)
-	{
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	case WM_CHAR:
-		switch (wParam)
-		{
-		case VK_ESCAPE:
-			PostQuitMessage(0);
-			break;
-		}
-	}
-
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+	return marioGame->messageHandler(hWnd, msg, wParam, lParam);
 }
 
 bool AnotherInstance()

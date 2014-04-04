@@ -3,7 +3,7 @@
 #include <string>
 #include <exception>
 
-namespace gameErrorNS
+namespace gameErrors
 {
 	// Error codes
 	// Negative numbers are fatal errors that may require the game to be
@@ -22,7 +22,7 @@ private:
 	std::string message;
 public:
 	// Default constructor
-	GameError() throw() :errorCode(gameErrorNS::FATAL_ERROR),
+	GameError() throw() :errorCode(gameErrors::FATAL_ERROR),
 		message("Undefined Error in game.") {}
 	// Copy constructor
 	GameError(const GameError& e) throw() : std::exception(e),
