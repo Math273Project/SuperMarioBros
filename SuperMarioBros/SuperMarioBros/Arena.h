@@ -1,4 +1,4 @@
-// To store the information of every object
+
 #pragma once
 #include <vector>
 #include "Object.h"

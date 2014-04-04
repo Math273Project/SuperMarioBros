@@ -1,6 +1,5 @@
 #include "Mario.h"
 
-
 Mario::Mario() : Object(MARIO, 0, INT_MAX, true) // id 0, highest priority
 {
 	x_ = 0;
@@ -12,5 +11,6 @@ Mario::Mario() : Object(MARIO, 0, INT_MAX, true) // id 0, highest priority
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 	initializeSprite(0, 0);
+
 	// need sprite
 }

@@ -20,7 +20,7 @@ public:
 	// Initialize the game
 	virtual void initialize(HWND hWnd);
 	// Call run repeatedly by the main message loop in WinMain
-	virtual void run(HWND);
+	virtual void run(HWND hWnd);
 	// Release all reserved video memory so graphics device may be reset
 	virtual void releaseAll();
 	// Recreate all surfaces and reset all entities
@@ -36,7 +36,8 @@ public:
 	// Return pointer to Input
 	//Input* getInput() { return input; }
 	//Exit game
-	void exitGame() { PostMessage(hwnd_, WM_DESTROY, 0, 0); }
+	void exitGame() { PostMessage(hWnd_, WM_DESTROY, 0, 0); }
+
 	virtual void update() = 0;
 	// Perform AI calculations
 	virtual void ai() = 0;
@@ -47,8 +48,8 @@ public:
 
 protected:
 	Graphics* graphics_;
-	//Input* input_;
-	HWND hwnd_; // Window handle
+	Input* input_;
+	HWND hWnd_; // Window handle
 	HRESULT hResult_; // Standard return type
 	LARGE_INTEGER timeStart_; // Performance Counter start value
 	LARGE_INTEGER timeEnd_; // Performance Counter end value

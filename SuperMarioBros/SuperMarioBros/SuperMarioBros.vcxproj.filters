@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -16,5 +16,49 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Global.h" />
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arena.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

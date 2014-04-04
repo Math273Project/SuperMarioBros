@@ -14,6 +14,7 @@ HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& widt
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
 {
 	
+	MarioGame marioGame = new MarioGame;
 	HWND hWnd;
 	MSG msg;
 
@@ -29,6 +30,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	double frameTime;
 	DWORD sleepTime, fps = 200;
 
+	//UINT textureWidth;
+	//UINT textureHeight;
+	//LPDIRECT3DTEXTURE9 texture = NULL;
+	//LPD3DXSPRITE sprite;
 
 	int x = GAME_WIDTH / 2;
 	int y = GAME_HEIGHT / 2;
@@ -54,10 +59,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 		return 1;
 	}
 
-	graphics->initialize(hWnd, GAME_WIDTH, GAME_HEIGHT, fullscreen);
+	marioGame->initialize(hWnd, GAME_WIDTH, GAME_HEIGHT, fullscreen);
 
 	QueryPerformanceFrequency(&timerFrequency);
 	QueryPerformanceCounter(&timeStart);
+	/*initialize directx
 
 	HRESULT hResult = LoadTexture("sprite-sheet-mario.bmp", D3DCOLOR_XRGB(255, 255, 255), textureWidth, textureHeight, texture);
 	if (FAILED(hResult))
@@ -114,7 +120,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 
 				// reset the elapsed time to 0
 				timeStart = timeEnd;
-
+			marioGame->run(hWnd);
+			/*
 				//game processing
 				//move
 				//horizontalFrame++;
@@ -137,7 +144,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	//kill all pointer objects
 	//sprite->Release();
 	//texture->Release();
-	graphics->releaseAll();
+	marioGame->releaseAll();
 
 	//return value
 	return msg.wParam;
@@ -204,23 +211,7 @@ bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscr
 
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static TCHAR tChar = NULL;
-
-	switch (msg)
-	{
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	case WM_CHAR:
-		switch (wParam)
-		{
-		case VK_ESCAPE:
-			PostQuitMessage(0);
-			break;
-		}
-	}
-
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+	return marioGame->messageHandler(hWnd, msg, wParam, lParam);
 }
 
 bool AnotherInstance()

@@ -13,12 +13,14 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Mario.cpp" />
-    <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameError.h" />
     <ClInclude Include="Global.h" />

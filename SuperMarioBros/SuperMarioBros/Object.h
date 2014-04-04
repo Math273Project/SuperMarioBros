@@ -20,7 +20,7 @@ enum ObjectType
 enum FacingDirection
 {
 	LEFT,
-	RIGHT, 
+	RIGHT,
 	UP,
 	DOWN,
 };
@@ -33,6 +33,7 @@ public:
 	void setPosition(int x, int y);
 	void draw(); //should call the game update();
 				// Make Mario always stand in the middle of screen.
+	// Make Mario always stand in the middle of screen.
 	void move(int time);
 	bool didCollide(const Object& object) const; // Check if two objects are collide
 	virtual void collide(const Object& object);
@@ -78,6 +79,8 @@ protected:
 	const int id_; // a unique id for this object;
 	const int priority_; // The object with higher priority will be drawn at the top of the object with low priority.
 					// Change a name?
+
+	// Change a name?
 	const bool moveable_;
 	LPD3DXSPRITE sprite_; // used to draw the sprites to the screen
 	Object(ObjectType type, int id, int priority, bool moveable);
