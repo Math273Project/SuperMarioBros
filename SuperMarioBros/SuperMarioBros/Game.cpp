@@ -1,14 +1,19 @@
 #include "Game.h"
 
-
 Game::Game()
 {
-
+	//input_ = new Input(); // Initialize keyboard input immediately
+	// Additional initialization is handled in later call to input->
+	// initialize()
+	paused_ = false; // Game is not paused
+	graphics_ = NULL;
+	initialized_ = false;
 }
-
 
 Game::~Game()
 {
+	deleteAll();
+	ShowCursor(true);
 }
 
 LRESULT Game::messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -46,12 +51,8 @@ void Game::renderGame()
 {
 }
 
-void Game::update()
+void Game::handleLostGraphicsDevice()
 {
 
 }
 
-void Game::collisions()
-{
-
-}

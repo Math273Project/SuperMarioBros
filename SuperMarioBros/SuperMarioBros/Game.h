@@ -16,10 +16,9 @@ public:
 	Game();
 	~Game();
 	//message handler handles all windows messages
-	LRESULT messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT messageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	// Initialize the game
-	// Pre: hwnd is handle to window
-	virtual void initialize(HWND hwnd);
+	virtual void initialize(HWND hWnd);
 	// Call run repeatedly by the main message loop in WinMain
 	virtual void run(HWND);
 	// Release all reserved video memory so graphics device may be reset
@@ -30,20 +29,33 @@ public:
 	virtual void deleteAll();
 	// Render game items
 	virtual void renderGame();
-	void exitGame() { PostMessage(hwnd, WM_DESTROY, 0, 0); }
-	virtual void update();
-	virtual void collisions();
+	// Handle lost graphics device
+	virtual void handleLostGraphicsDevice();
+	// Return pointer to Graphics
+	Graphics* getGraphics() { return graphics_; }
+	// Return pointer to Input
+	//Input* getInput() { return input; }
+	//Exit game
+	void exitGame() { PostMessage(hwnd_, WM_DESTROY, 0, 0); }
+	virtual void update() = 0;
+	// Perform AI calculations
+	virtual void ai() = 0;
+	// Check for collisions
+	virtual void collisions() = 0;
+	//Render graphics
+	virtual void render() = 0;
 
 protected:
-	HWND hwnd; // Window handle
-	HRESULT hr; // Standard return type
-	LARGE_INTEGER timeStart; // Performance Counter start value
-	LARGE_INTEGER timeEnd; // Performance Counter end value
-	LARGE_INTEGER timerFreq; // Performance Counter frequency
-	float frameTime; // Time required for last frame
-	float fps; // Frames per second
-	DWORD sleepTime; // Milliseconds to sleep between frames
-	bool paused; // True if game is paused
-	bool initialized;
+	Graphics* graphics_;
+	//Input* input_;
+	HWND hwnd_; // Window handle
+	HRESULT hResult_; // Standard return type
+	LARGE_INTEGER timeStart_; // Performance Counter start value
+	LARGE_INTEGER timeEnd_; // Performance Counter end value
+	LARGE_INTEGER timerFreq_; // Performance Counter frequency
+	double frameTime_; // Time required for last frame
+	double fps_; // Frames per second
+	DWORD sleepTime_; // Milliseconds to sleep between frames
+	bool paused_; // True if game is paused
+	bool initialized_;
 };
-
