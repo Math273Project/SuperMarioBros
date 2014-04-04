@@ -14,5 +14,5 @@ class Arena
 	Object** FindCollide(const Object object, int& collisionNumber) const; // array of pointer to the objects
 
 protected:
-	vector<Object> data_;
+	std::vector<Object> data_;
 };
