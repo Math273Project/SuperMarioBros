@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	//input_ = new Input(); // Initialize keyboard input immediately
+	input_ = new Input(); // Initialize keyboard input immediately
 	// Additional initialization is handled in later call to input->
 	// initialize()
 	paused_ = false; // Game is not paused
