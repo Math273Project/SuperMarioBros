@@ -17,6 +17,7 @@ public:
 	void initialize(HWND hWnd, int width, int height, bool fullscreen);
 	// Display the offscreen backbuffer to the screen
 	HRESULT showBackbuffer();
+	LPDIRECT3DDEVICE9 getDevice3d_() const;
 private:
 	// DirectX pointers
 	LPDIRECT3D9 direct3d_;

@@ -80,3 +80,9 @@ HRESULT Graphics::showBackbuffer()
 
 	return hResult;
 }
+
+
+LPDIRECT3DDEVICE9 Graphics::getDevice3d_() const
+{
+	return device3d_;
+}

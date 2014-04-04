@@ -3,18 +3,17 @@
 #include "Object.h"
 #include <mmsystem.h>
 
-LPDIRECT3D9 direct3d;
-LPDIRECT3DDEVICE9 device3d;
 //function prototypes
 bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool AnotherInstance();
 HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
 	LPDIRECT3DTEXTURE9& texture);
+Graphics* graphics = new Graphics;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
 {
-	Graphics* graphics = new Graphics;
+	
 	HWND hWnd;
 	MSG msg;
 
@@ -63,12 +62,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	QueryPerformanceFrequency(&timerFrequency);
 	QueryPerformanceCounter(&timeStart);
 
-	HRESULT hResult = LoadTexture("mario.bmp", D3DCOLOR_XRGB(255, 0, 255), textureWidth, textureHeight, texture);
+	HRESULT hResult = LoadTexture("sprite-sheet-mario.bmp", D3DCOLOR_XRGB(255, 255, 255), textureWidth, textureHeight, texture);
 	if (FAILED(hResult))
 	{
 		MessageBox(hWnd, "LoadTexture failed", "Error", MB_OK);
 	}
-	hResult = D3DXCreateSprite(device3d, &sprite);
+	hResult = D3DXCreateSprite(graphics->getDevice3d_(), &sprite);
 	if (FAILED(hResult))
 	{
 		MessageBox(hWnd, "D3DXCreateSprite failed", "Error", MB_OK);
@@ -127,8 +126,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 					horizontalFrame = 0;
 				}
 				//render
-				device3d->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0, 0);
-				device3d->BeginScene();
+				graphics->getDevice3d_()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0, 0);
+				graphics->getDevice3d_()->BeginScene();
 
 				//call draw funtions for each object
 				sprite->Begin(D3DXSPRITE_ALPHABLEND);
@@ -166,8 +165,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 					MessageBox(hWnd, "draw failed", "Error", MB_OK);
 				}
 				sprite->End();
-				device3d->EndScene();
-				device3d->Present(NULL, NULL, NULL, NULL);
+				graphics->getDevice3d_()->EndScene();
+				graphics->getDevice3d_()->Present(NULL, NULL, NULL, NULL);
 			}
 		}
 	}
@@ -294,7 +293,7 @@ HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& widt
 	width = info.Width;    //returns width
 	height = info.Height;  //return height
 
-	hResult = D3DXCreateTextureFromFileEx(device3d, filename, width, height, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
+	hResult = D3DXCreateTextureFromFileEx(graphics->getDevice3d_(), filename, width, height, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
 		D3DX_DEFAULT, D3DX_DEFAULT, transparencyColor, &info, NULL, &texture);
 
 	return hResult;
