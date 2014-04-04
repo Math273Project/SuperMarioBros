@@ -5,6 +5,6 @@ class Mario : public Object
 {
 public:
 	Mario();
-	~Mario();
+	//~Mario();
 
 };

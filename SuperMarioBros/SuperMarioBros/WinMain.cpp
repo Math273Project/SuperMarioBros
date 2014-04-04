@@ -1,5 +1,10 @@
 #include "Game.h"
+#include "Mario.h"
+#include "Object.h"
+#include <mmsystem.h>
 
+LPDIRECT3D9 direct3d;
+LPDIRECT3DDEVICE9 device3d;
 //function prototypes
 bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -17,8 +22,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 
 	UINT textureWidth;
 	UINT textureHeight;
-	//LPDIRECT3DTEXTURE9 texture = NULL;
-	//LPD3DXSPRITE sprite;
+	LPDIRECT3DTEXTURE9 texture = NULL;
+    LPD3DXSPRITE sprite;
+	Mario mario;
+
+	LARGE_INTEGER timeStart, timeEnd, timerFrequency;
+	double frameTime;
+	DWORD sleepTime, fps = 200;
+
 
 	int x = GAME_WIDTH / 2;
 	int y = GAME_HEIGHT / 2;
@@ -49,12 +60,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 
 	graphics->initialize(hWnd, GAME_WIDTH, GAME_HEIGHT, fullscreen);
 
-	/*initialize directx
 	QueryPerformanceFrequency(&timerFrequency);
 	QueryPerformanceCounter(&timeStart);
 
-	hResult = LoadTexture("ninjagirl.bmp", D3DCOLOR_XRGB(255, 0, 255), textureWidth, textureHeight, texture);
-
+	HRESULT hResult = LoadTexture("mario.bmp", D3DCOLOR_XRGB(255, 0, 255), textureWidth, textureHeight, texture);
 	if (FAILED(hResult))
 	{
 		MessageBox(hWnd, "LoadTexture failed", "Error", MB_OK);
@@ -63,7 +72,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	if (FAILED(hResult))
 	{
 		MessageBox(hWnd, "D3DXCreateSprite failed", "Error", MB_OK);
-	}*/
+	}
 
 	//message loop
 	bool done = false;
@@ -82,29 +91,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 		else
 		{
 			graphics->showBackbuffer();
-			/*// run game here
+			// run game here
 			QueryPerformanceCounter(&timeEnd);
 
-			frametime = (double)(timeEnd.QuadPart - timeStart.QuadPart) / (double)timerFrequency.QuadPart;
+			frameTime = (double)(timeEnd.QuadPart - timeStart.QuadPart) / (double)timerFrequency.QuadPart;
 
 			// if the frame time is less than MIN_FRAME_TIME do idle processing
 			//otherwise run game
-			if (frametime < MIN_FRAME_TIME)
+			if (frameTime < MIN_FRAME_TIME)
 			{
 				//figure out how long to sleep for
-				sleepTime = (DWORD)(MIN_FRAME_TIME - frametime) * 1000;
+				sleepTime = (DWORD)(MIN_FRAME_TIME - frameTime) * 1000;
 				timeBeginPeriod(1);
 				Sleep(sleepTime);
 			}
 			else
 			{
-				if (frametime > 0.0)
+				if (frameTime > 0.0)
 				{
-					fps = (fps + .99) + (0.1 / frametime);
+					fps = (fps + .99) + (0.1 / frameTime);
 				}
-				if (frametime > MAX_FRAME_TIME)
+				if (frameTime > MAX_FRAME_TIME)
 				{
-					frametime = MAX_FRAME_TIME;
+					frameTime = MAX_FRAME_TIME;
 				}
 
 				// reset the elapsed time to 0
@@ -159,7 +168,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 				sprite->End();
 				device3d->EndScene();
 				device3d->Present(NULL, NULL, NULL, NULL);
-			}*/
+			}
 		}
 	}
 
@@ -264,7 +273,7 @@ bool AnotherInstance()
 
 }
 
-/*HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
+HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
 	LPDIRECT3DTEXTURE9& texture)
 {
 	D3DXIMAGE_INFO info;
@@ -289,4 +298,4 @@ bool AnotherInstance()
 		D3DX_DEFAULT, D3DX_DEFAULT, transparencyColor, &info, NULL, &texture);
 
 	return hResult;
-}*/
+}
