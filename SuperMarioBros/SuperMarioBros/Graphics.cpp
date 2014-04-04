@@ -44,7 +44,7 @@ void Graphics::initD3Dpp()
 	}
 	catch (...)
 	{
-		throw(GameError(gameErrorNS::FATAL_ERROR,"Error initializing D3D presentation parameters"));
+		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing D3D presentation parameters"));
 	}
 }
 
@@ -58,7 +58,7 @@ void Graphics::initialize(HWND hWnd, int width, int height, bool fullscreen)
 	direct3d_ = Direct3DCreate9(D3D_SDK_VERSION);
 	if (direct3d_ == NULL)
 	{
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Direct3D"));
+		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing Direct3D"));
 	}
 
 	initD3Dpp();
@@ -68,7 +68,7 @@ void Graphics::initialize(HWND hWnd, int width, int height, bool fullscreen)
 
 	if (FAILED(hResult_))
 	{
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D device"));
+		throw(GameError(gameErrors::FATAL_ERROR, "Error creating Direct3D device"));
 	}
 }
 
@@ -79,4 +79,46 @@ HRESULT Graphics::showBackbuffer()
 	device3d_->Present(NULL, NULL, NULL, NULL);
 
 	return hResult;
+}
+
+HRESULT Graphics::getDeviceState()
+{
+	hResult_ = E_FAIL; // Default to fail, replace on success
+	if (device3d_ == NULL)
+	{
+		return hResult_;
+	}
+	hResult_ = device3d_->TestCooperativeLevel();
+	return hResult_;
+}
+
+HRESULT Graphics::reset()
+{
+	hResult_ = E_FAIL; // Default to fail, replace on success
+	initD3Dpp(); // Initialize D3D presentation parameters again
+	hResult_ = device3d_->Reset(&d3dpp_); // Attempt to reset graphics device
+	return hResult_;
+}
+
+HRESULT Graphics::beginScene()
+{
+	hResult_ = E_FAIL;
+	if (device3d_ == NULL)
+	{
+		return hResult_;
+	}
+	// Clear backbuffer to backColor
+	device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 0.0, 0);
+	hResult_ = device3d_->BeginScene(); // Begin scene for drawing
+	return hResult_;
+}
+
+HRESULT Graphics::endScene()
+{
+	hResult_ = E_FAIL;
+	if (device3d_)
+	{
+		hResult_ = device3d_->EndScene();
+	}
+	return hResult_;
 }
