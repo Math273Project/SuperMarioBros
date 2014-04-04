@@ -140,6 +140,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 			}
 		}
 	}
+	*/
 
 	//kill all pointer objects
 	//sprite->Release();
