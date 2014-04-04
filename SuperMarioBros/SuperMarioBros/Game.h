@@ -37,6 +37,7 @@ public:
 	//Input* getInput() { return input; }
 	//Exit game
 	void exitGame() { PostMessage(hWnd_, WM_DESTROY, 0, 0); }
+
 	virtual void update() = 0;
 	// Perform AI calculations
 	virtual void ai() = 0;
