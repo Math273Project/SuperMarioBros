@@ -1,9 +1,10 @@
 // To store the information of every object
 #include <vector>
 #include "Object.h"
+
+// call this name?
 class Arena
 {
-	Arena() = delete; // Unique Instance
 	Arena(const Arena&) = delete; // Unique Instance
 	Arena& operator=(const Arena&) = delete;
 	static Arena& getUniqueInstance()
@@ -11,8 +12,11 @@ class Arena
 		static Arena arena;
 		return arena;
 	}
-	Object** FindCollide(const Object object, int& collisionNumber) const; // array of pointer to the objects
-
+	void collisionDetection(); // Do collisionDetection of every objects in Arena
+	void gravityDetection();
+	void remove(const Object& object);
+	void pushBack(const Object& object);
 protected:
-	std::vector<Object> data_;
+	std::vector<Object> movingObjects_, staticObjects_;
+	Arena(); // Unique Instance
 };
