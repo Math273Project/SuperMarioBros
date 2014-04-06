@@ -3,7 +3,7 @@
 MarioGame* marioGame = new MarioGame();
 
 //function prototypes
-bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
+bool CreateMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool AnotherInstance();
 HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	}
 
 	//window creation code
-	if (!CreatMainWindow(hWnd, hInstance, nCmdShow, fullscreen))
+	if (!CreateMainWindow(hWnd, hInstance, nCmdShow, fullscreen))
 	{
 		return 1;
 	}
@@ -144,7 +144,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	return msg.wParam;
 }
 
-bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen)
+bool CreateMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen)
 {
 	//fill wndclassex
 	WNDCLASSEX wcx;
