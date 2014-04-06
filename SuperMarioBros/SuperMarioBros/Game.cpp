@@ -76,12 +76,12 @@ LRESULT Game::messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-void Game::initialize(HWND hWnd)
+void Game::initialize(HWND hWnd, bool fullscreen)
 {
 	hWnd_ = hWnd;
 	graphics_ = new Graphics();
 	// Throws GameError
-	graphics_->initialize(hWnd_, GAME_WIDTH, GAME_HEIGHT, false);
+	graphics_->initialize(hWnd_, GAME_WIDTH, GAME_HEIGHT, fullscreen);
 	// Initialize input, do not capture mouse
 	input_->initialize(hWnd_, false); // Throws GameError
 	// Attempt to set up high resolution timer
@@ -154,9 +154,9 @@ void Game::resetAll()
 
 void Game::deleteAll()
 {
-	releaseAll();               // call onLostDevice() for every graphics item
+	releaseAll();
 	graphics_->releaseAll();
-	input_->~Input;
+	input_->~Input();
 	initialized_ = false;
 }
 

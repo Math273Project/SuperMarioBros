@@ -18,7 +18,7 @@ public:
 	//message handler handles all windows messages
 	LRESULT messageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	// Initialize the game
-	virtual void initialize(HWND hWnd);
+	virtual void initialize(HWND hWnd, bool fullscreen);
 	// Call run repeatedly by the main message loop in WinMain
 	virtual void run(HWND hWnd);
 	// Release all reserved video memory so graphics device may be reset

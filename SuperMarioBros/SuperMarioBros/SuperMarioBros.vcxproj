@@ -15,6 +15,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="MarioGame.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -26,6 +27,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="MarioGame.h" />
     <ClInclude Include="Object.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,4 +1,6 @@
-#include "Game.h"
+#include "MarioGame.h"
+
+MarioGame* marioGame = new MarioGame();
 
 //function prototypes
 bool CreatMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
@@ -9,7 +11,6 @@ HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& widt
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
 {
-	MarioGame marioGame = new MarioGame;
 	HWND hWnd;
 	MSG msg;
 
@@ -47,7 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 		return 1;
 	}
 
-	marioGame->initialize(hWnd, GAME_WIDTH, GAME_HEIGHT, fullscreen);
+	marioGame->initialize(hWnd, fullscreen);
 
 	/*initialize directx
 

@@ -92,6 +92,13 @@ void Input::keyIn(WPARAM wParam)
 
 	if ((char)wParam == '\r')               // if return    
 		newLine_ = true;                     // start new line
+
+	switch (wParam)
+	{
+	case VK_ESCAPE:
+		PostQuitMessage(0);
+		break;
+	}
 }
 
 bool Input::isKeyDown(UCHAR vkey) const
