@@ -170,6 +170,7 @@ void Game::renderGame()
 		render(); //Call render in derived class
 		//Begin a DirectX scene
 		graphics_->endScene();
+
 	}
 
 	handleLostGraphicsDevice();

@@ -9,6 +9,7 @@ public:
 	MarioGame();
 	virtual ~MarioGame();
 
+	void initialize(HWND hWnd, bool fullscreen);
 	void update();
 	void ai();
 	void collisions();
