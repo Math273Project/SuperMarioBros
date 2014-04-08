@@ -78,11 +78,11 @@ void Graphics::initialize(HWND hWnd, int width, int height, bool fullscreen)
 		throw(GameError(gameErrors::FATAL_ERROR, "Error creating Direct3D sprite"));
 }
 
-HRESULT Graphics::LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
+HRESULT Graphics::loadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
 	LPDIRECT3DTEXTURE9& texture)
 {
 	D3DXIMAGE_INFO info;
-	HRESULT hResult;
+	hResult_;
 
 	if (filename == NULL)
 	{
@@ -90,26 +90,26 @@ HRESULT Graphics::LoadTexture(const char* filename, D3DCOLOR transparencyColor, 
 		return D3DERR_INVALIDCALL; //bad file name return error
 	}
 
-	hResult = D3DXGetImageInfoFromFile(filename, &info);
-	if (hResult != D3D_OK)
+	hResult_ = D3DXGetImageInfoFromFile(filename, &info);
+	if (hResult_ != D3D_OK)
 	{
-		return hResult;
+		return hResult_;
 	}
 
 	width = info.Width;    //returns width
 	height = info.Height;  //return height
 
-	hResult = D3DXCreateTextureFromFileEx(device3d_, filename, width, height, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
+	hResult_ = D3DXCreateTextureFromFileEx(device3d_, filename, width, height, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
 		D3DX_DEFAULT, D3DX_DEFAULT, transparencyColor, &info, NULL, &texture);
 
-	return hResult;
+	return hResult_;
 }
 
 HRESULT Graphics::showBackbuffer()
 {
-	HRESULT hResult = device3d_->Present(NULL, NULL, NULL, NULL);
+	hResult_ = device3d_->Present(NULL, NULL, NULL, NULL);
 
-	return hResult;
+	return hResult_;
 }
 
 void Graphics::drawSprite(const SpriteData &spriteData)
@@ -129,14 +129,14 @@ void Graphics::drawSprite(const SpriteData &spriteData)
 	if (spriteData.flipHorizontal)
 	{
 		scaling.x *= -1;
-		spriteCenter.x -= (double)(spriteData.width*spriteData.scale);
-		position.x += (double)(spriteData.width*spriteData.scale);
+		spriteCenter.x -= (double)(spriteData.width * spriteData.scale);
+		position.x += (double)(spriteData.width * spriteData.scale);
 	}
 	if (spriteData.flipVertical)
 	{
 		scaling.y *= -1;
-		spriteCenter.y -= (double)(spriteData.height*spriteData.scale);
-		position.y += (double)(spriteData.height*spriteData.scale);
+		spriteCenter.y -= (double)(spriteData.height * spriteData.scale);
+		position.y += (double)(spriteData.height * spriteData.scale);
 	}
 
 	D3DXMATRIX matrix;
@@ -144,11 +144,7 @@ void Graphics::drawSprite(const SpriteData &spriteData)
 
 	sprite_->SetTransform(&matrix);
 
-	hResult_ = sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-	if (FAILED(hResult_))
-	{
-		MessageBox(hWnd_, "draw failed", "Error", MB_OK);
-	}
+	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 HRESULT Graphics::getDeviceState()
@@ -178,7 +174,7 @@ HRESULT Graphics::beginScene()
 		return hResult_;
 	}
 	// Clear backbuffer to backColor
-	device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 0.0, 0);
+	device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 0.0, 0);
 	hResult_ = device3d_->BeginScene(); // Begin scene for drawing
 	return hResult_;
 }

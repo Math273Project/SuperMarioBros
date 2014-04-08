@@ -8,16 +8,34 @@ MarioGame::MarioGame()
 MarioGame::~MarioGame()
 {
 	releaseAll();
+	Game::deleteAll();
 }
 
 void MarioGame::initialize(HWND hWnd, bool fullscreen)
 {
 	Game::initialize(hWnd, fullscreen);
+	//Initialize textures
+	if (!marioTexture_.initialize(graphics_, "Mario.png"))
+	{
+		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing Mario texture"));
+	}
 
+	//Initialize images
+	if (!mario_.initialize(graphics_, TEXTURE_WIDTH, TEXTURE_HEIGHT, MARIO_COLS, &marioTexture_))
+	{
+		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing mario"));
+	}
+
+	mario_.setX(GAME_WIDTH / 2);     
+	mario_.setY(GAME_HEIGHT / 2);
+	mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME);   // animation frames
+	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
+	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
+	mario_.setDegrees(0);                     // angle of ship
 }
 void MarioGame::update()
 {
-
+	mario_.update(frameTime_);
 }
 
 void MarioGame::ai()
@@ -32,39 +50,24 @@ void MarioGame::collisions()
 
 void MarioGame::render()
 {
-	SpriteData spriteData;
-	UINT textureWidth;
-	UINT textureHeight;
-	int horizontalFrame = 0;
-	int verticalFrame = 1;
-
-	spriteData.x = GAME_WIDTH / 2;
-	spriteData.y = GAME_HEIGHT / 2;
-	spriteData.width = 16;
-	spriteData.height = 32;
-	spriteData.scale = 1.0;
-	spriteData.angle = 1;
-	spriteData.flipHorizontal = false;
-	spriteData.flipVertical = false;
-	spriteData.rect.left = spriteData.width * horizontalFrame;
-	spriteData.rect.top = spriteData.height * verticalFrame;
-	spriteData.rect.right = spriteData.rect.left + spriteData.width - 1;
-	spriteData.rect.bottom = spriteData.rect.top + spriteData.height - 1;
-
-	hResult_ = graphics_->LoadTexture("Mario.png", D3DCOLOR_XRGB(255, 0, 255), textureWidth, textureHeight, spriteData.texture);
-
-	if (FAILED(hResult_))
-	{
-		MessageBox(hWnd_, "LoadTexture failed", "Error", MB_OK);
-	}
-
-	horizontalFrame++;
-	if (horizontalFrame > 2)
-	{
-		horizontalFrame = 0;
-	}
-
 	graphics_->spriteBegin();
-	graphics_->drawSprite(spriteData);
+
+	mario_.draw();
+
 	graphics_->spriteEnd();
+}
+
+void MarioGame::releaseAll()
+{
+	marioTexture_.onLostDevice();
+
+	Game::releaseAll();
+	return;
+}
+
+void MarioGame::resetAll()
+{
+	marioTexture_.onResetDevice();
+	Game::resetAll();
+	return;
 }

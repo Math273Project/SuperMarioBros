@@ -29,14 +29,14 @@ public:
 	// Destructor
 	virtual ~Graphics();
 
-	// Releases direct3d and device3d
+	// Releases all pointers
 	void releaseAll();
 
 	// Initialize DirectX graphics
 	void initialize(HWND hWnd, int width, int height, bool fullscreen);
 
 	//Load Textures
-	HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
+	HRESULT loadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
 		LPDIRECT3DTEXTURE9& texture);
 
 	// Display the offscreen backbuffer to the screen

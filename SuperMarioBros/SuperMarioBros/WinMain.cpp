@@ -48,6 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 			marioGame->run(hWnd);
 		}
 	}
+
 	marioGame->releaseAll();
 	delete marioGame;
 
