@@ -17,9 +17,21 @@ Graphics::~Graphics()
 
 void Graphics::releaseAll()
 {
-	sprite_->Release();
-	device3d_->Release();
-	direct3d_->Release();
+	if (sprite_)
+	{
+		sprite_->Release();
+		sprite_ = NULL;
+	}
+	if (device3d_)
+	{
+		device3d_->Release();
+		device3d_ = NULL;
+	}
+	if (direct3d_)
+	{
+		direct3d_->Release();
+		direct3d_ = NULL;
+	}
 }
 
 void Graphics::initD3Dpp()

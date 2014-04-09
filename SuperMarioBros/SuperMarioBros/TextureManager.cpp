@@ -13,7 +13,7 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-	if (texture_ != NULL)
+	if (texture_)
 	{
 		texture_->Release();
 	}
@@ -44,14 +44,17 @@ void TextureManager::onLostDevice()
 	{
 		return;
 	}
-	texture_->Release();
+	if (texture_)
+	{
+		texture_->Release();
+		texture_ = NULL;
+	}
 }
 
 void TextureManager::onResetDevice()
 {
-	if (!initialized_)
+	if (initialized_)
 	{
-		return;
+		graphics_->loadTexture(file_, D3DCOLOR_XRGB(255, 0, 255), width_, height_, texture_);
 	}
-	graphics_->loadTexture(file_, D3DCOLOR_XRGB(255, 0, 255), width_, height_, texture_);
 }
