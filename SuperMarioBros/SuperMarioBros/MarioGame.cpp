@@ -36,7 +36,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	mario_.setX(GAME_WIDTH / 2);     
 	mario_.setY(GAME_HEIGHT / 2);
-	mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME);   // animation frames
+	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);                     // angle of ship
