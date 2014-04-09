@@ -29,14 +29,14 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing mario"));
 	}
-	if (!background_.initialize(graphics_, 1280, 720, 0, &marioTexture_))
+	if (!background_.initialize(graphics_, 1280, 720, 1, &backgroundTexture_))
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing background"));
 	}
 
 	mario_.setX(GAME_WIDTH / 2);     
 	mario_.setY(GAME_HEIGHT / 2);
-	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
+	mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME - 3);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);                     // angle of ship

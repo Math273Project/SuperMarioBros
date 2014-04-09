@@ -42,42 +42,11 @@ public:
 	void clearKeyPress(UCHAR vkey);
 	void clear(UCHAR what);
 	void clearAll() { clear(InputConstants::KEYS_MOUSE_TEXT); }
-	void clearTextIn() { textIn_.clear(); }
-	std::string getTextIn() { return textIn_; }
 	char getCharIn()        { return charIn_; }
-	void mouseIn(LPARAM);
-	void mouseRawIn(LPARAM);
-
-	void setMouseLButton(bool b) { mouseLButton_ = b; }
-	void setMouseMButton(bool b) { mouseMButton_ = b; }
-	void setMouseRButton(bool b) { mouseRButton_ = b; }
-	void setMouseXButton(WPARAM wParam) { mouseX1Button_ = (wParam & MK_XBUTTON1) ? true : false;
-										  mouseX2Button_ = (wParam & MK_XBUTTON2) ? true : false; }
-
-	int  getMouseX()        const { return mouseX_; }
-	int  getMouseY()        const { return mouseY_; }
-	int  getMouseRawX()     const { return mouseRawX_; }
-	int  getMouseRawY()     const { return mouseRawY_; }
-	bool getMouseLButton()  const { return mouseLButton_; }
-	bool getMouseMButton()  const { return mouseMButton_; }
-	bool getMouseRButton()  const { return mouseRButton_; }
-	bool getMouseX1Button() const { return mouseX1Button_; }
-	bool getMouseX2Button() const { return mouseX2Button_; }
 
 private:
 	bool keysDown_[InputConstants::KEYS_ARRAY_LEN];// True if specified key is dow
 	bool keysPressed_[InputConstants::KEYS_ARRAY_LEN]; // True if specified key was
 	// pressed
-	std::string textIn_; // User entered text
 	char charIn_; // Last character entered
-	bool newLine_; // True on start of new line
-	int mouseX_, mouseY_; // Mouse screen coordinates
-	int mouseRawX_, mouseRawY_; // High-definition mouse data
-	RAWINPUTDEVICE Rid_[1]; // For high-definition mouse
-	bool mouseCaptured_; // True if mouse captured
-	bool mouseLButton_; // True if left mouse button down
-	bool mouseMButton_; // True if middle mouse button down
-	bool mouseRButton_; // True if right mouse button down
-	bool mouseX1Button_; // True if X1 mouse button down
-	bool mouseX2Button_; // True if X2 mouse button down
 };
