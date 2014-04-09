@@ -23,5 +23,8 @@ public:
 	void resetAll();
 private:
 	TextureManager marioTexture_; // Texture that holds all mario movements
+	TextureManager backgroundTexture_;
+
 	Image mario_;                 // Draws the animation of mario movements
+	Image background_;
 };
