@@ -15,7 +15,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 {
 	Game::initialize(hWnd, fullscreen);
 	//Initialize textures
-	if (!marioTexture_.initialize(graphics_, "Textures\\Robot_Mario.png"))
+	if (!marioTexture_.initialize(graphics_, "Textures\\Robot_Mario.bmp"))
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing Mario texture"));
 	}
