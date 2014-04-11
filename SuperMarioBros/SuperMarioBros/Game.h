@@ -2,7 +2,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <d3d9.h>
-#include <d3dx9tex.h>
 #include <mmsystem.h>
 #include "Graphics.h"
 #include "Input.h"
@@ -34,7 +33,7 @@ public:
 	// Return pointer to Graphics
 	Graphics* getGraphics() { return graphics_; }
 	// Return pointer to Input
-	//Input* getInput() { return input; }
+	Input* getInput() { return input_; }
 	//Exit game
 	void exitGame() { PostMessage(hWnd_, WM_DESTROY, 0, 0); }
 
@@ -58,5 +57,5 @@ protected:
 	double fps_; // Frames per second
 	DWORD sleepTime_; // Milliseconds to sleep between frames
 	bool paused_; // True if game is paused
-	bool initialized_;
+	bool initialized_; // True once game is initialized
 };

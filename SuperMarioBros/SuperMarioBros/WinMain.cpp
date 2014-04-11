@@ -1,40 +1,19 @@
 #include "MarioGame.h"
 
 MarioGame* marioGame = new MarioGame();
+HWND hWnd;
 
 //function prototypes
 bool CreateMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
 LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 bool AnotherInstance();
-HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
-	LPDIRECT3DTEXTURE9& texture);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int nCmdShow)
 {
-	HWND hWnd;
+	
 	MSG msg;
 
 	bool fullscreen = false;
-
-	//UINT textureWidth;
-	//UINT textureHeight;
-	//LPDIRECT3DTEXTURE9 texture = NULL;
-	//LPD3DXSPRITE sprite;
-
-	int x = GAME_WIDTH / 2;
-	int y = GAME_HEIGHT / 2;
-	int frameWidth = 24;
-	int frameHeight = 48;
-	int horizontalFrame = 0; 
-	int verticalFrame = 1; 
-
-	double scale = 1.0;
-	double angle = 0;
-	bool flipVertical = false;
-	bool flipHorizontal = false;
-
-	RECT frameRect;
-
 
 	if (AnotherInstance())
 	{
@@ -49,20 +28,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	}
 
 	marioGame->initialize(hWnd, fullscreen);
-
-	/*initialize directx
-
-	hResult = LoadTexture("ninjagirl.bmp", D3DCOLOR_XRGB(255, 0, 255), textureWidth, textureHeight, texture);
-
-	if (FAILED(hResult))
-	{
-		MessageBox(hWnd, "LoadTexture failed", "Error", MB_OK);
-	}
-	hResult = D3DXCreateSprite(device3d, &sprite);
-	if (FAILED(hResult))
-	{
-		MessageBox(hWnd, "D3DXCreateSprite failed", "Error", MB_OK);
-	}*/
 
 	//message loop
 	bool done = false;
@@ -81,64 +46,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 		else
 		{
 			marioGame->run(hWnd);
-			/*
-				//game processing
-				//move
-				horizontalFrame++;
-				if (horizontalFrame > 2)
-				{
-					horizontalFrame = 0;
-				}
-				//render
-				device3d->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0, 0);
-				device3d->BeginScene();
-
-				//call draw funtions for each object
-				sprite->Begin(D3DXSPRITE_ALPHABLEND);
-
-				frameRect.left = frameWidth*horizontalFrame;
-				frameRect.top = frameHeight * verticalFrame;
-				frameRect.right = frameRect.left + frameWidth - 1;
-				frameRect.bottom = frameRect.top + frameHeight - 1;
-
-				D3DXVECTOR2 center(frameWidth / 2 * scale, frameHeight / 2 * scale);
-				D3DXVECTOR2 position(x, y);
-				D3DXVECTOR2 scaling(scale, scale);
-
-				if (flipVertical)
-				{
-					scaling.y *= -1;
-					center.y -= textureHeight * scale;
-					position.y += textureHeight *scale;
-				}
-				if (flipHorizontal)
-				{
-					scaling.x *= -1;
-					center.x -= textureWidth * scale;
-					position.x += textureWidth * scale;
-				}
-
-				D3DXMATRIX matrix;
-				D3DXMatrixTransformation2D(&matrix, NULL, 0.0, &scaling, &center, angle, &position);
-
-				sprite->SetTransform(&matrix);
-				hResult = sprite->Draw(texture, &frameRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-
-				if (FAILED(hResult))
-				{
-					MessageBox(hWnd, "draw failed", "Error", MB_OK);
-				}
-				sprite->End();
-				device3d->EndScene();
-				device3d->Present(NULL, NULL, NULL, NULL);
-			}*/
 		}
 	}
 
-	//kill all pointer objects
-	//sprite->Release();
-	//texture->Release();
 	marioGame->releaseAll();
+	delete marioGame;
 
 	//return value
 	return msg.wParam;
@@ -219,30 +131,3 @@ bool AnotherInstance()
 	return false;
 
 }
-
-/*HRESULT LoadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
-	LPDIRECT3DTEXTURE9& texture)
-{
-	D3DXIMAGE_INFO info;
-	HRESULT hResult;
-
-	if (filename == NULL)
-	{
-		texture = NULL;
-		return D3DERR_INVALIDCALL; //bad file name return error
-	}
-
-	hResult = D3DXGetImageInfoFromFile(filename, &info);
-	if (hResult != D3D_OK)
-	{
-		return hResult;
-	}
-
-	width = info.Width;    //returns width
-	height = info.Height;  //return height
-
-	hResult = D3DXCreateTextureFromFileEx(device3d, filename, width, height, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
-		D3DX_DEFAULT, D3DX_DEFAULT, transparencyColor, &info, NULL, &texture);
-
-	return hResult;
-}*/

@@ -36,41 +36,6 @@ LRESULT Game::messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_CHAR: // Character entered
 			input_->keyIn(wParam);
 			break;
-		case WM_MOUSEMOVE: // Mouse moved
-			input_->mouseIn(lParam);
-			break;
-		case WM_INPUT: // Raw mouse data in
-			input_->mouseRawIn(lParam);
-			break;
-		case WM_LBUTTONDOWN: // Left mouse button down
-			input_->setMouseLButton(true);
-			input_->mouseIn(lParam);
-			break;
-		case WM_LBUTTONUP: // Left mouse button up
-			input_->setMouseLButton(false);
-			input_->mouseIn(lParam);
-			break;
-		case WM_MBUTTONDOWN: // Middle mouse button down
-			input_->setMouseMButton(true);
-			input_->mouseIn(lParam);
-			break;
-		case WM_MBUTTONUP: // Middle mouse button up
-			input_->setMouseMButton(false);
-			input_->mouseIn(lParam);
-			break;
-		case WM_RBUTTONDOWN: // Right mouse button down
-			input_->setMouseRButton(true);
-			input_->mouseIn(lParam);
-			break;
-		case WM_RBUTTONUP: // Right mouse button up
-			input_->setMouseRButton(false);
-			input_->mouseIn(lParam);
-			break;
-		case WM_XBUTTONDOWN:  // Mouse X button down/up
-		case WM_XBUTTONUP:
-			input_->setMouseXButton(wParam);
-			input_->mouseIn(lParam);
-			break;
 		}
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -170,6 +135,7 @@ void Game::renderGame()
 		render(); //Call render in derived class
 		//Begin a DirectX scene
 		graphics_->endScene();
+
 	}
 
 	handleLostGraphicsDevice();

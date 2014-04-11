@@ -4,6 +4,7 @@ Graphics::Graphics()
 {
 	direct3d_ = NULL;
 	device3d_ = NULL;
+	sprite_ = NULL;
 	fullscreen_ = false;
 	width_ = GAME_WIDTH; // Width & height are replaced in initialize()
 	height_ = GAME_HEIGHT;
@@ -16,8 +17,21 @@ Graphics::~Graphics()
 
 void Graphics::releaseAll()
 {
-	device3d_->Release();
-	direct3d_->Release();
+	if (sprite_)
+	{
+		sprite_->Release();
+		sprite_ = NULL;
+	}
+	if (device3d_)
+	{
+		device3d_->Release();
+		device3d_ = NULL;
+	}
+	if (direct3d_)
+	{
+		direct3d_->Release();
+		direct3d_ = NULL;
+	}
 }
 
 void Graphics::initD3Dpp()
@@ -70,15 +84,79 @@ void Graphics::initialize(HWND hWnd, int width, int height, bool fullscreen)
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error creating Direct3D device"));
 	}
+
+	hResult_ = D3DXCreateSprite(device3d_, &sprite_);
+	if (FAILED(hResult_))
+		throw(GameError(gameErrors::FATAL_ERROR, "Error creating Direct3D sprite"));
+}
+
+HRESULT Graphics::loadTexture(const char* filename, D3DCOLOR transparencyColor, UINT& width, UINT& height,
+	LPDIRECT3DTEXTURE9& texture)
+{
+	D3DXIMAGE_INFO info;
+	hResult_;
+
+	if (filename == NULL)
+	{
+		texture = NULL;
+		return D3DERR_INVALIDCALL; //bad file name return error
+	}
+
+	hResult_ = D3DXGetImageInfoFromFile(filename, &info);
+	if (hResult_ != D3D_OK)
+	{
+		return hResult_;
+	}
+
+	width = info.Width;    //returns width
+	height = info.Height;  //return height
+
+	hResult_ = D3DXCreateTextureFromFileEx(device3d_, filename, width, height, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
+		D3DX_DEFAULT, D3DX_DEFAULT, transparencyColor, &info, NULL, &texture);
+
+	return hResult_;
 }
 
 HRESULT Graphics::showBackbuffer()
 {
-	HRESULT hResult = device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 0.0, 0);
+	hResult_ = device3d_->Present(NULL, NULL, NULL, NULL);
 
-	device3d_->Present(NULL, NULL, NULL, NULL);
+	return hResult_;
+}
 
-	return hResult;
+void Graphics::drawSprite(const SpriteData &spriteData)
+{
+	if (spriteData.texture == NULL) // If no texture
+	{
+		return;
+	}
+
+	D3DXVECTOR2 spriteCenter((double)(spriteData.width / 2 * spriteData.scale),
+		(double)(spriteData.height / 2 * spriteData.scale));
+
+	D3DXVECTOR2 position((double)spriteData.x, (double)spriteData.y);
+
+	D3DXVECTOR2 scaling(spriteData.scale, spriteData.scale);
+
+	if (spriteData.flipHorizontal)
+	{
+		scaling.x *= -1;
+		spriteCenter.x -= (double)(spriteData.width * spriteData.scale);
+		position.x += (double)(spriteData.width * spriteData.scale);
+	}
+	if (spriteData.flipVertical)
+	{
+		scaling.y *= -1;
+		spriteCenter.y -= (double)(spriteData.height * spriteData.scale);
+		position.y += (double)(spriteData.height * spriteData.scale);
+	}
+
+	D3DXMATRIX matrix;
+	D3DXMatrixTransformation2D(&matrix, NULL, 0.0, &scaling, &spriteCenter, (double)(spriteData.angle), &position);
+
+	sprite_->SetTransform(&matrix);
+
+	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 HRESULT Graphics::getDeviceState()
@@ -108,7 +186,7 @@ HRESULT Graphics::beginScene()
 		return hResult_;
 	}
 	// Clear backbuffer to backColor
-	device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 0.0, 0);
+	device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 0.0, 0);
 	hResult_ = device3d_->BeginScene(); // Begin scene for drawing
 	return hResult_;
 }
@@ -121,4 +199,14 @@ HRESULT Graphics::endScene()
 		hResult_ = device3d_->EndScene();
 	}
 	return hResult_;
+}
+
+void Graphics::spriteBegin()
+{
+	sprite_->Begin(D3DXSPRITE_ALPHABLEND);
+}
+
+void Graphics::spriteEnd()
+{
+	sprite_->End();
 }
