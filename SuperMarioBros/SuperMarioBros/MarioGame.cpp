@@ -19,7 +19,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing Mario texture"));
 	}
-	if (!backgroundTexture_.initialize(graphics_, "Level_One.png"))
+	if (!backgroundTexture_.initialize(graphics_, "Level_One_resized.bmp"))
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing Mario texture"));
 	}
@@ -34,15 +34,13 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing background"));
 	}
 
-	mario_.setX(GAME_WIDTH / 2);     
-	mario_.setY(GAME_HEIGHT / 2);
+	mario_.setX(50);     
+	mario_.setY(555); //get rid of magic constant
 	mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME - 3);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);                     // angle of ship
 
-	background_.setX(0);
-	background_.setY(0);
 }
 void MarioGame::update()
 {

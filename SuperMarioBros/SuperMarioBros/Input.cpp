@@ -45,24 +45,26 @@ void Input::keyIn(WPARAM wParam)
 	case VK_ESCAPE:
 		PostQuitMessage(0);
 		break;
-	case 'a':
+	case 'a':  //move left
 
 		break;
-	case 's':
+	case 's':   //move down
 
 		break;
-	case 'd':
+	case 'd':   //move right
 
 		break;
-	case 'w':
+	case 'w':   //move up
 
 		break;
-	case 'j':
+	case 'j':  //use as "A" button
 		
 		break;
-	case 'k':
+	case 'k':  //use as "B" button
 
 		break;
+		//case "enter" : used for select
+		//need case for 
 	}
 }
 
