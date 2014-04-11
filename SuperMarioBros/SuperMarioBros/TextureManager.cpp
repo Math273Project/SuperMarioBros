@@ -28,7 +28,10 @@ bool TextureManager::initialize(Graphics* graphics, const char* file)
 		hResult_ = graphics_->loadTexture(file_, D3DCOLOR_XRGB(255, 0, 255), width_, height_, texture_);
 		if (FAILED(hResult_))
 		{
-			texture_->Release();
+			if (texture_)
+			{
+				texture_->Release();
+			}
 			return false;
 		}
 	}

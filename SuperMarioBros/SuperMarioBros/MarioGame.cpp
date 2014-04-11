@@ -15,11 +15,11 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 {
 	Game::initialize(hWnd, fullscreen);
 	//Initialize textures
-	if (!marioTexture_.initialize(graphics_, "Robot_Mario.png"))
+	if (!marioTexture_.initialize(graphics_, "Textures\\Robot_Mario.png"))
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing Mario texture"));
 	}
-	if (!backgroundTexture_.initialize(graphics_, "Level_One_resized.bmp"))
+	if (!backgroundTexture_.initialize(graphics_, "Textures\\Level_One_resized.bmp"))
 	{
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing Mario texture"));
 	}
@@ -39,7 +39,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME - 3);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
-	mario_.setDegrees(0);                     // angle of ship
+	mario_.setDegrees(0); 
 
 }
 void MarioGame::update()
