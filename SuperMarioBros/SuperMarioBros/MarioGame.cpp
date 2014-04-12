@@ -35,7 +35,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	}
 
 	mario_.setX(50);     
-	mario_.setY(555); //get rid of magic constant
+	mario_.setY(490); //get rid of magic constant
 	mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME - 3);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
