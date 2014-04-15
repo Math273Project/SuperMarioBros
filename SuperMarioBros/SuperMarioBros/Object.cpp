@@ -41,7 +41,7 @@ void Object::collide(const Object& object, Direction collideDirection)
 
 bool Object::onTop(const Object& object) const
 {
-	return y_ + height_ - 2 == object.y_ ||
+	return y_ + height_ - 2 == object.y_ || 
 		(object.y_ <= y_ + height_ - 1 && y_ + height_ - 1 <= object.y_ + object.height_ - 1);
 }
 
@@ -116,7 +116,7 @@ bool Object::operator ==(const Object& rhs) const
 
 void Object::destroy()
 {
-
+	
 }
 
 bool Object::passable() const

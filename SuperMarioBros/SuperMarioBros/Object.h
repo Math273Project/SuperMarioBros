@@ -38,7 +38,7 @@ public:
 	virtual ~Object();
 	void setPosition(int x, int y);
 	void move(int time); //unit: millisecond
-	Direction didCollide(const Object& object) const; // Check if two objects are collide // return a collide direction
+	Direction didCollide(const Object& object) const; // Check if two objects are collide									// return a collide direction
 	bool onTop(const Object& object) const; // check if this object is on the top of another object;
 	virtual void collide(const Object& object, Direction collideDirection) = 0;
 	double getx() const;
@@ -55,9 +55,9 @@ public:
 	void enable();
 	bool operator == (const Object& rhs) const;
 	virtual void destroy(); // destroy the object, call it when, example: Mario is killed, Block is destoryed
-	// and split to severl pieces or
-	// enemy is killed.
-	// Need more work for this function
+							// and split to severl pieces or
+							//	enemy is killed.
+							// Need more work for this function
 	virtual void tryDelete(); // set deleted_ to true if certain condition is satisfied.
 	bool passable() const;
 	bool deleted() const;
@@ -65,7 +65,7 @@ public:
 	virtual ObjectType getType() const = 0;
 	virtual int getPriority() const = 0;
 protected:
-	double x_;
+	double x_; 
 	double y_;
 	int width_;
 	int height_;

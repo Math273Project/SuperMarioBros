@@ -16,10 +16,18 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MarioGame.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectBlock.cpp" />
+    <ClCompile Include="ObjectBrick.cpp" />
+    <ClCompile Include="ObjectCoin.cpp" />
+    <ClCompile Include="ObjectEnemy.cpp" />
+    <ClCompile Include="ObjectMario.cpp" />
+    <ClCompile Include="ObjectMushroom.cpp" />
+    <ClCompile Include="ObjectPipe.cpp" />
+    <ClCompile Include="ObjectPowerup.cpp" />
+    <ClCompile Include="ObjectQuestion.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -31,10 +39,18 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioGame.h" />
     <ClInclude Include="MovingObject.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectBlock.h" />
+    <ClInclude Include="ObjectBrick.h" />
+    <ClInclude Include="ObjectCoin.h" />
+    <ClInclude Include="ObjectEnemy.h" />
+    <ClInclude Include="ObjectMario.h" />
+    <ClInclude Include="ObjectMushroom.h" />
+    <ClInclude Include="ObjectPipe.h" />
+    <ClInclude Include="ObjectPowerup.h" />
+    <ClInclude Include="ObjectQuestion.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
