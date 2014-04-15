@@ -1,13 +1,13 @@
-#include "ObjectQuestion.h"
+#include "ObjectPipe.h"
 
-ObjectQuestion::ObjectQuestion(int id, int x, int y) : Object(id, x, y)
+ObjectPipe::ObjectPipe(int id, int x, int y) : Object(id, x, y)
 {
 	width_ = 32;
 	height_ = 32;
 	enabled_ = true;
 }
 
-void ObjectQuestion::collide(const Object& object, Direction collideDirection)
+void ObjectPipe::collide(const Object& object, Direction collideDirection)
 {
 	if (passable_ || object.passable())
 		return;
@@ -15,14 +15,10 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 	{
 		switch (object.getType())
 		{
-		case MARIO:
+		case SMALLMARIO:
 			switch (collideDirection)
 			{
 			case UP:
-				if (changed_)
-				{
-					// change to block
-				}
 				break;
 			}
 			break;
@@ -30,17 +26,17 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 	}
 }
 
-ObjectType ObjectQuestion::getType() const
+ObjectType ObjectPipe::getType() const
 {
 	return PIPE;
 }
 
-int ObjectQuestion::getPriority() const
+int ObjectPipe::getPriority() const
 {
 	return 5; // change it later
 }
 
-void ObjectQuestion::destroy()
+void ObjectPipe::destroy()
 {
 	// change width, height, sprite, 
 	deleted_ = true;
