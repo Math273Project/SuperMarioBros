@@ -36,14 +36,25 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	mario_.setX(50);     
 	mario_.setY(490); //get rid of magic constant
-	mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME - 3);   // animation frames
+	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0); 
 
+
+
 }
 void MarioGame::update()
 {
+	if (input_->isKeyDown(MOVE_RIGHT_KEY))            // if move right
+	{
+		mario_.setX(mario_.getX() + frameTime_ * MARIO_SPEED);
+		if (mario_.getX() > GAME_WIDTH)               // if off screen right
+		{
+			mario_.setX((double) - mario_.getWidth());     // position off screen left
+		}
+	}
+
 	mario_.update(frameTime_);
 }
 

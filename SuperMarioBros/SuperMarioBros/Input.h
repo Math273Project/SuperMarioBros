@@ -26,10 +26,10 @@ public:
 	void keyDown(WPARAM);
 	void keyUp(WPARAM);
 	void keyIn(WPARAM);
-	bool isKeyDown(UCHAR vkey) const;
-	bool wasKeyPressed(UCHAR vkey) const;
+	bool isKeyDown(UCHAR virtualkey) const;
+	bool wasKeyPressed(UCHAR virtualkey) const;
 	bool anyKeyPressed() const;
-	void clearKeyPress(UCHAR vkey);
+	void clearKeyPress(UCHAR virtualkey);
 	void clear(UCHAR what);
 	void clearAll() { clear(InputConstants::KEYS); }
 	char getCharIn() { return charIn_; }

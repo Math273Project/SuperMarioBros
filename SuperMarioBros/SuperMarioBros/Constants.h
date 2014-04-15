@@ -15,6 +15,8 @@ const double MARIO_ANIMATION_DELAY = 0.2;    // time between frames of Mario ani
 const int  MARIO_COLS = 7;                   // Mario texture has 7 columns
 const int TEXTURE_WIDTH = 64;     //standard size of entity textures
 const int TEXTURE_HEIGHT = 128;
+const double MARIO_SPEED = 100.0; // pixels per second
+const double MARIO_SCALE = 1.0;
 
 //constants
 
@@ -22,3 +24,13 @@ const char CLASS_NAME[] = "Super Mario Bros";
 const char WINDOW_NAME[] = "Super Mario Bros";
 const int GAME_WIDTH = 1280;      // width of game in pixels
 const int GAME_HEIGHT = 720;      // height of game in pixels
+
+
+// key mappings
+
+const WPARAM ESC_KEY = VK_ESCAPE;       // escape key
+const WPARAM ENTER_KEY = VK_RETURN;       // Enter key used for pause
+const WPARAM MOVE_LEFT_KEY = 'a';     // left arrow
+const WPARAM MOVE_RIGHT_KEY = 'd';    // right arrow
+const WPARAM MOVE_UP_KEY = 'w';       // up arrow
+const WPARAM MOVE_DOWN_KEY = 's';     // down arrow

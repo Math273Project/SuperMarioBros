@@ -2,9 +2,11 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "Image.h"
+//All necessary object headers will go here!
 
 /* We can migrate all the functionality of object onto this class
- * Has most of the same funtions as Object anyway plus it will */
+ * Has most of the same funtions as Object anyway*/
+
 class MarioGame : public Game
 {
 public:
@@ -13,7 +15,6 @@ public:
 
 	void initialize(HWND hWnd, bool fullscreen);
 
-	// Game will made non pure vurtual later 
 	void update();    
 	void ai();
 	void collisions();
@@ -22,9 +23,11 @@ public:
 	void releaseAll();
 	void resetAll();
 private:
-	TextureManager marioTexture_; // Texture that holds all mario movements
+	//ALL textures we need to draw
+	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
 
-	Image mario_;                 // Draws the animation of mario movements
+	//All the animations are done with an image
+	Image mario_; 
 	Image background_;
 };

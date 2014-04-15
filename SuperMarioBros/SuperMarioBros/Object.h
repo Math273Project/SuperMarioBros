@@ -8,75 +8,71 @@
 // This class is the base class of all the objects.
 enum ObjectType
 {
-	MARIO,
+	SMALLMARIO,
+	BIGMARIO,
+	SUPERMARIO,
 	BLOCK,
 	FLOWER,
 	MUSHROOM,
-	COIN
+	COIN,
+	ENEMY,
+	QUESTION,
+	BRICK,
+	POWERUP,
+	PIPE
 	// etc...
 };
 
-enum FacingDirection
+enum Direction
 {
-	LEFT,
-	RIGHT,
+	NONE,
 	UP,
 	DOWN,
+	LEFT,
+	RIGHT
 };
-
 
 class Object
 {
 public:
 	virtual ~Object();
 	void setPosition(int x, int y);
-	void draw(); //should call the game update();
-	// Make Mario always stand in the middle of screen.
-	void move(int time);
-	bool didCollide(const Object& object) const; // Check if two objects are collide
-	virtual void collide(const Object& object);
-
-	int getx() const;
-	int gety() const;
-	int getvx() const;
-	int getvy() const;
+	void move(int time); //unit: millisecond
+	Direction didCollide(const Object& object) const; // Check if two objects are collide // return a collide direction
+	bool onTop(const Object& object) const; // check if this object is on the top of another object;
+	virtual void collide(const Object& object, Direction collideDirection) = 0;
+	double getx() const;
+	double gety() const;
 	int getWidth() const;
 	int getHeight() const;
 	bool getEnabled() const;
-	FacingDirection getFacingDirection() const;
-	ObjectType getType() const;
 	int getId() const;
-	int getPriority() const;
-	bool moveable() const;
-	LPD3DXSPRITE getSprite() const;
-
-
-	void setx(int x);
-	void sety(int y);
-	void setvx(int vx);
-	void setvy(int vy);
+	void setx(double x);
+	void sety(double y);
 	void setWidth(int width);
 	void setHeight(int height);
 	void disable();
 	void enable();
-	virtual void setFacingDirection(FacingDirection facingDirection); // Change sprite at the same time
-	void setSprite(LPD3DXSPRITE sprite);
-
-
+	bool operator == (const Object& rhs) const;
+	virtual void destroy(); // destroy the object, call it when, example: Mario is killed, Block is destoryed
+	// and split to severl pieces or
+	// enemy is killed.
+	// Need more work for this function
+	virtual void tryDelete(); // set deleted_ to true if certain condition is satisfied.
+	bool passable() const;
+	bool deleted() const;
+	virtual bool moveable() const;
+	virtual ObjectType getType() const = 0;
+	virtual int getPriority() const = 0;
 protected:
-	int x_;
-	int y_;
-	int vx_;
-	int vy_;
+	double x_;
+	double y_;
 	int width_;
 	int height_;
 	bool enabled_;
-	FacingDirection facingDirection_;
-	const ObjectType type_;
+	bool passable_;
+	bool deleted_; // if it is true, delete the object from arena
 	const int id_; // a unique id for this object;
-	const int priority_; // The object with higher priority will be drawn at the top of the object with low priority.
-	// Change a name?
-	const bool moveable_;
-	LPD3DXSPRITE sprite_; // used to draw the sprites to the screen
-	Object(ObjectType type, int id, int priority, bool moveable);
+	Object(int id);
+	Object(int id, int x, int y);
 };

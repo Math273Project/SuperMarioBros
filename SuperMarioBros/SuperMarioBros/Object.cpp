@@ -1,9 +1,10 @@
 #include "Object.h"
 
-Object::Object(ObjectType type, int id, int priority, bool moveable)
-:type_(type), id_(id), priority_(priority), moveable_(moveable)
-{
 
+Object::Object(int id)
+:id_(id)
+{
+	passable_ = false;
 }
 
 Object::~Object()
@@ -17,55 +18,43 @@ void Object::setPosition(int x, int y)
 	y_ = y;
 }
 
-
-
-void Object::draw() //should call the game update();
+Direction Object::didCollide(const Object& object) const // Check if two objects are collide
 {
-	// Should be rewrite?
-}
-
-// Make Mario always stand in the middle of screen.
-void Object::move(int time)
-{
-	x_ += vx_ * time / 1000;
-	y_ += vy_ * time / 1000;
-}
-
-
-
-bool Object::didCollide(const Object& object) const // Check if two objects are collide
-{
-	return ((object.x_ <= x_ && x_ <= object.x_ + object.width_ - 1) || (object.x_ <= x_ && x_ + width_ - 1 <= object.x_ + object.width_ - 1))
-		&& ((object.y_ <= y_ && y_ <= object.y_ + object.height_ - 1) || (object.y_ <= y_ && y_ + height_ - 1 <= object.y_ + object.height_ - 1));
+	if (!enabled_ || object.enabled_ == false)
+		return NONE;
+	if (object.y_ <= y_ + height_ - 1 && y_ + height_ - 1 <= object.y_ + object.height_ - 1)
+		return UP;
+	if (object.y_ <= y_ && y_ <= object.y_ + object.height_ - 1)
+		return DOWN;
+	if (object.x_ <= x_ + width_ - 1 && x_ + width_ - 1 <= object.x_ + object.width_ - 1)
+		return LEFT;
+	if (object.x_ <= x_ && x_ <= object.x_ + object.width_ - 1)
+		return RIGHT;
+	return NONE;
 }
 
 
-void Object::collide(const Object& object)
+void Object::collide(const Object& object, Direction collideDirection)
 {
 	// Should be rewrite if there will be any things to do.
 }
 
+bool Object::onTop(const Object& object) const
+{
+	return y_ + height_ - 2 == object.y_ ||
+		(object.y_ <= y_ + height_ - 1 && y_ + height_ - 1 <= object.y_ + object.height_ - 1);
+}
 
-
-int Object::getx() const
+double Object::getx() const
 {
 	return x_;
 }
 
-int Object::gety() const
+double Object::gety() const
 {
 	return y_;
 }
 
-int Object::getvx() const
-{
-	return vx_;
-}
-
-int Object::getvy() const
-{
-	return vy_;
-}
 
 int Object::getWidth() const
 {
@@ -82,56 +71,21 @@ bool Object::getEnabled() const
 	return enabled_;
 }
 
-FacingDirection Object::getFacingDirection() const
-{
-	return facingDirection_;
-}
-
-ObjectType Object::getType() const
-{
-	return type_;
-}
-
 int Object::getId() const
 {
-	return type_;
+	return id_;
 }
 
-int Object::getPriority() const
-{
-	return priority_;
-}
-
-bool Object::moveable() const
-{
-	return moveable_;
-}
-
-LPD3DXSPRITE Object::getSprite() const
-{
-	return sprite_;
-}
-
-
-void Object::setx(int x)
+void Object::setx(double x)
 {
 	x_ = x;
 }
 
-void Object::sety(int y)
+void Object::sety(double y)
 {
 	y_ = y;
 }
 
-void Object::setvx(int vx)
-{
-	vx_ = vx;
-}
-
-void Object::setvy(int vy)
-{
-	vy_ = vy;
-}
 
 void Object::setWidth(int width)
 {
@@ -154,12 +108,40 @@ void Object::enable()
 	enabled_ = true;
 }
 
-void Object::setFacingDirection(FacingDirection facingDirection)
+
+bool Object::operator ==(const Object& rhs) const
 {
-	facingDirection_ = facingDirection;
+	return id_ == rhs.id_;
 }
 
-void Object::setSprite(LPD3DXSPRITE sprite)
+void Object::destroy()
 {
-	sprite_ = sprite;
+
+}
+
+bool Object::passable() const
+{
+	return passable_;
+}
+
+bool Object::deleted() const
+{
+	return deleted_;
+}
+
+bool Object::moveable() const
+{
+	return false;
+}
+
+Object::Object(int id, int x, int y) : Object(id)
+{
+	x_ = x;
+	y_ = y;
+}
+
+void Object::tryDelete()
+{
+	if (y_ > 2000)
+		deleted_ = true;
 }

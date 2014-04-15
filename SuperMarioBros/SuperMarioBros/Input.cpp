@@ -68,11 +68,11 @@ void Input::keyIn(WPARAM wParam)
 	}
 }
 
-bool Input::isKeyDown(UCHAR vkey) const
+bool Input::isKeyDown(UCHAR virtualkey) const
 {
-	if (vkey < InputConstants::KEYS_ARRAY_LEN)
+	if (virtualkey < InputConstants::KEYS_ARRAY_LEN)
 	{
-		return keysDown_[vkey];
+		return keysDown_[virtualkey];
 	}
 	else
 	{
@@ -80,10 +80,10 @@ bool Input::isKeyDown(UCHAR vkey) const
 	}
 }
 
-bool Input::wasKeyPressed(UCHAR vkey) const
+bool Input::wasKeyPressed(UCHAR virtualkey) const
 {
-	if (vkey < InputConstants::KEYS_ARRAY_LEN)
-		return keysPressed_[vkey];
+	if (virtualkey < InputConstants::KEYS_ARRAY_LEN)
+		return keysPressed_[virtualkey];
 	else
 		return false;
 }
@@ -96,10 +96,10 @@ bool Input::anyKeyPressed() const
 	return false;
 }
 
-void Input::clearKeyPress(UCHAR vkey)
+void Input::clearKeyPress(UCHAR virtualkey)
 {
-	if (vkey < InputConstants::KEYS_ARRAY_LEN)
-		keysPressed_[vkey] = false;
+	if (virtualkey < InputConstants::KEYS_ARRAY_LEN)
+		keysPressed_[virtualkey] = false;
 }
 
 void Input::clear(UCHAR what)
