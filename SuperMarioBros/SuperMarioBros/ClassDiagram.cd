@@ -72,6 +72,12 @@
         <Point X="3.75" Y="6.625" />
       </Path>
     </AssociationLine>
+    <AssociationLine Name="mario_" Type="Image" FixedFromPoint="true">
+      <Path>
+        <Point X="2.25" Y="5.125" />
+        <Point X="3.75" Y="5.125" />
+      </Path>
+    </AssociationLine>
     <AssociationLine Name="marioTexture_" Type="TextureManager" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="1.781" Y="5.441" />
