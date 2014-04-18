@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Arena" Collapsed="true">
-    <Position X="21.75" Y="0.5" Width="1.5" />
+    <Position X="11" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAACAAAABgAACEAAAAAQAAAAAAAAAAAAAoEIAAAAA=</HashCode>
       <FileName>Arena.h</FileName>
@@ -34,14 +34,26 @@
   </Class>
   <Class Name="Image" Collapsed="true">
     <Position X="3.75" Y="5" Width="1.5" />
+    <AssociationLine Name="graphics_" Type="Graphics" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.875" Y="5" />
+        <Point X="4.875" Y="3.062" />
+        <Point X="4.5" Y="3.062" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="textureManager_" Type="TextureManager">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.294" Y="0.033" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>UAIQAchIgBgENgEAACM+AIYECAKgwBsCAACQQmQEAAA=</HashCode>
       <FileName>Image.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="spriteData_" />
-      <Field Name="textureManager_" />
       <Field Name="graphics_" />
+      <Field Name="textureManager_" />
+      <Field Name="spriteData_" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Input" Collapsed="true">
@@ -59,11 +71,16 @@
         <Point X="1.25" Y="4.75" />
       </Path>
     </InheritanceLine>
-    <AssociationLine Name="background_" Type="Image" FixedToPoint="true">
+    <AssociationLine Name="marioTexture_" Type="TextureManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="2.25" Y="5.375" />
-        <Point X="3.75" Y="5.375" />
+        <Point X="1.5" Y="5.441" />
+        <Point X="1.5" Y="5.816" />
+        <Point X="4.094" Y="5.816" />
+        <Point X="4.094" Y="6.25" />
       </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.042" Y="0.463" />
+      </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="backgroundTexture_" Type="TextureManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
@@ -78,11 +95,10 @@
         <Point X="3.75" Y="5.125" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="marioTexture_" Type="TextureManager" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="background_" Type="Image" FixedToPoint="true">
       <Path>
-        <Point X="1.781" Y="5.441" />
-        <Point X="1.781" Y="6.312" />
-        <Point X="3.812" Y="6.312" />
+        <Point X="2.25" Y="5.375" />
+        <Point X="3.75" Y="5.375" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -90,10 +106,10 @@
       <FileName>MarioGame.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="background_" />
+      <Field Name="marioTexture_" />
       <Field Name="backgroundTexture_" />
       <Field Name="mario_" />
-      <Field Name="marioTexture_" />
+      <Field Name="background_" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MovingObject" Collapsed="true">
