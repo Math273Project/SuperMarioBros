@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Arena" Collapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAACAAAABgAACEAAAAAQAAAAAAAAAAAAAoEIAAAAA=</HashCode>
+      <FileName>Arena.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DAQAAgEAQDgBABAABREBACAAAAiAABgIICIAAAAcACA=</HashCode>
+      <FileName>Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameError" Collapsed="true">
+    <Position X="23.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAiAAAAACAAAAAAAAAAAAAAAAAAAAIAAAgACAgACA=</HashCode>
+      <FileName>GameError.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics" Collapsed="true">
+    <Position X="25.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwASAAEBIgkAIBgQFEAAACACAQEBAEIIAAAAAAAAAE=</HashCode>
+      <FileName>Graphics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Image" Collapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAIQAchIgBgENgEAACM+AIYECAKgwBsCAACQQmQEAAA=</HashCode>
+      <FileName>Image.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Input" Collapsed="true">
+    <Position X="23.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUAAAAABAEAQCACAAIEIAAQAGAAAAABAQAAAAAAAAAA=</HashCode>
+      <FileName>Input.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MarioGame" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQQAABCBAAAAEAQAAAAAEAABAIACAAAAAUAAA=</HashCode>
+      <FileName>MarioGame.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MovingObject" Collapsed="true">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EBAAAAgAAAAAAACAAgIAAQCAABAAAAAAgAAAAAAAAAE=</HashCode>
+      <FileName>MovingObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Object" Collapsed="true">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QgAABEAAQQAAGAaoQEAAIUYCgRAEQAAE4AAAQAAAIgA=</HashCode>
+      <FileName>Object.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectBlock" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAEAAAQAEAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ObjectBlock.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectBrick" Collapsed="true">
+    <Position X="14.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAACAAAAAAEAAAQAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectBrick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectCoin" Collapsed="true">
+    <Position X="19.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAMAAAQAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectCoin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectEnemy" Collapsed="true">
+    <Position X="5.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAEAAAQAEAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectEnemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectMario" Collapsed="true">
+    <Position X="8" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAAAAAAAAEAAARAEAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ObjectMario.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectMushroom" Collapsed="true">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAEAAAQAEACAAAAAgAAAAAAA=</HashCode>
+      <FileName>ObjectMushroom.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectPipe" Collapsed="true">
+    <Position X="17" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAEAAAQAEAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>ObjectPipe.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectPowerup" Collapsed="true">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAEAAAQAEAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectPowerup.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectQuestion" Collapsed="true">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAEAAAQAEAAAAAAAgAAAAAAI=</HashCode>
+      <FileName>ObjectQuestion.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextureManager" Collapsed="true">
+    <Position X="25.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAABgAAgAgRIEAAAAABAAAQAgAAEAAAAAAAEA=</HashCode>
+      <FileName>TextureManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SpriteData" Collapsed="true">
+    <Position X="21.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAQAQAAAIAICAAAAAgAAAABgAABAAAA=</HashCode>
+      <FileName>Graphics.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="ObjectType" Collapsed="true">
+    <Position X="23.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAARAAQAAAYAAAAAAAAAAABgAAAAAAAAACAAAUAAAQA=</HashCode>
+      <FileName>Object.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Direction" Collapsed="true">
+    <Position X="21.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAQAAAAAAAAICAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Object.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

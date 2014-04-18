@@ -72,7 +72,7 @@ protected:
 	bool enabled_;
 	bool passable_;
 	bool deleted_; // if it is true, delete the object from arena
-	const int id_; // a unique id for this object;
+	int id_; // a unique id for this object;
 	Object(int id);
 	Object(int id, int x, int y);
 };

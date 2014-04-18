@@ -53,6 +53,9 @@
     <ClInclude Include="ObjectQuestion.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B453679A-2FF2-4DA4-A821-1307D56949D6}</ProjectGuid>
     <RootNamespace>SuperMarioBros</RootNamespace>

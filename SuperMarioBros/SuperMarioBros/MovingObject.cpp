@@ -5,6 +5,16 @@ void MovingObject::setFacingDirection(Direction facingDirection)
 	facingDirection_ = facingDirection;
 }
 
+double MovingObject::getvx() const
+{
+	return vx_;
+}
+
+double MovingObject::getvy() const
+{
+	return vy_;
+}
+
 void MovingObject::setvx(double vx)
 {
 	if (vx_ * vx < 0)
