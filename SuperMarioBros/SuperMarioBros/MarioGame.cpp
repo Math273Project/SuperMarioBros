@@ -46,16 +46,14 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 }
 void MarioGame::update()
 {
-	if (input_->isKeyDown(MOVE_RIGHT_KEY))            // if move right
-	{
-		mario_.setX(mario_.getX() + frameTime_ * MARIO_SPEED);
-		if (mario_.getX() > GAME_WIDTH)               // if off screen right
-		{
-			mario_.setX((double) - mario_.getWidth());     // position off screen left
-		}
-	}
-
 	mario_.update(frameTime_);
+
+	mario_.setX(mario_.getX() + frameTime_ * MARIO_SPEED); // move mario right
+	if (mario_.getX() > GAME_WIDTH) // If offscreen right
+	{
+		mario_.setX((double)-mario_.getWidth());// Position off screen left
+		mario_.setScale(MARIO_SCALE); // Set to starting size
+	}
 }
 
 void MarioGame::ai()
