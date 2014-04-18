@@ -122,7 +122,7 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool AnotherInstance()
 {
-	HANDLE ourMutex = CreateMutex(NULL, true, "ksjdfghlksjfhghs;ldfj");
+	HANDLE ourMutex = CreateMutex(NULL, true, "GonzaloHarryJorge");
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
 		return true;
