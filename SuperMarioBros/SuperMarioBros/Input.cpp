@@ -46,7 +46,7 @@ void Input::keyIn(WPARAM wParam)
 		PostQuitMessage(0);
 		break;
 	case 'a':  //move left
-
+		
 		break;
 	case 's':   //move down
 

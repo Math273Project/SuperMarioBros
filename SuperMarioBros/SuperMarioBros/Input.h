@@ -36,7 +36,6 @@ public:
 
 private:
 	bool keysDown_[InputConstants::KEYS_ARRAY_LEN];// True if specified key is down
-	bool keysPressed_[InputConstants::KEYS_ARRAY_LEN]; // True if specified key was
-	// pressed
+	bool keysPressed_[InputConstants::KEYS_ARRAY_LEN]; // True if specified key was pressed
 	char charIn_; // Last character entered
 };

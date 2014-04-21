@@ -11,7 +11,7 @@ const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
 const int  MARIO_START_FRAME = 0;            // starting frame of Mario animation
 const int  MARIO_END_FRAME = 7;              // last frame of Mario animation
-const double MARIO_ANIMATION_DELAY = 0.2;    // time between frames of Mario animation
+const double MARIO_ANIMATION_DELAY = 0.25;    // time between frames of Mario animation
 const int  MARIO_COLS = 7;                   // Mario texture has 7 columns
 const int TEXTURE_WIDTH = 64;     //standard size of entity textures
 const int TEXTURE_HEIGHT = 128;
