@@ -2,6 +2,7 @@
 
 #include "textureManager.h"
 #include "constants.h"
+#include "Arena.h"
 
 class Image
 {
@@ -154,6 +155,6 @@ protected:
 		bool    visible_;        // true when visible
 		bool    initialized_;    // true when successfully initialized
 		bool    animationComplete_;   // true when loop is false and endFrame has finished displaying
-
+		friend class Arena;
 };
 
