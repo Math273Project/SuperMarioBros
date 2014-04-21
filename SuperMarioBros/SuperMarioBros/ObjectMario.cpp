@@ -1,4 +1,5 @@
 #include "ObjectMario.h"
+#include "Arena.h"
 
 ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy) // id 0, highest priority, moveable
 {
@@ -6,7 +7,7 @@ ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id
 	height_ = 64;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
-	type_ = SMALLMARIO;
+	type_ = SMALL_MARIO;
 	//initializeSprite(0, 0);
 
 	// need sprite
@@ -51,11 +52,11 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		case POWERUP:
 			switch (type_)
 			{
-			case SMALLMARIO:
-				setType(BIGMARIO);
+			case SMALL_MARIO:
+				setType(BIG_MARIO);
 				break;
-			case BIGMARIO:
-				setType(SUPERMARIO);
+			case BIG_MARIO:
+				setType(SUPER_MARIO);
 				break;
 			}
 		}
@@ -70,7 +71,7 @@ ObjectType ObjectMario::getType() const
 
 int ObjectMario::getPriority() const
 {
-	return INT_MAX;
+	return PRIORITY;
 }
 
 void ObjectMario::destroy()
@@ -79,26 +80,35 @@ void ObjectMario::destroy()
 	vy_ = -100;
 	facingDirection_ = UP;
 	passable_ = true;
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
 }
 
 void ObjectMario::setType(ObjectType type)
 {
 	switch (type)
 	{
-	case SMALLMARIO:
-		type_ = SMALLMARIO;
-		width_ = 32; // need data
-		height_ = 32;
+	case SMALL_MARIO:
+		type_ = SMALL_MARIO;
+		width_ = SMALL_MARIO_WIDTH; // need data
+		height_ = SMALL_MARIO_HEIGHT;
 		break;
-	case BIGMARIO:
-		type_ = BIGMARIO;
-		width_ = 32;
-		height_ = 32;
+	case BIG_MARIO:
+		type_ = BIG_MARIO;
+		width_ = BIG_MARIO_WIDTH;
+		height_ = BIG_MARIO_HEIGHT;
 		break;
-	case SUPERMARIO:
-		type_ = SUPERMARIO;
-		width_ = 32;
-		height_ = 32;
+	case SUPER_MARIO:
+		type_ = SUPER_MARIO;
+		width_ = SUPER_MARIO_WIDTH;
+		height_ = SUPER_MARIO_HEIGHT;
 		break;
 	}
+}
+
+int ObjectMario::getDyingDuration() const
+{
+	return DYING_DURATION;
 }

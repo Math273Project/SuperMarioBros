@@ -124,11 +124,6 @@ bool Object::passable() const
 	return passable_;
 }
 
-bool Object::deleted() const
-{
-	return deleted_;
-}
-
 bool Object::moveable() const
 {
 	return false;
@@ -138,10 +133,4 @@ Object::Object(int id, int x, int y) : Object(id)
 {
 	x_ = x;
 	y_ = y;
-}
-
-void Object::tryDelete()
-{
-	if (y_ > 2000)
-		deleted_ = true;
 }

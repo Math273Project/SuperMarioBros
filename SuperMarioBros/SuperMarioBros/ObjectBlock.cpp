@@ -1,9 +1,10 @@
 #include "ObjectBlock.h"
+#include "Arena.h"
 
 ObjectBlock::ObjectBlock(int id, int x, int y) : Object(id, x, y) 
 {
-	width_ = 32;
-	height_ = 32;
+	width_ = WIDTH;
+	height_ = HEIGHT;
 	enabled_ = true;
 	//initializeSprite(0, 0);
 }
@@ -18,13 +19,22 @@ ObjectType ObjectBlock::getType() const
 {
 	return BLOCK;
 }
+
 int ObjectBlock::getPriority() const
 {
-	return 5; // change it later;
+	return PRIORITY; // change it later;
 }
 
 void ObjectBlock::destroy()
 {
-	// change width, height, sprite, 
-	deleted_ = true;
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
 }
+
+int ObjectBlock::getDyingDuration() const
+{
+	return DYING_DURATION;
+}
+r

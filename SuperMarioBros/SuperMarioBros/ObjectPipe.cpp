@@ -1,9 +1,10 @@
 #include "ObjectPipe.h"
+#include "Arena.h"
 
 ObjectPipe::ObjectPipe(int id, int x, int y) : Object(id, x, y)
 {
-	width_ = 32;
-	height_ = 32;
+	width_ = WIDTH;
+	height_ = HEIGHT;
 	enabled_ = true;
 }
 
@@ -15,7 +16,7 @@ void ObjectPipe::collide(const Object& object, Direction collideDirection)
 	{
 		switch (object.getType())
 		{
-		case SMALLMARIO:
+		case SMALL_MARIO:
 			switch (collideDirection)
 			{
 			case UP:
@@ -33,11 +34,18 @@ ObjectType ObjectPipe::getType() const
 
 int ObjectPipe::getPriority() const
 {
-	return 5; // change it later
+	return PRIORITY; // change it later
 }
 
 void ObjectPipe::destroy()
 {
-	// change width, height, sprite, 
-	deleted_ = true;
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
+}
+
+int ObjectPipe::getDyingDuration() const
+{
+	return DYING_DURATION;
 }

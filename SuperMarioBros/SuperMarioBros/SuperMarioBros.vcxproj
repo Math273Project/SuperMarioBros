@@ -22,6 +22,7 @@
     <ClCompile Include="ObjectBlock.cpp" />
     <ClCompile Include="ObjectBrick.cpp" />
     <ClCompile Include="ObjectCoin.cpp" />
+    <ClCompile Include="ObjectConstants.cpp" />
     <ClCompile Include="ObjectEnemy.cpp" />
     <ClCompile Include="ObjectMario.cpp" />
     <ClCompile Include="ObjectMushroom.cpp" />

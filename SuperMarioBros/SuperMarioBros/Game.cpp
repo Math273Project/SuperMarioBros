@@ -98,8 +98,6 @@ void Game::run(HWND hWnd)
 	{
 		//Pure virtual functions defined by derived Classes
 		update(); // Update all game items
-		ai(); // Artificial intelligence
-		collisions(); // Handle collisions
 	}
 	renderGame(); //renderGame() draws all items and calls pure virtual function render
 	// Clear input

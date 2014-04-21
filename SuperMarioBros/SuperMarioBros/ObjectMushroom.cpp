@@ -1,9 +1,10 @@
 #include "ObjectMushroom.h"
+#include "Arena.h"
 
 ObjectMushroom::ObjectMushroom(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = 32;
-	height_ = 32;
+	width_ = MUSHROOM_WIDTH;
+	height_ = MUSHROOM_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -26,13 +27,13 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 			}
 			break;
 
-		case SMALLMARIO:
-		case BIGMARIO:
-		case SUPERMARIO:
+		case SMALL_MARIO:
+		case BIG_MARIO:
+		case SUPER_MARIO:
 			switch (collideDirection)
 			{
 			case DOWN:
-				destroy();
+				changeType();
 				break;
 			}
 			break;
@@ -42,16 +43,33 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 
 ObjectType ObjectMushroom::getType() const
 {
-	return ENEMY;
+	if (changed_)
+		return FLAT_MUSHROOM;
+	return MUSHROOM;
 }
 
 int ObjectMushroom::getPriority() const
 {
-	return 5; // change it later
+	return PRIORITY; // change it later
 }
 
 void ObjectMushroom::destroy()
 {
-	// change width, height, sprite, 
-	deleted_ = true;
+	changeType();
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
+}
+
+void ObjectMushroom::changeType() // change mushroom to flat mushroom, change sprite
+{
+	changed_ = true;
+	width_ = FLAT_MUSHROOM_WIDTH;
+	height_ = FLAT_MUSHROOM_HEIGHT;
+}
+
+int ObjectMushroom::getDyingDuration() const
+{
+	return DYING_DURATION;
 }

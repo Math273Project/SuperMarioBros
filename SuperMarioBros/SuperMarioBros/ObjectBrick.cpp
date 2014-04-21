@@ -1,9 +1,10 @@
 #include "ObjectBrick.h"
+#include "Arena.h"
 
 ObjectBrick::ObjectBrick(int id, int x, int y) : Object(id, x, y)
 {
-	width_ = 32;
-	height_ = 32;
+	width_ = WIDTH;
+	height_ = HEIGHT;
 	enabled_ = true;
 	//initializeSprite(0, 0);
 }
@@ -16,9 +17,9 @@ void ObjectBrick::collide(const Object& object, Direction collideDirection)
 	{
 		switch (object.getType())
 		{
-		case SMALLMARIO:
-		case BIGMARIO:
-		case SUPERMARIO:
+		case SMALL_MARIO:
+		case BIG_MARIO:
+		case SUPER_MARIO:
 			switch (collideDirection)
 			{
 			case UP:
@@ -37,11 +38,18 @@ ObjectType ObjectBrick::getType() const
 
 int ObjectBrick::getPriority() const
 {
-	return 5; // change it later;
+	return PRIORITY; // change it later;
 }
 
 void ObjectBrick::destroy()
 {
-	// change width, height, sprite, 
-	deleted_ = true;
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
+}
+
+int ObjectBrick::getDyingDuration() const
+{
+	return DYING_DURATION;
 }

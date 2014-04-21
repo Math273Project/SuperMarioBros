@@ -1,9 +1,10 @@
 #include "ObjectPowerup.h"
+#include "Arena.h"
 
 ObjectPowerup::ObjectPowerup(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = 32;
-	height_ = 32;
+	width_ = WIDTH;
+	height_ = HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -26,9 +27,9 @@ void ObjectPowerup::collide(const Object& object, Direction collideDirection)
 			}
 			break;
 
-		case SMALLMARIO:
-		case BIGMARIO:
-		case SUPERMARIO:
+		case SMALL_MARIO:
+		case BIG_MARIO:
+		case SUPER_MARIO:
 			destroy();
 			break;
 		}
@@ -42,11 +43,18 @@ ObjectType ObjectPowerup::getType() const
 
 int ObjectPowerup::getPriority() const
 {
-	return 5; // change it later
+	return PRIORITY; // change it later
 }
 
 void ObjectPowerup::destroy()
 {
-	// change width, height, sprite, 
-	deleted_ = true;
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
+}
+
+int ObjectPowerup::getDyingDuration() const
+{
+	return DYING_DURATION;
 }

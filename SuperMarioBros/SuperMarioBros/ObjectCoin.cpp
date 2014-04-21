@@ -1,4 +1,5 @@
 #include "ObjectCoin.h"
+#include "Arena.h"
 
 ObjectCoin::ObjectCoin(int id, int x, int y) : Object(id, x, y)
 {
@@ -19,8 +20,10 @@ int ObjectCoin::getPriority() const
 
 void ObjectCoin::destroy()
 {
-	// change width, height, sprite, 
-	deleted_ = true;
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
 }
 
 void ObjectCoin::collide(const Object& object, Direction collideDirection)
@@ -31,9 +34,9 @@ void ObjectCoin::collide(const Object& object, Direction collideDirection)
 	{
 		switch (object.getType())
 		{
-		case SMALLMARIO:
-		case BIGMARIO:
-		case SUPERMARIO:
+		case SMALL_MARIO:
+		case BIG_MARIO:
+		case SUPER_MARIO:
 			switch (collideDirection)
 			{
 			case DOWN:
@@ -47,4 +50,9 @@ void ObjectCoin::collide(const Object& object, Direction collideDirection)
 			}
 		}
 	}
+}
+
+int ObjectCoin::getDyingDuration() const
+{
+	return DYING_DURATION;
 }
