@@ -37,7 +37,9 @@ public:
 								// and also delete the object that it's y position is too big.
 	MovingObject* getMario() const;
 	~Arena();
-	std::list<DyingObjectData>& getDyingObjectData();
+	const std::list<MovingObject*>& getMovingObjects() const;
+	const std::list<Object*>& getStaticObjects() const;
+	void pushDyingObjectData(const DyingObjectData& data);
 	// delete the objects that flagged as deleted_;
 protected:
 	std::list<MovingObject*> movingObjects_;

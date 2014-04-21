@@ -83,7 +83,8 @@ void ObjectMario::destroy()
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
-	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
+	DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+	arena.pushDyingObjectData(data);
 }
 
 void ObjectMario::setType(ObjectType type)
