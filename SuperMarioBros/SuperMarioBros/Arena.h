@@ -35,7 +35,7 @@ public:
 	void move(int time); // move all objects according to current velocity.
 	void deleteDyingObject(); // delete the object in queue if the time duration is satisfied.
 								// and also delete the object that it's y position is too big.
-	MovingObject* getMario() const;
+	MovingObject* getMario() const; //If mario returns NULL, he's dead
 	~Arena();
 	const std::list<MovingObject*>& getMovingObjects() const;
 	const std::list<Object*>& getStaticObjects() const;

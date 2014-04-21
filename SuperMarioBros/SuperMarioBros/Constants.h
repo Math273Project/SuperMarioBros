@@ -28,9 +28,9 @@ const int GAME_HEIGHT = 720;      // height of game in pixels
 
 // key mappings
 
-const WPARAM ESC_KEY = VK_ESCAPE;       // escape key
-const WPARAM ENTER_KEY = VK_RETURN;       // Enter key used for pause
-const WPARAM MOVE_LEFT_KEY = 'a';     // left arrow
-const WPARAM MOVE_RIGHT_KEY = 'd';    // right arrow
-const WPARAM MOVE_UP_KEY = 'w';       // up arrow
-const WPARAM MOVE_DOWN_KEY = 's';     // down arrow
+const UCHAR ESC_KEY = VK_ESCAPE;       // escape key
+const UCHAR ENTER_KEY = VK_RETURN;       // Enter key used for pause
+const UCHAR MOVE_LEFT_KEY = 'a';     // left arrow
+const UCHAR MOVE_RIGHT_KEY = 'd';    // right arrow
+const UCHAR MOVE_UP_KEY = 'w';       // up arrow
+const UCHAR MOVE_DOWN_KEY = 's';     // down arrow
