@@ -13,9 +13,9 @@ Arena::Arena()
 void Arena::collisionDetection() // Do collisionDetection of every objects in Arena
 {
 	Direction collideDirection1, collideDirection2;
-	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); i++)
+	for (auto i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
 	{
-		for (auto& j = staticObjects_.begin(); j != staticObjects_.end(); j++)
+		for (auto j = staticObjects_.begin(); j != staticObjects_.end(); ++j)
 		{
 			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
@@ -25,9 +25,9 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 				(*j)->collide(**i, collideDirection2);
 		}
 	}
-	for (auto& i = movingObjects_.begin(), j = i; i != movingObjects_.end(); j = ++i)
+	for (auto i = movingObjects_.begin(), j = i; i != movingObjects_.end(); ++i)
 	{
-		for (; j != movingObjects_.end(); j++)
+		for (auto j = std::next(i,1); j != movingObjects_.end(); ++j)
 		{
 			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
@@ -42,10 +42,10 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 void Arena::freeFall(int time)
 {
 	bool onTop = false;
-	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); i++)
+	for (auto i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
 	{
 		onTop = false;
-		for (auto& j = staticObjects_.begin() ; j != staticObjects_.end() && !onTop; j++)
+		for (auto j = staticObjects_.begin() ; j != staticObjects_.end() && !onTop; ++j)
 		{
 			if ((*i)->onTop(**j))
 				onTop = true;
@@ -79,8 +79,8 @@ void Arena::pushBack(Object* pObject)
 
 void Arena::move(int time)
 {
-	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); i++)
-		(*i)->move(time);
+	for (auto& i: movingObjects_)
+		i->move(time);
 }
 
 void Arena::deleteDyingObject()
