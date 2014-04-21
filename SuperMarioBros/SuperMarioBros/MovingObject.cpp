@@ -44,7 +44,7 @@ bool MovingObject::moveable() const
 }
 
 
-void MovingObject::move(int time)
+void MovingObject::move(double time)
 {
 	x_ += vx_ * time / 1000;
 	y_ += vy_ * time / 1000;
