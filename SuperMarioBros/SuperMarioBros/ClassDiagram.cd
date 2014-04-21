@@ -3,14 +3,14 @@
   <Class Name="Arena" Collapsed="true">
     <Position X="11" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAACAAAABgAACEAAAAAQAAAAAAAAAAAAAoEIAAAAA=</HashCode>
+      <HashCode>AAIAACAAAABgQACEAAAAAQAAAAAAAAAAAAAoEIAAAAA=</HashCode>
       <FileName>Arena.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game" Collapsed="true">
     <Position X="0.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>DAQAAgEAQDgBABAABREBACAAAAiAABgIICIAAAAcACA=</HashCode>
+      <HashCode>DAQAAgEAQDgAAAAABREBACAAAAiAABgIICIAAAAcACA=</HashCode>
       <FileName>Game.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -65,17 +65,11 @@
   </Class>
   <Class Name="MarioGame" Collapsed="true">
     <Position X="0.5" Y="4.75" Width="1.75" />
-    <InheritanceLine Type="Game" ManuallyRouted="true" FixedToPoint="true">
-      <Path>
-        <Point X="1.25" Y="3.312" />
-        <Point X="1.25" Y="4.75" />
-      </Path>
-    </InheritanceLine>
     <AssociationLine Name="marioTexture_" Type="TextureManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="1.5" Y="5.441" />
-        <Point X="1.5" Y="5.816" />
-        <Point X="4.094" Y="5.816" />
+        <Point X="1.5" Y="5.312" />
+        <Point X="1.5" Y="5.975" />
+        <Point X="4.094" Y="5.975" />
         <Point X="4.094" Y="6.25" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
@@ -84,25 +78,29 @@
     </AssociationLine>
     <AssociationLine Name="backgroundTexture_" Type="TextureManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="1.25" Y="5.441" />
+        <Point X="1.25" Y="5.312" />
         <Point X="1.25" Y="6.625" />
         <Point X="3.75" Y="6.625" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="mario_" Type="Image" FixedFromPoint="true">
+    <AssociationLine Name="mario_" Type="Image" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="2.25" Y="5.125" />
+        <Point X="2.25" Y="4.938" />
+        <Point X="2.625" Y="4.938" />
+        <Point X="2.625" Y="5.125" />
         <Point X="3.75" Y="5.125" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="background_" Type="Image" FixedToPoint="true">
+    <AssociationLine Name="background_" Type="Image" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="2.25" Y="5.375" />
+        <Point X="2.25" Y="5.25" />
+        <Point X="2.374" Y="5.25" />
+        <Point X="2.374" Y="5.375" />
         <Point X="3.75" Y="5.375" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAQQAABCBAAAAEAQAAAAAEAABAIACAAAAAUAAA=</HashCode>
+      <HashCode>AAAAAAAQQAAACAAAAAEAQAAAAAEAABAIACAAAAAUAAA=</HashCode>
       <FileName>MarioGame.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -195,6 +193,9 @@
       <HashCode>QAAAAAAAABgAAgAgRIEAAAAABAAAQAgAAEAAAAAAAEA=</HashCode>
       <FileName>TextureManager.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="graphics_" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="std::exception" Collapsed="true">
     <Position X="8" Y="5" Width="1.5" />

@@ -15,9 +15,7 @@ public:
 
 	void initialize(HWND hWnd, bool fullscreen);
 
-	void update();    
-	void ai();
-	void collisions();
+	void update();
 	void render();
 
 	void releaseAll();

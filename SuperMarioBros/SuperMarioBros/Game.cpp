@@ -98,8 +98,6 @@ void Game::run(HWND hWnd)
 	{
 		//Pure virtual functions defined by derived Classes
 		update(); // Update all game items
-		ai(); // Artificial intelligence
-		collisions(); // Handle collisions
 	}
 	renderGame(); //renderGame() draws all items and calls pure virtual function render
 	// Clear input
@@ -133,7 +131,6 @@ void Game::renderGame()
 		//Render is a pure virtual function that must be provided in the
 		//inheriting class.
 		render(); //Call render in derived class
-		//Begin a DirectX scene
 		graphics_->endScene();
 
 	}

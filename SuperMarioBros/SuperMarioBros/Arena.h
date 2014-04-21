@@ -6,6 +6,7 @@
 // call this name?
 class Arena
 {
+public:
 	Arena(const Arena&) = delete; // Unique Instance
 	Arena& operator=(const Arena&) = delete;
 	static Arena& getUniqueInstance()

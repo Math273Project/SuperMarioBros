@@ -38,10 +38,6 @@ public:
 	void exitGame() { PostMessage(hWnd_, WM_DESTROY, 0, 0); }
 
 	virtual void update() = 0;
-	// Perform AI calculations
-	virtual void ai() = 0;
-	// Check for collisions
-	virtual void collisions() = 0;
 	//Render graphics
 	virtual void render() = 0;
 
