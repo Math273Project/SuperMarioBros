@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "Image.h"
+#include "Object.h"
+#include "MovingObject.h"
 //All necessary object headers will go here!
 
 /* We can migrate all the functionality of object onto this class

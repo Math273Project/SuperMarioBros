@@ -1,3 +1,4 @@
+#pragma once
 #include "Object.h"
 
 class MovingObject : public Object
@@ -9,7 +10,7 @@ public:
 	Direction getFacingDirection() const;
 	void setvx(double vx); // will callsetFacingDirection if the direction of velocity changes;
 	void setvy(double vy);
-	bool moveable() const override;
+	bool moveable() const override final;
 	void setFacingDirection(Direction facingDirection);
 	void move(int time);
 protected:

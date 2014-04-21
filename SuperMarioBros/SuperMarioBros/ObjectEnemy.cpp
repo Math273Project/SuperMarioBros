@@ -1,9 +1,10 @@
 #include "ObjectEnemy.h"
+#include "Arena.h"
 
 ObjectEnemy::ObjectEnemy(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = 32;
-	height_ = 32;
+	width_ = WIDTH;
+	height_ = HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -26,9 +27,9 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 			}
 		break;
 
-		case SMALLMARIO:
-		case BIGMARIO:
-		case SUPERMARIO:
+		case SMALL_MARIO:
+		case BIG_MARIO:
+		case SUPER_MARIO:
 			switch (collideDirection)
 			{
 			case DOWN:
@@ -52,6 +53,13 @@ int ObjectEnemy::getPriority() const
 
 void ObjectEnemy::destroy() 
 {
-	// change width, height, sprite, 
-	deleted_ = true;
+	Arena& arena = Arena::getUniqueInstance();
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	arena.getDyingObjectData().emplace_back(this, time.QuadPart, DYING_DURATION);
+}
+
+int ObjectEnemy::getDyingDuration() const
+{
+	return DYING_DURATION;
 }

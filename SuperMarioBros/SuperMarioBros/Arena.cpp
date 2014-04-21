@@ -1,31 +1,40 @@
 #include "Arena.h"
 #include <algorithm>
 
+
+const double Arena::ACCELARATION = 9.8;
+const int Arena::LOWEST_POSITION = 2000;
+
+Arena::Arena()
+{
+
+}
+
 void Arena::collisionDetection() // Do collisionDetection of every objects in Arena
 {
 	Direction collideDirection1, collideDirection2;
-	for (int i = 0; i < movingObjects_.size(); i++)
+	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); i++)
 	{
-		for (int j = 0; j < staticObjects_.size(); j++)
+		for (auto& j = staticObjects_.begin(); j != staticObjects_.end(); j++)
 		{
-			collideDirection1 = movingObjects_[i]->didCollide(*staticObjects_[j]);
+			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
-				movingObjects_[i]->collide(*staticObjects_[j], collideDirection1);
-			collideDirection2 = staticObjects_[j]->didCollide(*movingObjects_[i]);
+				(*i)->collide(**j, collideDirection1);
+			collideDirection2 = (*j)->didCollide(**i);
 			if (collideDirection2 != NONE)
-				staticObjects_[j]->collide(*movingObjects_[i], collideDirection2);
+				(*j)->collide(**i, collideDirection2);
 		}
 	}
-	for (int i = 0; i < movingObjects_.size(); i++)
+	for (auto& i = movingObjects_.begin(), j = i; i != movingObjects_.end(); j = ++i)
 	{
-		for (int j = i + 1; j < movingObjects_.size(); j++)
+		for (; j != movingObjects_.end(); j++)
 		{
-			collideDirection1 = movingObjects_[i]->didCollide(*movingObjects_[j]);
+			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
-				movingObjects_[i]->collide(*movingObjects_[j], collideDirection1);
-			collideDirection2 = movingObjects_[j]->didCollide(*movingObjects_[i]);
+				(*i)->collide(**j, collideDirection1);
+			collideDirection2 = (*j)->didCollide(**i);
 			if (collideDirection2 != NONE)
-				movingObjects_[j]->collide(*movingObjects_[i], collideDirection2);
+				(*j)->collide(**i, collideDirection2);
 		}
 	}
 }
@@ -33,20 +42,20 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 void Arena::freeFall(int time)
 {
 	bool onTop = false;
-	for (int i = 0; i < movingObjects_.size(); i++)
+	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); i++)
 	{
 		onTop = false;
-		for (int j = i + 1; j < staticObjects_.size() && !onTop; j++)
+		for (auto& j = staticObjects_.begin() ; j != staticObjects_.end() && !onTop; j++)
 		{
-			if (movingObjects_[i]->onTop(*staticObjects_[j]))
+			if ((*i)->onTop(**j))
 				onTop = true;
 		}
 		if (!onTop)
-			movingObjects_[i]->setvy(movingObjects_[i]->getvy() + ACCELARATION * time / 1000);
+			(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
 	}
 }
 
-void Arena::remove(const Object& object)
+void Arena::erase(const Object& object)
 {
 	std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&object](const Object* obj)
 	{ return *obj == object; });
@@ -57,6 +66,8 @@ void Arena::remove(const Object& object)
 void Arena::pushBack(MovingObject* pMovingObject)
 {
 	movingObjects_.push_back(pMovingObject);
+	if (pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == BIG_MARIO)
+		mario_ = pMovingObject;
 }
 
 void Arena::pushBack(Object* pObject)
@@ -66,17 +77,43 @@ void Arena::pushBack(Object* pObject)
 
 void Arena::move(int time)
 {
-	for (int i = 0; i < movingObjects_.size(); i++)
-		movingObjects_[i]->move(time);
+	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); i++)
+		(*i)->move(time);
 }
 
-void Arena::deleteObject()
+void Arena::deleteDyingObject()
 {
-	for (int i = 0; i < movingObjects_.size(); i++)
-		movingObjects_[i]->tryDelete();
-	for (int i = 0; i < staticObjects_.size(); i++)
-		staticObjects_[i]->tryDelete();
-	remove_if(movingObjects_.begin(), movingObjects_.end(), [](const MovingObject* obj){return obj->deleted()
-		|| obj->gety() > 2000; }); // change the constant 2000 later
-	remove_if(staticObjects_.begin(), staticObjects_.end(), [](const Object* obj){return obj->deleted(); });
+	remove_if(movingObjects_.begin(), movingObjects_.end(), [](const MovingObject* obj){
+		return obj->gety() > LOWEST_POSITION; }); 
+	LARGE_INTEGER frequency, now;
+	QueryPerformanceFrequency(&frequency);
+	QueryPerformanceCounter(&now);
+	remove_if(dyingObjectData_.begin(), dyingObjectData_.end(), [&](const DyingObjectData& data)
+	{
+		if ((double)(now.QuadPart - data.startTime_) / (double)frequency.QuadPart > data.duration_)
+		{
+			this->erase(*(data.data_));
+			return true;
+		}
+		return false;
+	});
+}
+
+Arena::~Arena()
+{
+	for (auto& i : staticObjects_)
+	{
+		delete i;
+		i = 0;
+	}
+	for (auto& i : movingObjects_)
+	{
+		delete i;
+		i = 0;
+	}
+}
+
+std::list<DyingObjectData>& Arena::getDyingObjectData()
+{
+	return dyingObjectData_;
 }

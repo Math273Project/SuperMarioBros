@@ -1,9 +1,22 @@
 #pragma once
-#include <vector>
+#include <list>
 #include "Object.h"
 #include "MovingObject.h"
 
 // call this name?
+struct DyingObjectData
+{
+	Object* data_;
+	long long startTime_;
+	int duration_;
+	DyingObjectData(Object* data, long long startTime, int duration)
+	{
+		data_ = data;
+		startTime_ = startTime;
+		duration_ = duration;
+	}
+};
+
 class Arena
 {
 public:
@@ -16,17 +29,24 @@ public:
 	}
 	void collisionDetection(); // Do collisionDetection of every objects in Arena
 	void freeFall(int time); //adjust the object' vy according to gravity if it is in the air
-	void remove(const Object& object);
+	void erase(const Object& object);
 	void pushBack(MovingObject* object);
 	void pushBack(Object* object);
 	void move(int time); // move all objects according to current velocity.
-	void deleteObject(); // call all objects' trydelete()
+	void deleteDyingObject(); // delete the object in queue if the time duration is satisfied.
+								// and also delete the object that it's y position is too big.
+	MovingObject* getMario() const;
+	~Arena();
+	std::list<DyingObjectData>& getDyingObjectData();
 	// delete the objects that flagged as deleted_;
 protected:
-	std::vector<MovingObject*> movingObjects_;
-	std::vector<Object*> staticObjects_;
+	std::list<MovingObject*> movingObjects_;
+	std::list<Object*> staticObjects_;
 	Arena(); // Unique Instance
+	MovingObject* mario_;
+	std::list<DyingObjectData> dyingObjectData_;
 	static const double ACCELARATION;
+	static const int LOWEST_POSITION; // the biggest y-position. 
+											// The object beyond this position will be deleted in deleteDyingObject(). 
 };
 
-const double Arena::ACCELARATION = 9.8;
