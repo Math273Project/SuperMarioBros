@@ -12,7 +12,7 @@ Object::~Object()
 
 }
 
-void Object::setPosition(int x, int y)
+void Object::setPosition(double x, double y)
 {
 	x_ = x;
 	y_ = y;

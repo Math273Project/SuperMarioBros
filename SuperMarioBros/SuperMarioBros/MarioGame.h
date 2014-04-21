@@ -4,6 +4,8 @@
 #include "Image.h"
 #include "Object.h"
 #include "MovingObject.h"
+#include "Arena.h"
+#include "ObjectMario.h"
 //All necessary object headers will go here!
 
 /* We can migrate all the functionality of object onto this class

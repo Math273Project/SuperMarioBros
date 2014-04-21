@@ -38,8 +38,7 @@ class Object
 {
 public:
 	virtual ~Object();
-	void setPosition(int x, int y);
-	void move(int time); //unit: millisecond
+	void setPosition(double x, double y);
 	Direction didCollide(const Object& object) const; // Check if two objects are collide									// return a collide direction
 	bool onTop(const Object& object) const; // check if this object is on the top of another object;
 	virtual void collide(const Object& object, Direction collideDirection) = 0;

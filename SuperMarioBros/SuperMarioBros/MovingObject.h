@@ -12,7 +12,7 @@ public:
 	void setvy(double vy);
 	bool moveable() const override final;
 	void setFacingDirection(Direction facingDirection);
-	void move(int time);
+	void move(double time);
 protected:
 	double vx_; // unit: pixel / second
 	double vy_;

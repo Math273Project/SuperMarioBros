@@ -14,6 +14,10 @@ MarioGame::~MarioGame()
 void MarioGame::initialize(HWND hWnd, bool fullscreen)
 {
 	Game::initialize(hWnd, fullscreen);
+	//Initialze textures
+	Arena& arena = Arena::getUniqueInstance();
+	ObjectMario* objectMario = new ObjectMario(0, 50, 490, MARIO_SPEED, 0);
+	arena.pushBack(objectMario);
 	//Initialize textures
 	if (!marioTexture_.initialize(graphics_, "Textures\\Robot_Mario.bmp"))
 	{
@@ -34,8 +38,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing background"));
 	}
 
-	mario_.setX(50);     
-	mario_.setY(490); //get rid of magic constant
+	mario_.setX(arena.getMario()->getx());     
+	mario_.setY(arena.getMario()->gety()); //get rid of magic constant
 	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
@@ -46,12 +50,14 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 }
 void MarioGame::update()
 {
+	Arena& arena = Arena::getUniqueInstance();
 	mario_.update(frameTime_);
-
-	mario_.setX(mario_.getX() + frameTime_ * MARIO_SPEED); // move mario right
-	if (mario_.getX() > GAME_WIDTH) // If offscreen right
+	arena.move(frameTime_*1000);
+	mario_.setX(arena.getMario()->getx()); // move mario right
+	if (arena.getMario()->getx() > GAME_WIDTH) // If offscreen right
 	{
-		mario_.setX((double)-mario_.getWidth());// Position off screen left
+		arena.getMario()->setx(-arena.getMario()->getWidth());
+		mario_.setX(arena.getMario()->getx());// Position off screen left
 		mario_.setScale(MARIO_SCALE); // Set to starting size
 	}
 }

@@ -28,11 +28,11 @@ public:
 		return arena;
 	}
 	void collisionDetection(); // Do collisionDetection of every objects in Arena
-	void freeFall(int time); //adjust the object' vy according to gravity if it is in the air
+	void freeFall(double time); //adjust the object' vy according to gravity if it is in the air
 	void erase(const Object& object);
 	void pushBack(MovingObject* object);
 	void pushBack(Object* object);
-	void move(int time); // move all objects according to current velocity.
+	void move(double time); // move all objects according to current velocity.
 	void deleteDyingObject(); // delete the object in queue if the time duration is satisfied.
 								// and also delete the object that it's y position is too big.
 	MovingObject* getMario() const;
