@@ -57,8 +57,10 @@ void Arena::freeFall(int time)
 
 void Arena::erase(const Object& object)
 {
-	std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&object](const Object* obj)
-	{ return *obj == object; });
+	std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* obj)
+	{ 	if (obj->getType() == SMALL_MARIO || obj->getType() == SMALL_MARIO || obj->getType() == BIG_MARIO)
+			mario_ = nullptr; 
+		return *obj == object; });
 	std::remove_if(staticObjects_.begin(), staticObjects_.end(), [&object](const Object* obj)
 	{ return *obj == object; });
 }
@@ -113,7 +115,22 @@ Arena::~Arena()
 	}
 }
 
-std::list<DyingObjectData>& Arena::getDyingObjectData()
+void Arena::pushDyingObjectData(const DyingObjectData& data)
 {
-	return dyingObjectData_;
+	dyingObjectData_.push_back(data);
+}
+
+MovingObject* Arena::getMario() const
+{
+	return mario_;
+}
+
+const std::list<MovingObject*>& Arena::getMovingObjects() const
+{
+	return movingObjects_;
+}
+
+const std::list<Object*>& Arena::getStaticObjects() const
+{
+	return staticObjects_;
 }
