@@ -8,18 +8,46 @@ this game is not for sale, and no copyright infringment is intended.
 
 
 
-Simple Mario Sprite Sheet Properties (Mario.png)
-Dimensions: 
-	Height: 32 pixels
-	Width: 16 pixels
+Robot Mario Sprite Sheet Properties (Robot_Mario.png)
+
 Images:
-	1: Standing
-	2: Walking 1
-	3: Walking 2
-	4: Walking 3
-	5: Braking Hard
-	6: Jumping
-	7: Crouching
+	Row 1 (Normal Mario):
+		Dimensions: 
+			Height: 144 pixels
+			Width: 72 pixels
+		1: Standing
+		2: Walking 1
+		3: Walking 2
+		4: Walking 3
+		5: Braking Hard
+		6: Jumping
+		7: Crouching
+		8: Shrinking
+	
+	Row 2 (Fireball Mario):
+		Dimensions:
+			Height: 144 pixels
+			Width: 72 pixels
+		1: Standing
+		2: Walking 1
+		3: Walking 2
+		4: Walking 3
+		5: Braking Hard
+		6: Jumping
+		7: Crouching
+		8: Shrinking
+	
+	Row 3 (Small Mario):
+		Dimensions:
+			Height: 72 pixels
+			Width: 72 pixels
+		1: Standing
+		2: Walking 1
+		3: Walking 2
+		4: Walking 3
+		5: Braking Hard
+		6: Jumping
+	
 Background Color:
 	R: 255
 	G: 0
