@@ -10,21 +10,7 @@ ObjectPipe::ObjectPipe(int id, int x, int y) : Object(id, x, y)
 
 void ObjectPipe::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
-		return;
-	if (collideDirection != NONE)
-	{
-		switch (object.getType())
-		{
-		case SMALL_MARIO:
-			switch (collideDirection)
-			{
-			case UP:
-				break;
-			}
-			break;
-		}
-	}
+	
 }
 
 ObjectType ObjectPipe::getType() const

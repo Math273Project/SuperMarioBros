@@ -18,22 +18,6 @@ void Object::setPosition(double x, double y)
 	y_ = y;
 }
 
-Direction Object::didCollide(const Object& object) const // Check if two objects are collide
-{
-	if (!enabled_ || object.enabled_ == false)
-		return NONE;
-	if (object.y_ <= y_ + height_ - 1 && y_ + height_ - 1 <= object.y_ + object.height_ - 1)
-		return UP;
-	if (object.y_ <= y_ && y_ <= object.y_ + object.height_ - 1)
-		return DOWN;
-	if (object.x_ <= x_ + width_ - 1 && x_ + width_ - 1 <= object.x_ + object.width_ - 1)
-		return LEFT;
-	if (object.x_ <= x_ && x_ <= object.x_ + object.width_ - 1)
-		return RIGHT;
-	return NONE;
-}
-
-
 void Object::collide(const Object& object, Direction collideDirection)
 {
 	// Should be rewrite if there will be any things to do.
@@ -133,4 +117,29 @@ Object::Object(int id, int x, int y) : Object(id)
 {
 	x_ = x;
 	y_ = y;
+}
+
+
+void Object::adjustPosition(const Object& object, Direction collideDirection)
+{
+	switch (collideDirection)
+	{
+	case UP:
+		y_ = object.gety() - height_;
+		break;
+	case DOWN:
+		y_ = object.gety() + object.getHeight();
+		break;
+	case LEFT:
+		x_ = object.getx() - width_;
+		break;
+	case RIGHT:
+		x_ = object.getx() + object.getWidth();
+		break;
+	}
+}
+
+bool Object::isEnabled() const
+{
+	return enabled_;
 }

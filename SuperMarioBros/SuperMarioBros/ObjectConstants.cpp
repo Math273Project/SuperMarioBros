@@ -21,6 +21,8 @@ const int ObjectBrick::DYING_DURATION = 500;
 const int ObjectBrick::PRIORITY = 5;
 const int ObjectBrick::WIDTH = 32;
 const int ObjectBrick::HEIGHT = 32;
+const int ObjectBrick::BRICK_PIECE_WIDTH = 32;
+const int ObjectBrick::BRICK_PIECE_HEIGHT = 32;
 
 const int ObjectCoin::DYING_DURATION = 500;
 const int ObjectCoin::PRIORITY = 5;
@@ -31,6 +33,8 @@ const int ObjectEnemy::DYING_DURATION = 500;
 const int ObjectEnemy::PRIORITY = 5;
 const int ObjectEnemy::WIDTH = 32;
 const int ObjectEnemy::HEIGHT = 32;
+const int ObjectEnemy::FLAT_ENEMY_WIDTH = 32;
+const int ObjectEnemy::FLAT_ENEMY_HEIGHT = 32;
 
 const int ObjectMario::DYING_DURATION = 500;
 const int ObjectMario::PRIORITY = INT_MAX;
@@ -43,8 +47,8 @@ const int ObjectMario::SUPER_MARIO_HEIGHT = 32;
 
 const int ObjectMushroom::DYING_DURATION = 500;
 const int ObjectMushroom::PRIORITY = 5;
-const int ObjectMushroom::MUSHROOM_WIDTH = 32;
-const int ObjectMushroom::MUSHROOM_HEIGHT = 32;
+const int ObjectMushroom::WIDTH = 32;
+const int ObjectMushroom::HEIGHT = 32;
 const int ObjectMushroom::FLAT_MUSHROOM_WIDTH = 32;
 const int ObjectMushroom::FLAT_MUSHROOM_HEIGHT = 32;
 

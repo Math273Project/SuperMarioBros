@@ -18,8 +18,10 @@ enum ObjectType
 	FLAT_MUSHROOM,
 	COIN,
 	ENEMY,
+	FLAT_ENEMY,
 	QUESTION,
 	BRICK,
+	BRICK_PIECE,
 	POWERUP,
 	PIPE
 	// etc...
@@ -27,11 +29,11 @@ enum ObjectType
 
 enum Direction
 {
-	NONE,
 	UP,
-	DOWN,
 	LEFT,
-	RIGHT
+	DOWN,
+	RIGHT,
+	NONE
 };
 
 class Object
@@ -39,7 +41,6 @@ class Object
 public:
 	virtual ~Object();
 	void setPosition(double x, double y);
-	Direction didCollide(const Object& object) const; // Check if two objects are collide									// return a collide direction
 	bool onTop(const Object& object) const; // check if this object is on the top of another object;
 	virtual void collide(const Object& object, Direction collideDirection) = 0;
 	double getx() const;
@@ -54,6 +55,7 @@ public:
 	void setHeight(int height);
 	void disable();
 	void enable();
+	bool isEnabled() const;
 	bool operator == (const Object& rhs) const;
 	virtual void destroy(); // add the object to dyingObject in arena class. 
 							// the object will be destroyed in arena class.
@@ -66,6 +68,7 @@ public:
 	virtual ObjectType getType() const = 0;
 	virtual int getPriority() const = 0;
 	virtual int getDyingDuration() const = 0;
+	void adjustPosition(const Object& object, Direction collideDirection); // Used for collision.
 protected:
 	double x_; 
 	double y_;

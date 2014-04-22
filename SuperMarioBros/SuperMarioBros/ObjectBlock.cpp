@@ -6,13 +6,11 @@ ObjectBlock::ObjectBlock(int id, int x, int y) : Object(id, x, y)
 	width_ = WIDTH;
 	height_ = HEIGHT;
 	enabled_ = true;
-	//initializeSprite(0, 0);
 }
 
 void ObjectBlock::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
-		return;
+
 }
 
 ObjectType ObjectBlock::getType() const

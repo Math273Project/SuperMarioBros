@@ -29,26 +29,24 @@ void ObjectCoin::destroy()
 
 void ObjectCoin::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
+	if (collideDirection == NONE)
 		return;
-	if (collideDirection != NONE)
+
+	switch (object.getType())
 	{
-		switch (object.getType())
+	case SMALL_MARIO:
+	case BIG_MARIO:
+	case SUPER_MARIO:
+		switch (collideDirection)
 		{
-		case SMALL_MARIO:
-		case BIG_MARIO:
-		case SUPER_MARIO:
-			switch (collideDirection)
-			{
-			case DOWN:
-				if (!enabled_)
-					y_ -= height_;
-				break;
-			default:
-				if (enabled_)
-					destroy();
-				break;
-			}
+		case DOWN:
+			if (!enabled_)
+				y_ -= height_;
+			break;
+		default:
+			if (enabled_)
+				destroy();
+			break;
 		}
 	}
 }

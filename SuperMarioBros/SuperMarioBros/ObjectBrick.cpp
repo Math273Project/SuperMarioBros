@@ -6,43 +6,50 @@ ObjectBrick::ObjectBrick(int id, int x, int y) : Object(id, x, y)
 	width_ = WIDTH;
 	height_ = HEIGHT;
 	enabled_ = true;
-	//initializeSprite(0, 0);
 }
 
 void ObjectBrick::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
+	if (collideDirection == NONE)
 		return;
-	if (collideDirection != NONE)
+	switch (object.getType())
 	{
-		switch (object.getType())
+	case SMALL_MARIO:
+	case BIG_MARIO:
+	case SUPER_MARIO:
+		switch (collideDirection)
 		{
-		case SMALL_MARIO:
-		case BIG_MARIO:
-		case SUPER_MARIO:
-			switch (collideDirection)
-			{
-			case UP:
-				destroy();
-				break;
-			}
+		case UP:
+			destroy();
 			break;
 		}
+		break;
 	}
 }
 
 ObjectType ObjectBrick::getType() const
 {
+	if (dying_)
+		return BRICK_PIECE;
 	return BRICK;
+}
+
+void ObjectBrick::changeType() 
+{
+	dying_ = true;
+	passable_ = true;
+	width_ = BRICK_PIECE_WIDTH;
+	height_ = BRICK_PIECE_HEIGHT;
 }
 
 int ObjectBrick::getPriority() const
 {
-	return PRIORITY; // change it later;
+	return PRIORITY;
 }
 
 void ObjectBrick::destroy()
 {
+	// working on
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);

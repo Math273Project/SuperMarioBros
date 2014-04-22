@@ -3,8 +3,8 @@
 
 ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy) // id 0, highest priority, moveable
 {
-	width_ = 32;
-	height_ = 64;
+	width_ = SMALL_MARIO_HEIGHT;
+	height_ = SMALL_MARIO_WIDTH;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 	type_ = SMALL_MARIO;
@@ -15,50 +15,56 @@ ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id
 
 void ObjectMario::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
+	if (collideDirection == NONE)
 		return;
-	if (collideDirection != NONE)
+
+	switch (object.getType())
 	{
-		switch (object.getType())
+	case BLOCK:
+	case PIPE:
+	case BRICK:
+	case QUESTION:
+		adjustPosition(object, collideDirection);
+		switch (collideDirection)
 		{
-		case BLOCK:
-			vx_ = vy_ = 0;
-			switch (collideDirection)
-			{
-			case UP:
-				y_ = object.gety() - height_;
-				break;
-			case DOWN:
-				y_ = object.gety() + object.getHeight();
-				break;
-			case LEFT:
-				x_ = object.getx() - width_;
-				break;
-			case RIGHT:
-				x_ = object.getx() + object.getWidth();
-				break;
-			}
+		case UP:
+			setvy(0);
 			break;
+		case DOWN:
+			setvy(0);
+			break;
+		case LEFT:
+			setvx(0);
+			break;
+		case RIGHT:
+			setvx(0);
+			break;
+		}
+		break;
 		
-		case ENEMY:
-			switch (collideDirection)
-			{
-			case LEFT:
-			case RIGHT:
-			case DOWN:
-				destroy();
-				break;
-			}
-		case POWERUP:
-			switch (type_)
-			{
-			case SMALL_MARIO:
-				setType(BIG_MARIO);
-				break;
-			case BIG_MARIO:
-				setType(SUPER_MARIO);
-				break;
-			}
+	case ENEMY:
+	case MUSHROOM:
+		adjustPosition(object, collideDirection);
+		switch (collideDirection)
+		{
+		case LEFT:
+		case RIGHT:
+		case DOWN:
+			destroy();
+			break;
+		case UP:
+			setvy(0);
+			break;
+		}
+	case POWERUP:
+		switch (type_)
+		{
+		case SMALL_MARIO:
+			setType(BIG_MARIO);
+			break;
+		case BIG_MARIO:
+			setType(SUPER_MARIO);
+			break;
 		}
 	}
 }
@@ -77,7 +83,7 @@ int ObjectMario::getPriority() const
 void ObjectMario::destroy()
 {
 	// need add more
-	vy_ = -100;
+	setvy(-100); //
 	facingDirection_ = UP;
 	passable_ = true;
 	Arena& arena = Arena::getUniqueInstance();
