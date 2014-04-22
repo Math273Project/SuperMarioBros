@@ -46,19 +46,39 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	mario_.setDegrees(0); 
 
 }
+
 void MarioGame::update()
 {
 	Arena& arena = Arena::getUniqueInstance();
 	mario_.update(frameTime_);
-	arena.move(frameTime_*1000);
-	mario_.setX(arena.getMario()->getx()); // move mario right
-	if (arena.getMario()->getx() > GAME_WIDTH) // If offscreen right
+
+	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
-		arena.getMario()->setx(-arena.getMario()->getWidth());
-		mario_.setX(arena.getMario()->getx());// Position off screen left
-		mario_.setScale(MARIO_SCALE); // Set to starting size
+		arena.move(frameTime_ * 1000);
+		arena.getMario()->setvx(100);
+		mario_.setX(arena.getMario()->getx()); // move mario right
+
+		if (arena.getMario()->getx() > GAME_WIDTH) // If offscreen right
+		{
+			arena.getMario()->setx(-arena.getMario()->getWidth());
+			mario_.setX(arena.getMario()->getx());// Position off screen left
+			mario_.setScale(MARIO_SCALE); // Set to starting size
+		}
 	}
-	mario_.update(frameTime_);
+
+	if (input_->isKeyDown(MOVE_LEFT_KEY))
+	{
+		arena.move(frameTime_ * 1000);
+		arena.getMario()->setvx(-100);
+		mario_.setX(arena.getMario()->getx());
+
+		if (arena.getMario()->getx() < 0)
+		{
+			arena.getMario()->setx(arena.getMario()->getWidth());
+			mario_.setX(arena.getMario()->getx());
+			mario_.setScale(MARIO_SCALE);
+		}
+	}
 }
 
 void MarioGame::render()

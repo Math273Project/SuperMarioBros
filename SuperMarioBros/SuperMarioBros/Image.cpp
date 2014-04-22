@@ -34,6 +34,7 @@ Image::Image()
 
 Image::~Image()
 {
+
 }
 
 bool Image::initialize(Graphics* graphics, int width, int height, int ncols,

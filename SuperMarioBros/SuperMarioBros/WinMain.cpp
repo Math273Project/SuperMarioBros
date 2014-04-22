@@ -1,7 +1,7 @@
 #include "MarioGame.h"
 
-MarioGame* marioGame = new MarioGame();
-HWND hWnd;
+MarioGame* marioGame = NULL;
+HWND hWnd = NULL;
 
 //function prototypes
 bool CreateMainWindow(HWND& hWnd, HINSTANCE hInstance, int nCmdShow, bool fullscreen);
@@ -12,7 +12,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 {
 	
 	MSG msg;
-
+	marioGame = new MarioGame;
 	bool fullscreen = false;
 
 	if (AnotherInstance())
