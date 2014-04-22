@@ -10,26 +10,24 @@ ObjectQuestion::ObjectQuestion(int id, int x, int y) : Object(id, x, y)
 
 void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
+	if (collideDirection == NONE) //  need more working
 		return;
-	if (collideDirection != NONE)
+
+	switch (object.getType())
 	{
-		switch (object.getType())
+	case SMALL_MARIO:
+	case BIG_MARIO:
+	case SUPER_MARIO:
+		switch (collideDirection)
 		{
-		case SMALL_MARIO:
-		case BIG_MARIO:
-		case SUPER_MARIO:
-			switch (collideDirection)
+		case UP:
+			if (changed_)
 			{
-			case UP:
-				if (changed_)
-				{
-					// change to block
-				}
-				break;
+
 			}
 			break;
 		}
+		break;
 	}
 }
 

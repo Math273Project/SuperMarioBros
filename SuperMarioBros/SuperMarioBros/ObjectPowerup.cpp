@@ -11,28 +11,16 @@ ObjectPowerup::ObjectPowerup(int id, int x, int y, int vx, int vy) : MovingObjec
 
 void ObjectPowerup::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
+	if (collideDirection == NONE)
 		return;
-	if (collideDirection != NONE)
-	{
-		switch (object.getType())
-		{
-		case BLOCK:
-			switch (collideDirection)
-			{
-			case LEFT:
-			case RIGHT:
-				setvx(-vx_);
-				break;
-			}
-			break;
 
-		case SMALL_MARIO:
-		case BIG_MARIO:
-		case SUPER_MARIO:
-			destroy();
-			break;
-		}
+	switch (object.getType())
+	{
+	case SMALL_MARIO:
+	case BIG_MARIO:
+	case SUPER_MARIO:
+		destroy();
+		break;
 	}
 }
 

@@ -12,9 +12,13 @@ public:
 	int getPriority() const override;
 	void destroy() override;
 	int getDyingDuration() const override;
+	void changeType();
 protected:
+	bool dying_;
 	static const int DYING_DURATION;
 	static const int PRIORITY;
 	static const int WIDTH;
 	static const int HEIGHT;
+	static const int BRICK_PIECE_WIDTH;
+	static const int BRICK_PIECE_HEIGHT;
 };

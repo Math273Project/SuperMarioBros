@@ -16,7 +16,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	Game::initialize(hWnd, fullscreen);
 	//Initialze textures
 	Arena& arena = Arena::getUniqueInstance();
-	ObjectMario* objectMario = new ObjectMario(0, 50, 490, MARIO_SPEED, 0);
+	ObjectMario* objectMario = new ObjectMario(0, 50, 490, (int)MARIO_SPEED, 0);
 	arena.pushBack(objectMario);
 	//Initialize textures
 	if (!marioTexture_.initialize(graphics_, "Textures\\Robot_Mario.bmp"))
@@ -48,7 +48,12 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 }
 void MarioGame::update()
 {
+	Image temp;
 	Arena& arena = Arena::getUniqueInstance();
+	//for (auto i = arena.getMovingObjects().begin(); i != arena.getMovingObjects().end(); i++)
+	//{
+	//	temp.initialize(graphics_, (*i)->getWidth(), (*i)->getHeight(), 1, );
+	//}
 	mario_.update(frameTime_);
 	arena.move(frameTime_*1000);
 	mario_.setX(arena.getMario()->getx()); // move mario right

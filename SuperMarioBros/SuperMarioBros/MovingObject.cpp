@@ -55,3 +55,20 @@ MovingObject::MovingObject(int id, int x, int y, int vx, int vy) : Object(id, x,
 {
 
 }
+
+Direction MovingObject::didCollide(const Object& object) const // Check if two objects are collide
+{
+	if (!enabled_ || !object.isEnabled())
+		return NONE;
+	if (passable_ || object.passable())
+		return NONE;
+	if (vy_ > 0 && object.gety() <= y_ + height_ - 1 && y_ + height_ - 1 <= object.gety() + object.getHeight() - 1)
+		return UP;
+	if (vy_ < 0 && object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1)
+		return DOWN;
+	if (vx_ > 0 && object.getx() <= x_ + width_ - 1 && x_ + width_ - 1 <= object.getx() + object.getWidth() - 1)
+		return LEFT;
+	if (vx_ < 0 && object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1)
+		return RIGHT;
+	return NONE;
+}

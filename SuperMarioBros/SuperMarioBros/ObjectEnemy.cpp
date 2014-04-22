@@ -11,48 +11,73 @@ ObjectEnemy::ObjectEnemy(int id, int x, int y, int vx, int vy) : MovingObject(id
 
 void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
+	if (collideDirection == NONE)
 		return;
-	if (collideDirection != NONE)
+	
+	switch (object.getType())
 	{
-		switch (object.getType())
+	case BLOCK:
+	case BRICK:
+	case PIPE:
+		adjustPosition(object, collideDirection);
+		switch (collideDirection)
 		{
-		case BLOCK:
-			switch (collideDirection)
-			{
-			case LEFT:
-			case RIGHT:
-				setvx(-vx_);
-				break;
-			}
-		break;
-
-		case SMALL_MARIO:
-		case BIG_MARIO:
-		case SUPER_MARIO:
-			switch (collideDirection)
-			{
-			case DOWN:
-				destroy();
-				break;
-			}
+		case UP:
+			setvy(0);
+			break;
+		case DOWN:
+			setvy(0);
+			break;
+		case LEFT:
+			setvx(-vx_);
+			break;
+		case RIGHT:
+			setvx(-vx_);
 			break;
 		}
+		break;
+
+	case SMALL_MARIO:
+	case BIG_MARIO:
+	case SUPER_MARIO:
+		switch (collideDirection)
+		{
+		case DOWN:
+			destroy();
+			break;
+		case UP:
+		case LEFT:
+		case RIGHT:
+			break;
+		}
+		break;
 	}
 }
 
 ObjectType ObjectEnemy::getType() const
 {
+	if (dying_)
+		return FLAT_ENEMY;
 	return ENEMY;
 }
 
 int ObjectEnemy::getPriority() const
 {
-	return 5; // change it later
+	return PRIORITY; // change it later
+}
+
+void ObjectEnemy::changeType()
+{
+	dying_ = true;
+	width_ = FLAT_ENEMY_WIDTH;
+	height_ = FLAT_ENEMY_HEIGHT;
 }
 
 void ObjectEnemy::destroy() 
 {
+	changeType();
+	setvx(0);
+	setvy(0);
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);

@@ -12,17 +12,17 @@ Arena::Arena()
 
 void Arena::collisionDetection() // Do collisionDetection of every objects in Arena
 {
-	Direction collideDirection1, collideDirection2;
+	Direction collideDirection1 = NONE, collideDirection2 = NONE;
 	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
 	{
 		for (auto& j = staticObjects_.begin(); j != staticObjects_.end(); ++j)
 		{
 			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
-				(*i)->collide(**j, collideDirection1);
-			collideDirection2 = (*j)->didCollide(**i);
-			if (collideDirection2 != NONE)
-				(*j)->collide(**i, collideDirection2);
+				collideDirection2 = (Direction)((collideDirection1 + 2) % 4);
+
+			(*i)->collide(**j, collideDirection1);
+			(*j)->collide(**i, collideDirection2);
 		}
 	}
 	for (auto i = movingObjects_.begin(), j = i; i != movingObjects_.end(); ++i)
@@ -31,10 +31,16 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 		{
 			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
-				(*i)->collide(**j, collideDirection1);
-			collideDirection2 = (*j)->didCollide(**i);
-			if (collideDirection2 != NONE)
-				(*j)->collide(**i, collideDirection2);
+				collideDirection2 = (Direction)((collideDirection1 + 2) % 4);
+			else
+			{
+				collideDirection2 = (*j)->didCollide(**i);
+				if (collideDirection2 != NONE)
+					collideDirection1 = (Direction)((collideDirection2 + 2) % 4);
+			}
+
+			(*i)->collide(**j, collideDirection1);
+			(*j)->collide(**i, collideDirection2);
 		}
 	}
 }
@@ -120,9 +126,27 @@ void Arena::pushDyingObjectData(const DyingObjectData& data)
 	dyingObjectData_.push_back(data);
 }
 
+/*
 MovingObject* Arena::getMario() const
 {
 	return mario_;
+}*/
+
+void Arena::setMarioVx(double vx)
+{
+	if (mario_ != nullptr)
+		mario_->setvx(vx);
+}
+
+void Arena::setMarioVy(double vy)
+{
+	if (mario_ != nullptr)
+		mario_->setvy(vy);
+}
+
+bool Arena::isGameOver() const
+{
+	return mario_ == nullptr;
 }
 
 const std::list<MovingObject*>& Arena::getMovingObjects() const

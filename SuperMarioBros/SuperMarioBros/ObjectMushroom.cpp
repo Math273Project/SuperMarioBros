@@ -3,47 +3,51 @@
 
 ObjectMushroom::ObjectMushroom(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = MUSHROOM_WIDTH;
-	height_ = MUSHROOM_HEIGHT;
+	width_ = WIDTH;
+	height_ = HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
 
 void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 {
-	if (passable_ || object.passable())
+	if (collideDirection == NONE)
 		return;
-	if (collideDirection != NONE)
-	{
-		switch (object.getType())
-		{
-		case BLOCK:
-			switch (collideDirection)
-			{
-			case LEFT:
-			case RIGHT:
-				setvx(-vx_);
-				break;
-			}
-			break;
 
-		case SMALL_MARIO:
-		case BIG_MARIO:
-		case SUPER_MARIO:
-			switch (collideDirection)
-			{
-			case DOWN:
-				changeType();
-				break;
-			}
+	switch (object.getType())
+	{
+	case BLOCK:
+	case PIPE:
+	case BRICK:
+	case QUESTION:
+		switch (collideDirection)
+		{
+		case LEFT:
+		case RIGHT:
+			setvx(-vx_);
+			break;
+		case UP:
+		case DOWN:
+			setvy(0);
+		}
+		break;
+
+	case SMALL_MARIO:
+	case BIG_MARIO:
+	case SUPER_MARIO:
+		switch (collideDirection)
+		{
+		case DOWN:
+			destroy();
 			break;
 		}
+		break;
 	}
 }
 
 ObjectType ObjectMushroom::getType() const
 {
-	if (changed_)
+	if (dying_)
 		return FLAT_MUSHROOM;
 	return MUSHROOM;
 }
@@ -55,6 +59,8 @@ int ObjectMushroom::getPriority() const
 
 void ObjectMushroom::destroy()
 {
+	setvx(0);
+	setvy(0);
 	changeType();
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
@@ -65,7 +71,7 @@ void ObjectMushroom::destroy()
 
 void ObjectMushroom::changeType() // change mushroom to flat mushroom, change sprite
 {
-	changed_ = true;
+	dying_ = true;
 	width_ = FLAT_MUSHROOM_WIDTH;
 	height_ = FLAT_MUSHROOM_HEIGHT;
 }
