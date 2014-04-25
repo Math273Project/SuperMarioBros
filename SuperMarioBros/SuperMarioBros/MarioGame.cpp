@@ -38,8 +38,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing background"));
 	}
 
-	mario_.setX(arena.getMario()->getx());     
-	mario_.setY(arena.getMario()->gety()); //get rid of magic constant
+	//mario_.setX(arena.getMario()->getx());     
+	//mario_.setY(arena.getMario()->gety()); //get rid of magic constant
 	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
@@ -56,13 +56,13 @@ void MarioGame::update()
 	//}
 	mario_.update(frameTime_);
 	arena.move(frameTime_*1000);
-	mario_.setX(arena.getMario()->getx()); // move mario right
-	if (arena.getMario()->getx() > GAME_WIDTH) // If offscreen right
-	{
-		arena.getMario()->setx(-arena.getMario()->getWidth());
-		mario_.setX(arena.getMario()->getx());// Position off screen left
-		mario_.setScale(MARIO_SCALE); // Set to starting size
-	}
+	//mario_.setX(arena.getMario()->getx()); // move mario right
+	//if (arena.getMario()->getx() > GAME_WIDTH) // If offscreen right
+	//{
+		//arena.getMario()->setx(-arena.getMario()->getWidth());
+		//mario_.setX(arena.getMario()->getx());// Position off screen left
+		//mario_.setScale(MARIO_SCALE); // Set to starting size
+	//}
 	mario_.update(frameTime_);
 }
 

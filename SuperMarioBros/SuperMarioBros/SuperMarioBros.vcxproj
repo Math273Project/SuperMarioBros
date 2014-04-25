@@ -21,6 +21,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectBlock.cpp" />
     <ClCompile Include="ObjectBrick.cpp" />
+    <ClCompile Include="ObjectBullet.cpp" />
     <ClCompile Include="ObjectCoin.cpp" />
     <ClCompile Include="ObjectConstants.cpp" />
     <ClCompile Include="ObjectEnemy.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="ObjectPipe.cpp" />
     <ClCompile Include="ObjectPowerup.cpp" />
     <ClCompile Include="ObjectQuestion.cpp" />
+    <ClCompile Include="ObjectTurtle.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -45,6 +47,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectBlock.h" />
     <ClInclude Include="ObjectBrick.h" />
+    <ClInclude Include="ObjectBullet.h" />
     <ClInclude Include="ObjectCoin.h" />
     <ClInclude Include="ObjectEnemy.h" />
     <ClInclude Include="ObjectMario.h" />
@@ -52,6 +55,7 @@
     <ClInclude Include="ObjectPipe.h" />
     <ClInclude Include="ObjectPowerup.h" />
     <ClInclude Include="ObjectQuestion.h" />
+    <ClInclude Include="ObjectTurtle.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>

@@ -23,13 +23,21 @@ int ObjectPipe::getPriority() const
 	return PRIORITY; // change it later
 }
 
-void ObjectPipe::destroy()
+void ObjectPipe::destroy(bool instantDestroy)
 {
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
-	DyingObjectData data(this, time.QuadPart, DYING_DURATION);
-	arena.pushDyingObjectData(data);
+	if (!instantDestroy)
+	{
+		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		arena.pushDyingObjectData(data);
+	}
+	else
+	{
+		DyingObjectData data(this, time.QuadPart, 0);
+		arena.pushDyingObjectData(data);
+	}
 }
 
 int ObjectPipe::getDyingDuration() const

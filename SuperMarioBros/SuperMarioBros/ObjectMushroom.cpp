@@ -16,6 +16,9 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
+	case BULLET:
+		destroy(true);
+		break;
 	case BLOCK:
 	case PIPE:
 	case BRICK:
@@ -57,7 +60,7 @@ int ObjectMushroom::getPriority() const
 	return PRIORITY; // change it later
 }
 
-void ObjectMushroom::destroy()
+void ObjectMushroom::destroy(bool instantDestroy)
 {
 	setvx(0);
 	setvy(0);
@@ -65,8 +68,16 @@ void ObjectMushroom::destroy()
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
-	DyingObjectData data(this, time.QuadPart, DYING_DURATION);
-	arena.pushDyingObjectData(data);
+	if (!instantDestroy)
+	{
+		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		arena.pushDyingObjectData(data);
+	}
+	else
+	{
+		DyingObjectData data(this, time.QuadPart, 0);
+		arena.pushDyingObjectData(data);
+	}
 }
 
 void ObjectMushroom::changeType() // change mushroom to flat mushroom, change sprite

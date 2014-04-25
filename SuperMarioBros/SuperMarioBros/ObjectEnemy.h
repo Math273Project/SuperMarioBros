@@ -9,9 +9,9 @@ public:
 	void collide(const Object& object, Direction collideDirection) override;
 	ObjectType getType() const override;
 	int getPriority() const override;
-	void destroy() override;
+	void destroy(bool instantDestroy = false) override;
 	int getDyingDuration() const override;
-	void changeType(); // change mushroom to flat mushroom, change sprite
+	void changeType(); 
 protected:
 	bool dying_; // if the enemy is dying or not.
 	static const int DYING_DURATION;

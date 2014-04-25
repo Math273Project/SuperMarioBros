@@ -47,16 +47,16 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 
 void Arena::freeFall(double time)
 {
-	bool onTop = false;
+	bool onTopOrCollide = false;
 	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
 	{
-		onTop = false;
-		for (auto& j = staticObjects_.begin() ; j != staticObjects_.end() && !onTop; ++j)
+		onTopOrCollide = false;
+		for (auto& j = staticObjects_.begin(); j != staticObjects_.end() && !onTopOrCollide; ++j)
 		{
-			if ((*i)->onTop(**j))
-				onTop = true;
+			if ((*i)->onTop(**j) || (*i)->didCollide(**j) != NONE)
+				onTopOrCollide = true;
 		}
-		if (!onTop)
+		if (!onTopOrCollide)
 			(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
 	}
 }

@@ -43,14 +43,22 @@ int ObjectQuestion::getPriority() const
 	return PRIORITY; // change it later
 }
 
-void ObjectQuestion::destroy()
+void ObjectQuestion::destroy(bool instantDestroy)
 {
 	// change width, height, sprite,
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
-	DyingObjectData data(this, time.QuadPart, DYING_DURATION);
-	arena.pushDyingObjectData(data);
+	if (!instantDestroy)
+	{
+		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		arena.pushDyingObjectData(data);
+	}
+	else
+	{
+		DyingObjectData data(this, time.QuadPart, 0);
+		arena.pushDyingObjectData(data);
+	}
 }
 
 int ObjectQuestion::getDyingDuration() const

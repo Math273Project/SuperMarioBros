@@ -47,14 +47,22 @@ int ObjectBrick::getPriority() const
 	return PRIORITY;
 }
 
-void ObjectBrick::destroy()
+void ObjectBrick::destroy(bool instantDestroy)
 {
 	// working on
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
-	DyingObjectData data(this, time.QuadPart, DYING_DURATION);
-	arena.pushDyingObjectData(data);
+	if (!instantDestroy)
+	{
+		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		arena.pushDyingObjectData(data);
+	}
+	else
+	{
+		DyingObjectData data(this, time.QuadPart, 0);
+		arena.pushDyingObjectData(data);
+	}
 }
 
 int ObjectBrick::getDyingDuration() const

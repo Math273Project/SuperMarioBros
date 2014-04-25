@@ -2,22 +2,22 @@
 
 #include "MovingObject.h"
 
-class ObjectMushroom : public MovingObject
+class ObjectTurtle : public MovingObject
 {
 public:
-	ObjectMushroom(int id, int x, int y, int vx, int vy);
+	ObjectTurtle(int id, int x, int y, int vx, int vy);
 	void collide(const Object& object, Direction collideDirection) override;
 	ObjectType getType() const override;
 	int getPriority() const override;
 	void destroy(bool instantDestroy = false) override;
 	int getDyingDuration() const override;
+	void changeType();
 protected:
-	bool dying_; // if the mushroom is dying or not.
-	void changeType(); // change mushroom to flat mushroom(Dying mushroom)
+	bool spining_; // if the turtle is spining or not.
 	static const int DYING_DURATION;
 	static const int PRIORITY;
 	static const int WIDTH;
 	static const int HEIGHT;
-	static const int FLAT_MUSHROOM_WIDTH;
-	static const int FLAT_MUSHROOM_HEIGHT;
-}; 
+	static const int SPIN_TURTLE_WIDTH;
+	static const int SPIN_TURTLE_HEIGHT;
+};

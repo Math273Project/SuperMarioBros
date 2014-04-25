@@ -25,8 +25,7 @@ void Object::collide(const Object& object, Direction collideDirection)
 
 bool Object::onTop(const Object& object) const
 {
-	return y_ + height_ - 2 == object.y_ || 
-		(object.y_ <= y_ + height_ - 1 && y_ + height_ - 1 <= object.y_ + object.height_ - 1);
+	return y_ + height_== object.y_;
 }
 
 double Object::getx() const
@@ -98,7 +97,7 @@ bool Object::operator ==(const Object& rhs) const
 	return id_ == rhs.id_;
 }
 
-void Object::destroy()
+void Object::destroy(bool instantDestroy)
 {
 	
 }
@@ -142,4 +141,21 @@ void Object::adjustPosition(const Object& object, Direction collideDirection)
 bool Object::isEnabled() const
 {
 	return enabled_;
+}
+
+Direction Object::didCollide(const Object& object) const // Check if two objects are collide
+{
+	if (!enabled_ || !object.isEnabled())
+		return NONE;
+	if (passable_ || object.passable())
+		return NONE;
+	if (object.gety() <= y_ + height_ - 1 && y_ + height_ <= object.gety() + object.getHeight())
+		return UP;
+	if (object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1)
+		return DOWN;
+	if (object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth())
+		return LEFT;
+	if (object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1)
+		return RIGHT;
+	return NONE;
 }

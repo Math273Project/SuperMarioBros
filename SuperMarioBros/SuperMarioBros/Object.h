@@ -23,7 +23,10 @@ enum ObjectType
 	BRICK,
 	BRICK_PIECE,
 	POWERUP,
-	PIPE
+	PIPE,
+	TURTLE,
+	SPIN_TURTLE,
+	BULLET,
 	// etc...
 };
 
@@ -43,6 +46,7 @@ public:
 	void setPosition(double x, double y);
 	bool onTop(const Object& object) const; // check if this object is on the top of another object;
 	virtual void collide(const Object& object, Direction collideDirection) = 0;
+	Direction didCollide(const Object& object) const; // Check if two objects are collide, return a collide direction
 	double getx() const;
 	double gety() const;
 	int getWidth() const;
@@ -57,7 +61,7 @@ public:
 	void enable();
 	bool isEnabled() const;
 	bool operator == (const Object& rhs) const;
-	virtual void destroy(); // add the object to dyingObject in arena class. 
+	virtual void destroy(bool instantDestroy); // add the object to dyingObject in arena class. 
 							// the object will be destroyed in arena class.
 							//call it when, example: Mario is killed, Block is destoryed
 							// and split to severl pieces or

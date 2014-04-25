@@ -20,6 +20,9 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
+	case BULLET:
+		destroy(true);
+		break;
 	case BLOCK:
 	case PIPE:
 	case BRICK:
@@ -80,17 +83,25 @@ int ObjectMario::getPriority() const
 	return PRIORITY;
 }
 
-void ObjectMario::destroy()
+void ObjectMario::destroy(bool instantDestroy)
 {
 	// need add more
-	setvy(-100); //
+	setvy(-100); // mario jumps and die
 	facingDirection_ = UP;
 	passable_ = true;
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
-	DyingObjectData data(this, time.QuadPart, DYING_DURATION);
-	arena.pushDyingObjectData(data);
+	if (!instantDestroy)
+	{
+		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		arena.pushDyingObjectData(data);
+	}
+	else
+	{
+		DyingObjectData data(this, time.QuadPart, 0);
+		arena.pushDyingObjectData(data);
+	}
 }
 
 void ObjectMario::setType(ObjectType type)

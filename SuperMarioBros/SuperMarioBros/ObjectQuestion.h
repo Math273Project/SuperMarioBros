@@ -10,7 +10,7 @@ public:
 	void collide(const Object& object, Direction collideDirection);
 	ObjectType getType() const override;
 	int getPriority() const override;
-	void destroy() override;
+	void destroy(bool instantDestroy = false) override;
 	int getDyingDuration() const override;
 protected:
 	bool changed_;
