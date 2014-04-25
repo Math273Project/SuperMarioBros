@@ -38,8 +38,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 		throw(GameError(gameErrors::FATAL_ERROR, "Error initializing background"));
 	}
 
-	mario_.setX(arena.getMario()->getx());     
-	mario_.setY(arena.getMario()->gety()); //get rid of magic constant
+	mario_.setX(50);     
+	mario_.setY(490); //get rid of magic constant
 	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
@@ -51,17 +51,36 @@ void MarioGame::update()
 {
 	Image temp;
 	Arena& arena = Arena::getUniqueInstance();
-	//for (auto i = arena.getMovingObjects().begin(); i != arena.getMovingObjects().end(); i++)
-	//{
-	//	temp.initialize(graphics_, (*i)->getWidth(), (*i)->getHeight(), 1, );
-	//}
+	for (const auto& i : arena.getMovingObjects())
+	{
+		switch (i->getType())
+		{
+		case SMALL_MARIO:
+			temp.initialize(graphics_, (*i).getWidth(), (*i).getHeight(), 1, &marioTexture_);
+			break;
+		default:
+			break;
+		}
+	}
+
+	for (const auto& i : arena.getStaticObjects())
+	{
+		switch (i->getType())
+		{
+		case SMALL_MARIO:
+			break;
+		default:
+			break;
+		}
+	}
 	mario_.update(frameTime_);
 
 	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
 		arena.move(frameTime_ * 1000);
-		arena.getMario()->setvx(100);
-		mario_.setX(arena.getMario()->getx()); // move mario right
+		arena.collisionDetection();
+
+		mario_.setX(arena); // move mario right
 
 		if (arena.getMario()->getx() > GAME_WIDTH) // If offscreen right
 		{
@@ -74,7 +93,7 @@ void MarioGame::update()
 	if (input_->isKeyDown(MOVE_LEFT_KEY))
 	{
 		arena.move(frameTime_ * 1000);
-		arena.getMario()->setvx(-100);
+		arena.getMario()->setvx(-MARIO_SPEED);
 		mario_.setX(arena.getMario()->getx());
 
 		if (arena.getMario()->getx() < 0)

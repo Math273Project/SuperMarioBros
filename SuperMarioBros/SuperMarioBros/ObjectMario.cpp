@@ -8,9 +8,6 @@ ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 	type_ = SMALL_MARIO;
-	//initializeSprite(0, 0);
-
-	// need sprite
 }
 
 void ObjectMario::collide(const Object& object, Direction collideDirection)
