@@ -10,9 +10,9 @@ const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
 // Texture constants
 
-const char* BACKGROUND_START = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
-const char* MARIO_TEXTURE = "Textures\\Robot_Mario.bmp";
-const char* BLOCKS = "Textures\\Blocks.bmp";
+const char BACKGROUND_START[] = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
+const char MARIO_TEXTURE[] = "Textures\\Robot_Mario.bmp";
+const char BLOCKS[] = "Textures\\Blocks.bmp";
 
 // Sprite constants
 

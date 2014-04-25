@@ -22,10 +22,10 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	arena.pushBack(objectMario);
 
 	//Initialize textures
-
+	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
 	backgroundTexture_.initialize(graphics_, BACKGROUND_START); //background will be split in multiple parts
-	enemyTexture_.initialize(graphics_, /*temporary*/MARIO_TEXTURE);
+	enemyTexture_.initialize(graphics_, MARIO_TEXTURE);
 
 
 	//Initialize images
@@ -40,12 +40,13 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);
 
-	enemy_.setX(50);
+	enemy_.setX(200);
 	enemy_.setY(490);
 	enemy_.setFrames(SMALL_MARIO_START_FRAME, SMALL_MARIO_END_FRAME);
 	enemy_.setCurrentFrame(SMALL_MARIO_START_FRAME);
 	enemy_.setFrameDelay(SMALL_MARIO_ANIMATION_DELAY);
 	enemy_.setDegrees(0);
+	
 
 }
 
@@ -62,16 +63,12 @@ void MarioGame::update()
 		{
 		case SMALL_MARIO:
 			temp.initialize(graphics_, (*i).getWidth(), (*i).getHeight(), 1, &marioTexture_);
-			break;
-		case BIG_MARIO:
-			temp.initialize(graphics_, (*i).getWidth(), (*i).getHeight(), 1, &marioTexture_);
-			break;
-		case SUPER_MARIO:
-			temp.initialize(graphics_, (*i).getWidth(), (*i).getHeight(), 1, &marioTexture_);
-			break;
-		case BLOCK:
-			temp.initialize(graphics_, (*i).getWidth(), (*i).getHeight(), 1, &marioTexture_);
-		default:
+			temp.setX(i->getx());
+			temp.setY(i->gety());
+			temp.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
+			temp.setCurrentFrame(MARIO_START_FRAME);     // starting frame
+			temp.setFrameDelay(MARIO_ANIMATION_DELAY);
+			temp.setDegrees(0);
 			break;
 		}
 	}
@@ -91,7 +88,7 @@ void MarioGame::update()
 	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
 		arena.move(frameTime_ * 1000);
-		arena.collisionDetection();
+//		arena.collisionDetection();
 
 		/*mario_.setX(arena); // move mario right
 
