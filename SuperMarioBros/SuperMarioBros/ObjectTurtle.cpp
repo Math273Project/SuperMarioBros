@@ -1,7 +1,7 @@
-#include "ObjectEnemy.h"
+#include "ObjectTurtle.h"
 #include "Arena.h"
 
-ObjectEnemy::ObjectEnemy(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
+ObjectTurtle::ObjectTurtle(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
 	width_ = WIDTH;
 	height_ = HEIGHT;
@@ -9,13 +9,16 @@ ObjectEnemy::ObjectEnemy(int id, int x, int y, int vx, int vy) : MovingObject(id
 	facingDirection_ = RIGHT;
 }
 
-void ObjectEnemy::collide(const Object& object, Direction collideDirection)
+void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 {
 	if (collideDirection == NONE)
 		return;
-	
+
 	switch (object.getType())
 	{
+	case BULLET:
+		destroy(true);
+		break;
 	case BLOCK:
 	case BRICK:
 	case PIPE:
@@ -40,36 +43,49 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 	case SMALL_MARIO:
 	case BIG_MARIO:
 	case SUPER_MARIO:
-		switch (collideDirection)
+		if (!spining_)
 		{
-		case DOWN:
-			destroy();
-			break;
+			switch (collideDirection)
+			{
+			case DOWN:
+				changeType();
+				break;
+			}
+		}
+		else
+		{
+			switch (collideDirection)
+			{
+			case DOWN:
+				destroy();
+				break;
+			}
 		}
 		break;
 	}
 }
 
-ObjectType ObjectEnemy::getType() const
+ObjectType ObjectTurtle::getType() const
 {
-	if (dying_)
-		return FLAT_ENEMY;
-	return ENEMY;
+	if (spining_)
+		return SPIN_TURTLE;
+	return TURTLE;
 }
 
-int ObjectEnemy::getPriority() const
+int ObjectTurtle::getPriority() const
 {
-	return PRIORITY;
+	return PRIORITY; // change it later
 }
 
-void ObjectEnemy::changeType()
+void ObjectTurtle::changeType()
 {
-	dying_ = true;
-	width_ = FLAT_ENEMY_WIDTH;
-	height_ = FLAT_ENEMY_HEIGHT;
+	spining_ = true;
+	width_ = SPIN_TURTLE_WIDTH;
+	height_ = SPIN_TURTLE_HEIGHT;
+	setvx(100); // change the number later
 }
 
-void ObjectEnemy::destroy(bool instantDestroy)
+void ObjectTurtle::destroy(bool instantDestroy)
 {
 	changeType();
 	setvx(0);
@@ -89,7 +105,7 @@ void ObjectEnemy::destroy(bool instantDestroy)
 	}
 }
 
-int ObjectEnemy::getDyingDuration() const
+int ObjectTurtle::getDyingDuration() const
 {
 	return DYING_DURATION;
 }

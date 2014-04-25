@@ -1,5 +1,6 @@
 #include "ObjectBlock.h"
 #include "ObjectBrick.h"
+#include "ObjectBullet.h"
 #include "ObjectCoin.h"
 #include "ObjectBlock.h"
 #include "ObjectBrick.h"
@@ -11,6 +12,7 @@
 #include "ObjectPipe.h"
 #include "ObjectPowerup.h"
 #include "ObjectQuestion.h"
+#include "ObjectTurtle.h"
 
 const int ObjectBlock::DYING_DURATION = 500;
 const int ObjectBlock::PRIORITY = 5;
@@ -23,6 +25,11 @@ const int ObjectBrick::WIDTH = 32;
 const int ObjectBrick::HEIGHT = 32;
 const int ObjectBrick::BRICK_PIECE_WIDTH = 32;
 const int ObjectBrick::BRICK_PIECE_HEIGHT = 32;
+
+const int ObjectBullet::DYING_DURATION = 32;
+const int ObjectBullet::PRIORITY = 32;
+const int ObjectBullet::WIDTH = 32;
+const int ObjectBullet::HEIGHT = 32;
 
 const int ObjectCoin::DYING_DURATION = 500;
 const int ObjectCoin::PRIORITY = 5;
@@ -66,3 +73,10 @@ const int ObjectQuestion::DYING_DURATION = 500;
 const int ObjectQuestion::PRIORITY = 5;
 const int ObjectQuestion::WIDTH = 32;
 const int ObjectQuestion::HEIGHT = 32;
+
+const int ObjectTurtle::DYING_DURATION = 500;
+const int ObjectTurtle::PRIORITY = 5;
+const int ObjectTurtle::WIDTH = 32;
+const int ObjectTurtle::HEIGHT = 32;
+const int ObjectTurtle::SPIN_TURTLE_WIDTH = 32;
+const int ObjectTurtle::SPIN_TURTLE_HEIGHT = 32;

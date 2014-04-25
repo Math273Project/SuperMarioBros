@@ -1,4 +1,5 @@
 #pragma once
+
 //directx constants
 
 const double PI = 3.14159265;
@@ -7,8 +8,15 @@ const double MIN_FRAME_RATE = 10.0;
 const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
 const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
+// Texture constants
+
+const char* BACKGROUND_START = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
+const char* MARIO_TEXTURE = "Textures\\Robot_Mario.bmp";
+const char* BLOCKS = "Textures\\Blocks.bmp";
+
 //Sprite constants
 
+//Big and Super Mario
 const int  MARIO_START_FRAME = 0;            // starting frame of Mario animation
 const int  MARIO_END_FRAME = 7;              // last frame of Mario animation
 const double MARIO_ANIMATION_DELAY = 0.25;    // time between frames of Mario animation

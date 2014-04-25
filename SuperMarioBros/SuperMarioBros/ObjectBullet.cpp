@@ -1,7 +1,7 @@
-#include "ObjectPowerup.h"
+#include "ObjectBullet.h"
 #include "Arena.h"
 
-ObjectPowerup::ObjectPowerup(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
+ObjectBullet::ObjectBullet(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
 	width_ = WIDTH;
 	height_ = HEIGHT;
@@ -9,33 +9,33 @@ ObjectPowerup::ObjectPowerup(int id, int x, int y, int vx, int vy) : MovingObjec
 	facingDirection_ = RIGHT;
 }
 
-void ObjectPowerup::collide(const Object& object, Direction collideDirection)
+void ObjectBullet::collide(const Object& object, Direction collideDirection)
 {
 	if (collideDirection == NONE)
 		return;
 
 	switch (object.getType())
 	{
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	default:
 		destroy();
 		break;
 	}
 }
 
-ObjectType ObjectPowerup::getType() const
+ObjectType ObjectBullet::getType() const
 {
-	return POWERUP;
+	return BULLET;
 }
 
-int ObjectPowerup::getPriority() const
+int ObjectBullet::getPriority() const
 {
-	return PRIORITY; // change it later
+	return PRIORITY;
 }
 
-void ObjectPowerup::destroy(bool instantDestroy)
+void ObjectBullet::destroy(bool instantDestroy)
 {
+	setvx(0);
+	setvy(0);
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
@@ -51,7 +51,7 @@ void ObjectPowerup::destroy(bool instantDestroy)
 	}
 }
 
-int ObjectPowerup::getDyingDuration() const
+int ObjectBullet::getDyingDuration() const
 {
 	return DYING_DURATION;
 }

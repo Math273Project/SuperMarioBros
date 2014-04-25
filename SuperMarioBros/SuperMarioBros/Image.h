@@ -14,7 +14,7 @@ public:
 	// Pre: *graphics = pointer to Graphics object
 	//      width = width of Image in pixels (0 = use full texture width)
 	//      height = height of Image in pixels (0 = use full texture height)
-	//      ncols = number of columns in texture
+	//      ncols = number of columns in texture ( 0 = 1)
 	//      *textureManager = pointer to TextureManager object
 	virtual bool Image::initialize(Graphics *graphics, int width, int height,
 		int numOfCols, TextureManager* textureManager);
