@@ -29,16 +29,23 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 
 	//Initialize images
-	mario_.initialize(graphics_, TEXTURE_WIDTH, TEXTURE_HEIGHT, MARIO_COLS, &marioTexture_);
+	mario_.initialize(graphics_, BIG_MARIO_WIDTH, BIG_MARIO_HEIGHT, MARIO_COLS, &marioTexture_);
 	background_.initialize(graphics_, GAME_WIDTH, GAME_HEIGHT, 1, &backgroundTexture_);
-	enemy_.initialize(graphics_, )
+	enemy_.initialize(graphics_, SMALL_MARIO_WIDTH, SMALL_MARIO_HEIGHT, SMALL_MARIO_COLS, &enemyTexture_);
 
 	mario_.setX(50);     
 	mario_.setY(490); //get rid of magic constant
 	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
-	mario_.setDegrees(0); 
+	mario_.setDegrees(0);
+
+	enemy_.setX(50);
+	enemy_.setY(490);
+	enemy_.setFrames(SMALL_MARIO_START_FRAME, SMALL_MARIO_END_FRAME);
+	enemy_.setCurrentFrame(SMALL_MARIO_START_FRAME);
+	enemy_.setFrameDelay(SMALL_MARIO_ANIMATION_DELAY);
+	enemy_.setDegrees(0);
 
 }
 

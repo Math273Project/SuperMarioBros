@@ -1,6 +1,6 @@
 #pragma once
 
-//directx constants
+// Directx constants
 
 const double PI = 3.14159265;
 const double FRAME_RATE = 200.0;
@@ -14,17 +14,28 @@ const char* BACKGROUND_START = "Textures\\Level_One_resized.bmp"; //The backgrou
 const char* MARIO_TEXTURE = "Textures\\Robot_Mario.bmp";
 const char* BLOCKS = "Textures\\Blocks.bmp";
 
-//Sprite constants
+// Sprite constants
 
-//Big and Super Mario
+// Big and Super Mario
 const int  MARIO_START_FRAME = 0;            // starting frame of Mario animation
 const int  MARIO_END_FRAME = 7;              // last frame of Mario animation
 const double MARIO_ANIMATION_DELAY = 0.25;    // time between frames of Mario animation
 const int  MARIO_COLS = 7;                   // Mario texture has 7 columns
-const int TEXTURE_WIDTH = 72;     //standard size of entity textures
-const int TEXTURE_HEIGHT = 144;
+const int BIG_MARIO_WIDTH = 72;     //standard size of entity textures
+const int BIG_MARIO_HEIGHT = 144;
 const double MARIO_SPEED = 100.0; // pixels per second
 const double MARIO_SCALE = 1.0;
+
+// Small Mario
+const int SMALL_MARIO_START_FRAME = 0;
+const int SMALL_MARIO_END_FRAME = 1; //change later
+const double SMALL_MARIO_ANIMATION_DELAY = 0.1; //should look like its moving faster
+const int SMALL_MARIO_COLS = 6;
+const int SMALL_MARIO_WIDTH = 72;
+const int SMALL_MARIO_HEIGHT = 72;
+const double SMALL_MARIO_SPEED = 100.0;
+const double SMALL_MARIO_SCALE = 1.0;
+
 
 //constants
 
