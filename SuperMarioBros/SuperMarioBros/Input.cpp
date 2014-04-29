@@ -4,18 +4,18 @@ Input::Input()
 {
 	// Clear key down array
 	for (size_t i = 0; i < InputConstants::KEYS_ARRAY_LEN; i++)
+	{
 		keysDown_[i] = false;
+	}
 	// Clear key pressed array
 	for (size_t i = 0; i < InputConstants::KEYS_ARRAY_LEN; i++)
+	{
 		keysPressed_[i] = false;
+	}
 	charIn_ = 0; // Clear charIn
 }
 
 Input::~Input()
-{
-}
-
-void Input::initialize(HWND hWnd, bool capture)
 {
 }
 

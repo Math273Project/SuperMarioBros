@@ -22,7 +22,6 @@ class Input
 public:
 	Input();
 	~Input();
-	void initialize(HWND hwnd, bool capture);
 	void keyDown(WPARAM);
 	void keyUp(WPARAM);
 	void keyIn(WPARAM);

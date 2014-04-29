@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "Constants.h"
 #include "GameError.h"
+#include <fstream>
 
 ///Game will hold all DirectX functionality
 class Game

@@ -26,10 +26,15 @@ public:
 	void resetAll();
 private:
 	//ALL textures we need to draw
+
+	//std::list<TextureManager> textures_;
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
 	Arena& arena = Arena::getUniqueInstance();
+	TextureManager enemyTexture_;
 	//All the animations are done with an image
+	//std::list<Image> images_;
 	Image mario_; 
 	Image background_;
+	Image enemy_;
 };

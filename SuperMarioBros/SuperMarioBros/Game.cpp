@@ -47,8 +47,7 @@ void Game::initialize(HWND hWnd, bool fullscreen)
 	graphics_ = new Graphics();
 	// Throws GameError
 	graphics_->initialize(hWnd_, GAME_WIDTH, GAME_HEIGHT, fullscreen);
-	// Initialize input, do not capture mouse
-	input_->initialize(hWnd_, false); // Throws GameError
+
 	// Attempt to set up high resolution timer
 	if (QueryPerformanceFrequency(&timerFreq_) == false)
 	{
