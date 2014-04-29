@@ -25,13 +25,18 @@ public:
 	void releaseAll();
 	void resetAll();
 private:
-	//ALL textures we need to draw
+
+	//Unique instance: Arena has all the movement and collision in the game
+	//Need to take all the results and update image based on the frametime_
+	Arena& arena = Arena::getUniqueInstance();
+
+	//ALL textures we need to load
 
 	//std::list<TextureManager> textures_;
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
-	Arena& arena = Arena::getUniqueInstance();
 	TextureManager enemyTexture_;
+
 	TextureManager blocksTexture_;
 	//All the animations are done with an image
 	//std::list<Image> images_;

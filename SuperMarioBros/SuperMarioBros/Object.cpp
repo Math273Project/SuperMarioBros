@@ -26,7 +26,8 @@ void Object::collide(const Object& object, Direction collideDirection)
 
 bool Object::onTop(const Object& object) const
 {
-	return y_ + height_== object.y_;
+	return y_ + height_ == object.y_ && ((object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth()) ||
+		(object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1));
 }
 
 double Object::getx() const

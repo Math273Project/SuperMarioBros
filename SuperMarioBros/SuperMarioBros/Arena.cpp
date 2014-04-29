@@ -2,7 +2,7 @@
 #include <algorithm>
 
 
-const double Arena::ACCELARATION = 9.8;
+const double Arena::ACCELARATION = 200;
 const int Arena::LOWEST_POSITION = 2000;
 
 Arena::Arena()
@@ -55,7 +55,7 @@ void Arena::freeFall(double time)
 		onTopOrCollide = false;
 		for (auto& j = staticObjects_.begin(); j != staticObjects_.end() && !onTopOrCollide; ++j)
 		{
-			if ((*i)->onTop(**j) || (*i)->didCollide(**j) != NONE)
+			if ((*i)->onTop(**j) ) //if ((*i)->onTop(**j) || (*i)->didCollide(**j) != NONE)
 				onTopOrCollide = true;
 		}
 		if (!onTopOrCollide)
@@ -65,12 +65,14 @@ void Arena::freeFall(double time)
 
 void Arena::erase(const Object& object)
 {
-	std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* obj)
+	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* obj)
 	{ 	if (obj->getType() == SMALL_MARIO || obj->getType() == SMALL_MARIO || obj->getType() == BIG_MARIO)
 			mario_ = nullptr; 
 		return *obj == object; });
-	std::remove_if(staticObjects_.begin(), staticObjects_.end(), [&object](const Object* obj)
+	movingObjects_.erase(iNewEnd, movingObjects_.end());
+	auto jNewEnd = std::remove_if(staticObjects_.begin(), staticObjects_.end(), [&object](const Object* obj)
 	{ return *obj == object; });
+	staticObjects_.erase(jNewEnd, staticObjects_.end());
 }
 
 void Arena::pushBack(MovingObject* pMovingObject)
@@ -93,12 +95,15 @@ void Arena::move(double time)
 
 void Arena::deleteDyingObject()
 {
-	remove_if(movingObjects_.begin(), movingObjects_.end(), [](const MovingObject* obj){
-		return obj->gety() > LOWEST_POSITION; }); 
+	auto iNewEnd = remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const MovingObject* obj){
+		if (obj->gety() > LOWEST_POSITION && (obj->getType() == SMALL_MARIO || obj->getType() == SMALL_MARIO || obj->getType() == BIG_MARIO))
+			mario_ = nullptr; 
+		return obj->gety() > LOWEST_POSITION; });
+		movingObjects_.erase(iNewEnd, movingObjects_.end());
 	LARGE_INTEGER frequency, now;
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&now);
-	remove_if(dyingObjectData_.begin(), dyingObjectData_.end(), [&](const DyingObjectData& data)
+	auto jNewEnd = remove_if(dyingObjectData_.begin(), dyingObjectData_.end(), [&](const DyingObjectData& data)
 	{
 		if ((double)(now.QuadPart - data.startTime_) / (double)frequency.QuadPart > data.duration_)
 		{
@@ -107,6 +112,7 @@ void Arena::deleteDyingObject()
 		}
 		return false;
 	});
+	dyingObjectData_.erase(jNewEnd, dyingObjectData_.end());
 }
 
 Arena::~Arena()
@@ -127,12 +133,6 @@ void Arena::pushDyingObjectData(const DyingObjectData& data)
 {
 	dyingObjectData_.push_back(data);
 }
-
-/*
-MovingObject* Arena::getMario() const
-{
-	return mario_;
-}*/
 
 void Arena::setMarioVx(double vx)
 {

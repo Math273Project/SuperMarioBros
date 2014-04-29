@@ -87,7 +87,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAQQEAACAAAAAEAQAAAAAEAABAIACAAAAAcAAA=</HashCode>
+      <HashCode>AAAAAAAQQAAACAAEAAEAQAAAAAEAABAIACAAAAAUAAI=</HashCode>
       <FileName>MarioGame.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -107,7 +107,7 @@
   <Class Name="Object" Collapsed="true">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QgAABEAAQQAAGQYoQABAAUYCAQAEQAAE4AAAQAEAIgA=</HashCode>
+      <HashCode>QgAABEAAQQAAGQYoQABAIUYCAQAEQAAE4AAAQAEAIgA=</HashCode>
       <FileName>Object.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -201,7 +201,7 @@
   <Enum Name="ObjectType" Collapsed="true">
     <Position X="21.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>wAARAAAAAIYAAAEAAAAAAABACAAAAAAAAAAAAUAABwA=</HashCode>
+      <HashCode>wAARAAAAAIYAAAEAAAAAAADACAAAAAAAAAAAAUAAFwA=</HashCode>
       <FileName>Object.h</FileName>
     </TypeIdentifier>
   </Enum>

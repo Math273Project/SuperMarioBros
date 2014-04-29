@@ -35,7 +35,7 @@ public:
 	void move(double time); // move all objects according to current velocity.
 	void deleteDyingObject(); // delete the object in queue if the time duration is satisfied.
 								// and also delete the object that it's y position is too big.
-	//MovingObject* getMario() const; //If mario returns NULL, he's dead
+
 	void setMarioVx(double vx);
 	void setMarioVy(double vy);
 	double getMarioVx() const;
