@@ -5,6 +5,7 @@ Object::Object(int id)
 :id_(id)
 {
 	passable_ = false;
+	currentFrame_ = 0;
 }
 
 Object::~Object()
@@ -158,4 +159,14 @@ Direction Object::didCollide(const Object& object) const // Check if two objects
 	if (object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1)
 		return RIGHT;
 	return NONE;
+}
+
+int Object::getCurrentFrame() const
+{
+	return currentFrame_;
+}
+
+void Object::setCurrentFrame(int currentFrame)
+{
+	currentFrame_ = currentFrame;
 }

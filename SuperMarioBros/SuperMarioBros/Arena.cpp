@@ -144,6 +144,22 @@ void Arena::setMarioVy(double vy)
 		mario_->setvy(vy);
 }
 
+double Arena::getMarioVx() const
+{
+	if (mario_ != nullptr)
+		return mario_->getvx();
+	else
+		return INT_MIN;
+}
+
+double Arena::getMarioVy() const
+{
+	if (mario_ != nullptr)
+		return mario_->getvy();
+	else
+		return INT_MIN;
+}
+
 bool Arena::isGameOver() const
 {
 	return mario_ == nullptr;

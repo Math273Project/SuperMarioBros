@@ -28,7 +28,7 @@ private:
 	//ALL textures we need to draw
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
-
+	Arena& arena = Arena::getUniqueInstance();
 	//All the animations are done with an image
 	Image mario_; 
 	Image background_;
