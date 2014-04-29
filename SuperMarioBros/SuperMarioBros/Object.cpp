@@ -150,6 +150,11 @@ Direction Object::didCollide(const Object& object) const // Check if two objects
 		return NONE;
 	if (passable_ || object.passable())
 		return NONE;
+	if (!(((object.gety() <= y_ + height_ - 1 && y_ + height_ <= object.gety() + object.getHeight()) ||
+		(object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1))
+		&& ((object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth()) ||
+		(object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1))))
+		return NONE;
 	if (object.gety() <= y_ + height_ - 1 && y_ + height_ <= object.gety() + object.getHeight())
 		return UP;
 	if (object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1)

@@ -17,6 +17,7 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 	{
 		for (auto& j = staticObjects_.begin(); j != staticObjects_.end(); ++j)
 		{
+			collideDirection1 = collideDirection2 = NONE;
 			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
 				collideDirection2 = (Direction)((collideDirection1 + 2) % 4);
@@ -29,6 +30,7 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 	{
 		for (auto j = std::next(i,1); j != movingObjects_.end(); ++j)
 		{
+			collideDirection1 = collideDirection2 = NONE;
 			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
 				collideDirection2 = (Direction)((collideDirection1 + 2) % 4);

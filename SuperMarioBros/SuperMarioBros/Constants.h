@@ -38,6 +38,8 @@ const int SMALL_MARIO_HEIGHT = 72;
 const double SMALL_MARIO_SPEED = 100.0;
 const double SMALL_MARIO_SCALE = 1.0;
 
+const int BLOCK_HEIGHT = 72;
+const int BLOCK_WIDTH = 72;
 
 //constants
 

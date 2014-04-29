@@ -16,8 +16,8 @@
 
 const int ObjectBlock::DYING_DURATION = 500;
 const int ObjectBlock::PRIORITY = 5;
-const int ObjectBlock::WIDTH = 32;
-const int ObjectBlock::HEIGHT = 32;
+const int ObjectBlock::WIDTH = 72;
+const int ObjectBlock::HEIGHT = 72;
 
 const int ObjectBrick::DYING_DURATION = 500;
 const int ObjectBrick::PRIORITY = 5;
@@ -45,12 +45,12 @@ const int ObjectEnemy::FLAT_ENEMY_HEIGHT = 32;
 
 const int ObjectMario::DYING_DURATION = 500;
 const int ObjectMario::PRIORITY = INT_MAX;
-const int ObjectMario::SMALL_MARIO_WIDTH = 32;
-const int ObjectMario::SMALL_MARIO_HEIGHT = 32;
-const int ObjectMario::BIG_MARIO_WIDTH = 32;
-const int ObjectMario::BIG_MARIO_HEIGHT = 32;
-const int ObjectMario::SUPER_MARIO_WIDTH = 32;
-const int ObjectMario::SUPER_MARIO_HEIGHT = 32;
+const int ObjectMario::SMALL_MARIO_WIDTH = 72;
+const int ObjectMario::SMALL_MARIO_HEIGHT = 144;
+const int ObjectMario::BIG_MARIO_WIDTH = 72;
+const int ObjectMario::BIG_MARIO_HEIGHT = 144;
+const int ObjectMario::SUPER_MARIO_WIDTH = 72;
+const int ObjectMario::SUPER_MARIO_HEIGHT = 144;
 
 const int ObjectMushroom::DYING_DURATION = 500;
 const int ObjectMushroom::PRIORITY = 5;

@@ -1,4 +1,6 @@
 #include "MarioGame.h"
+#include "ObjectMario.h"
+#include "ObjectBlock.h"
 
 MarioGame::MarioGame()
 {
@@ -19,19 +21,22 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	Arena& arena = Arena::getUniqueInstance();
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490, (int)MARIO_SPEED, 0);
+	ObjectBlock* objectBlock = new ObjectBlock(0, 500, 490);
 	arena.pushBack(objectMario);
-
+	arena.pushBack(objectBlock);
 	//Initialize textures
 	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
 	backgroundTexture_.initialize(graphics_, BACKGROUND_START); //background will be split in multiple parts
 	enemyTexture_.initialize(graphics_, MARIO_TEXTURE);
+	blocksTexture_.initialize(graphics_, BLOCKS);
 
 
 	//Initialize images
 	mario_.initialize(graphics_, BIG_MARIO_WIDTH, BIG_MARIO_HEIGHT, MARIO_COLS, &marioTexture_);
 	background_.initialize(graphics_, GAME_WIDTH, GAME_HEIGHT, 1, &backgroundTexture_);
 	enemy_.initialize(graphics_, SMALL_MARIO_WIDTH, SMALL_MARIO_HEIGHT, SMALL_MARIO_COLS, &enemyTexture_);
+	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
 
 	mario_.setX(50);     
 	mario_.setY(490); //get rid of magic constant
@@ -81,10 +86,20 @@ void MarioGame::render()
 			mario_.setX(i->getx());
 			mario_.setY(i->gety());
 			mario_.setCurrentFrame(i->getCurrentFrame());
-			
 			mario_.update(frameTime_);
 			i->setCurrentFrame(mario_.getCurrentFrame());
 			mario_.draw();
+			break;
+		}
+	}
+	for (const auto& i : arena.getStaticObjects())
+	{
+		switch (i->getType())
+		{
+		case BLOCK:
+			block_.setX(i->getx());
+			block_.setY(i->gety());
+			block_.draw();
 			break;
 		}
 	}
