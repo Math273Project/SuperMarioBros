@@ -39,4 +39,6 @@ private:
 	Image background_;
 	Image enemy_;
 	Image block_;
+
+	int centerx_;
 };

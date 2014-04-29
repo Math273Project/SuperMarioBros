@@ -40,6 +40,8 @@ public:
 	void setMarioVy(double vy);
 	double getMarioVx() const;
 	double getMarioVy() const;
+	double getMarioX() const;
+	double getMarioY() const;
 	bool isGameOver() const;
 	~Arena();
 	const std::list<MovingObject*>& getMovingObjects() const;

@@ -4,7 +4,7 @@
 
 MarioGame::MarioGame()
 {
-
+	centerx_ = 0;
 }
 
 MarioGame::~MarioGame()
@@ -21,7 +21,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	Arena& arena = Arena::getUniqueInstance();
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490, (int)MARIO_SPEED, 0);
-	ObjectBlock* objectBlock = new ObjectBlock(0, 500, 490);
+	ObjectBlock* objectBlock = new ObjectBlock(0, 500, 0);
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
 	//Initialize textures
@@ -59,7 +59,8 @@ void MarioGame::update()
 {
 	arena.move(frameTime_*1000);
 	arena.collisionDetection();
-
+	if (arena.getMarioX() - centerx_ > GAME_WIDTH / 2)
+		centerx_ = arena.getMarioX() - GAME_WIDTH / 2;
 
 	if (input_->isKeyDown(MOVE_UP_KEY))
 	{
@@ -76,14 +77,14 @@ void MarioGame::update()
 void MarioGame::render()
 {
 	graphics_->spriteBegin();
-	
+	background_.setX(-centerx_);
 	background_.draw();
 	for (const auto& i : arena.getMovingObjects())
 	{
 		switch (i->getType())
 		{
 		case SMALL_MARIO:
-			mario_.setX(i->getx());
+			mario_.setX(i->getx() - centerx_);
 			mario_.setY(i->gety());
 			mario_.setCurrentFrame(i->getCurrentFrame());
 			mario_.update(frameTime_);
@@ -97,7 +98,7 @@ void MarioGame::render()
 		switch (i->getType())
 		{
 		case BLOCK:
-			block_.setX(i->getx());
+			block_.setX(i->getx() - centerx_);
 			block_.setY(i->gety());
 			block_.draw();
 			break;

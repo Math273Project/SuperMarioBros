@@ -162,6 +162,22 @@ double Arena::getMarioVy() const
 		return INT_MIN;
 }
 
+double Arena::getMarioX() const
+{
+	if (mario_ != nullptr)
+		return mario_->getx();
+	else
+		return INT_MIN;
+}
+
+double Arena::getMarioY() const
+{
+	if (mario_ != nullptr)
+		return mario_->gety();
+	else
+		return INT_MIN;
+}
+
 bool Arena::isGameOver() const
 {
 	return mario_ == nullptr;
