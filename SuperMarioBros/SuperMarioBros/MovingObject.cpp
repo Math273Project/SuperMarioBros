@@ -62,21 +62,28 @@ Direction MovingObject::didCollide(const Object& object) const // Check if two o
 		return NONE;
 	if (passable_ || object.passable())
 		return NONE;
-	if (vy_ == 0)
+	if (!(((object.gety() <= y_ + height_ - 1 && y_ + height_ <= object.gety() + object.getHeight()) ||
+		(object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1))
+		&& ((object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth()) ||
+		(object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1))))
+		return NONE;
+	Direction direction = NONE;
+	if (vx_ != 0 && vy_ == 0)
 	{
-		if (object.gety() <= y_ + height_ - 1 && y_ + height_<= object.gety() + object.getHeight())
-			return UP;
-		if (object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1)
-			return DOWN;
-	}
-	if (vx_ == 0)
-	{
-		if (object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth())
+		if (vx_ > 0)
 			return LEFT;
-		if (object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1)
+		else
 			return RIGHT;
 	}
-	Direction direction = NONE;
+	if (vx_ == 0 && vy_ != 0)
+	{
+		if (vy_ > 0)
+			return UP;
+		else
+			return DOWN;
+	}
+	if (vx_ == 0 && vy_ == 0)
+		return Object::didCollide(object);
 	if (vx_ != 0 && vy_ != 0)
 	{
 		double time = INT_MAX, tmpTime = INT_MAX;
@@ -119,5 +126,6 @@ Direction MovingObject::didCollide(const Object& object) const // Check if two o
 			direction = RIGHT;
 		}
 	}
+	
 	return direction;
 }

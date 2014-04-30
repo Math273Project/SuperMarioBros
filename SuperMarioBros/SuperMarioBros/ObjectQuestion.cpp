@@ -1,11 +1,12 @@
 #include "ObjectQuestion.h"
 #include "Arena.h"
 
-ObjectQuestion::ObjectQuestion(int id, int x, int y) : Object(id, x, y)
+ObjectQuestion::ObjectQuestion(int id, int x, int y, ObjectType newObjectType) : Object(id, x, y)
 {
 	width_ = WIDTH;
 	height_ = HEIGHT;
 	enabled_ = true;
+	newObjectType_ = newObjectType;
 }
 
 void ObjectQuestion::collide(const Object& object, Direction collideDirection)
@@ -21,9 +22,15 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 		switch (collideDirection)
 		{
 		case UP:
-			if (changed_)
+			if (!changed_)
 			{
+				changed_ = true;
+				switch (newObjectType_)
+				{
+				case POWERUP:
 
+					break;
+				}
 			}
 			break;
 		}

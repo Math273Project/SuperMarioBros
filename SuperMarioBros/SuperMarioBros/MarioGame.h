@@ -5,8 +5,12 @@
 #include "Object.h"
 #include "MovingObject.h"
 #include "Arena.h"
+<<<<<<< HEAD
 #include "ObjectMario.h"
 #include "ObjectBlock.h"
+=======
+
+>>>>>>> d80733cea5cb2598f2253f1868fa276825ff4add
 //All necessary object headers will go here!
 
 /* We can migrate all the functionality of object onto this class
@@ -36,12 +40,12 @@ private:
 	//std::list<TextureManager> textures_;
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
+	Arena& arena = Arena::getUniqueInstance();
 	TextureManager enemyTexture_;
-	TextureManager blockTexture_;
 
+	TextureManager blocksTexture_;
 	//All the animations are done with an image
-
-	std::list<Image> images_;
+	//std::list<Image> images_;
 	Image mario_; 
 	Image background_;
 	Image enemy_;

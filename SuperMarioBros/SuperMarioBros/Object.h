@@ -73,7 +73,10 @@ public:
 	virtual int getPriority() const = 0;
 	virtual int getDyingDuration() const = 0;
 	void adjustPosition(const Object& object, Direction collideDirection); // Used for collision.
+	int getCurrentFrame() const;
+	void setCurrentFrame(int currentFrame);
 protected:
+	int currentFrame_;
 	double x_; 
 	double y_;
 	int width_;

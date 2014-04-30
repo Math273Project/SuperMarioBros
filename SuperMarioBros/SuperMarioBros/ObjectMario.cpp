@@ -3,8 +3,8 @@
 
 ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy) // id 0, highest priority, moveable
 {
-	width_ = SMALL_MARIO_HEIGHT;
-	height_ = SMALL_MARIO_WIDTH;
+	width_ = SMALL_MARIO_WIDTH;
+	height_ = SMALL_MARIO_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 	type_ = SMALL_MARIO;
