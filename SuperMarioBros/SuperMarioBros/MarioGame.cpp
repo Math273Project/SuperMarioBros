@@ -22,7 +22,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	Arena& arena = Arena::getUniqueInstance();
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490, (int)MARIO_SPEED, 0);
 
-	ObjectBlock* objectBlock = new ObjectBlock(0, 500, 490);
+	ObjectBlock* objectBlock = new ObjectBlock(1, 1200, 490);
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
 	//Initialize textures
@@ -45,7 +45,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);
-	mario_.setScale(.75);
+	mario_.setScale(MARIO_SCALE);
 
 	enemy_.setX(200);
 	enemy_.setY(490);
@@ -65,38 +65,17 @@ void MarioGame::update()
 
 	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
-		arena.setMarioVx(100);
-		arena.move(frameTime_ * 1000);
-		arena.collisionDetection();
-
-		for (auto& i : arena.getMovingObjects())
-		{
-			if ((*i).getFacingDirection() == RIGHT)
-			{
-				mario_.flipHorizontal(false);
-			}
-		}
-		mario_.setX(mario_.getX() + frameTime_ * mario_.getWidth());
-		if (mario_.getX() > (GAME_WIDTH) / 2)
-		{
-			RECT update = background_.getSpriteDataRect();
-			update.left += 1;
-			update.right += 1;
-			background_.setSpriteDataRect(update);
-			mario_.setX(GAME_WIDTH / 2);
-
-			block_.setX(block_.getX() - 1);
-		}
+		arena.setMarioVx(MARIO_SPEED);
+		
 	}
 
-	if (input_->isKeyDown(MOVE_LEFT_KEY))
+	else if (input_->isKeyDown(MOVE_LEFT_KEY))
 	{
-		mario_.flipHorizontal(true);
-		mario_.setX(mario_.getX() - frameTime_ * mario_.getWidth());
-		if (mario_.getX() < 0)
-		{
-			mario_.setX(0);
-		}
+		arena.setMarioVx(-MARIO_SPEED);
+	}
+	else
+	{
+		arena.setMarioVx(0);
 	}
 	
 	if (input_->isKeyDown(MOVE_UP_KEY))
@@ -127,6 +106,18 @@ void MarioGame::render()
 			mario_.update(frameTime_);
 			i->setCurrentFrame(mario_.getCurrentFrame());
 			mario_.draw();
+			
+			/*
+			if (i->getx() > (GAME_WIDTH) / 2)
+			{
+				RECT update = background_.getSpriteDataRect();
+				update.left += 1;
+				update.right += 1;
+				background_.setSpriteDataRect(update);
+				mario_.setX(GAME_WIDTH / 2);
+
+			}*/
+			
 			break;
 		}
 	}

@@ -26,7 +26,7 @@ const int TEXTURE_HEIGHT = 144;
 const int BIG_MARIO_WIDTH = 72;     //standard size of entity textures
 const int BIG_MARIO_HEIGHT = 144;
 const double MARIO_SPEED = 200.0; // pixels per second (velocity)
-const double MARIO_SCALE = 0.75;
+const double MARIO_SCALE = 1.00;
 
 // Small Mario
 const int SMALL_MARIO_START_FRAME = 0;
