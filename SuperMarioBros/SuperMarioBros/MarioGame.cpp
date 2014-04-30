@@ -4,7 +4,7 @@
 
 MarioGame::MarioGame()
 {
-
+	centerx_ = 0;
 }
 
 MarioGame::~MarioGame()
@@ -21,8 +21,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	Arena& arena = Arena::getUniqueInstance();
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490, (int)MARIO_SPEED, 0);
-
-	ObjectBlock* objectBlock = new ObjectBlock(1, 1200, 490);
+	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144);
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
 	//Initialize textures
@@ -35,7 +34,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	//Initialize images
 	mario_.initialize(graphics_, BIG_MARIO_WIDTH, BIG_MARIO_HEIGHT, MARIO_COLS, &marioTexture_);
-	background_.initialize(graphics_, GAME_WIDTH, GAME_HEIGHT, 1, &backgroundTexture_);
+	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_); // some edit here, full load the background is okay.
 	enemy_.initialize(graphics_, SMALL_MARIO_WIDTH, SMALL_MARIO_HEIGHT, SMALL_MARIO_COLS, &enemyTexture_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
 
@@ -61,7 +60,15 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 void MarioGame::update()
 {
 	arena.move(frameTime_*1000);
+	arena.freeFall(frameTime_ * 1000);
 	arena.collisionDetection();
+	arena.deleteDyingObject();
+	if (arena.isGameOver())
+	{
+		exit(0); // end the game
+	}
+	if (arena.getMarioX() - centerx_ > GAME_WIDTH / 2) // move the center.
+		centerx_ = arena.getMarioX() - GAME_WIDTH / 2;
 
 	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
@@ -70,7 +77,7 @@ void MarioGame::update()
 		
 	}
 
-	else if (input_->isKeyDown(MOVE_LEFT_KEY))
+	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0) // some edit here to make Mario cannot go back
 	{
 		arena.setMarioVx(-MARIO_SPEED);
 		mario_.flipHorizontal(true);
@@ -95,46 +102,34 @@ void MarioGame::update()
 void MarioGame::render()
 {
 	graphics_->spriteBegin();
-	
+	background_.setX(-centerx_);
 	background_.draw();
+	for (const auto& i : arena.getStaticObjects())
+	{
+		switch (i->getType())
+		{
+		case BLOCK:
+			block_.setX(i->getx() - centerx_);
+			block_.setY(i->gety());
+			block_.draw();
+			break;
+		}
+	}
 	for (const auto& i : arena.getMovingObjects())
 	{
 		switch (i->getType())
 		{
 		case SMALL_MARIO:
-			mario_.setX(i->getx());
+			mario_.setX(i->getx() - centerx_);
 			mario_.setY(i->gety());
 			mario_.setCurrentFrame(i->getCurrentFrame());
 			mario_.update(frameTime_);
 			i->setCurrentFrame(mario_.getCurrentFrame());
 			mario_.draw();
 			
-			/*
-			if (i->getx() > (GAME_WIDTH) / 2)
-			{
-				RECT update = background_.getSpriteDataRect();
-				update.left += 1;
-				update.right += 1;
-				background_.setSpriteDataRect(update);
-				mario_.setX(GAME_WIDTH / 2);
-
-			}*/
-			
 			break;
 		}
 	}
-	for (const auto& i : arena.getStaticObjects())
-	{
-		switch (i->getType())
-		{
-		case BLOCK:
-			block_.setX(i->getx());
-			block_.setY(i->gety());
-			block_.draw();
-			break;
-		}
-	}
-
 	graphics_->spriteEnd();
 }
 
