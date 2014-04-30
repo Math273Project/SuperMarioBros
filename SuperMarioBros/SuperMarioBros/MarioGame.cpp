@@ -41,7 +41,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
-	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
+	mario_.setFrames(MARIO_START_FRAME, MARIO_START_FRAME);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);
@@ -65,6 +65,7 @@ void MarioGame::update()
 
 	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
+		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
 		
 	}
@@ -72,6 +73,7 @@ void MarioGame::update()
 	else if (input_->isKeyDown(MOVE_LEFT_KEY))
 	{
 		arena.setMarioVx(-MARIO_SPEED);
+		mario_.flipHorizontal(true);
 	}
 	else
 	{
