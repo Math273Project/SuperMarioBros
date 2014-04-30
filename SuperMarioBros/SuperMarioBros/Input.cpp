@@ -40,31 +40,9 @@ void Input::keyUp(WPARAM wParam)
 
 void Input::keyIn(WPARAM wParam)
 {
-	switch (wParam)
+	if (wParam == VK_ESCAPE)
 	{
-	case VK_ESCAPE:
 		PostQuitMessage(0);
-		break;
-	case 'a':  //move left
-		
-		break;
-	case 's':   //move down
-
-		break;
-	case 'd':   //move right
-
-		break;
-	case 'w':   //move up
-
-		break;
-	case 'j':  //use as "A" button
-		
-		break;
-	case 'k':  //use as "B" button
-
-		break;
-		//case "enter" : used for select
-		//need case for 
 	}
 }
 
