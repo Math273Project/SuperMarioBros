@@ -77,8 +77,8 @@ void Arena::erase(const Object& object)
 
 void Arena::pushBack(MovingObject* pMovingObject)
 {
-	auto iPos = find_if(movingObjects_.cbegin(), movingObjects_.cend(), [&](const MovingObject& i)
-				{return i.getPriority() > pMovingObject->getPriority(); });
+	auto iPos = find_if(movingObjects_.cbegin(), movingObjects_.cend(), [&](MovingObject* i)
+				{return (*i).getPriority() > pMovingObject->getPriority(); });
 	movingObjects_.insert(iPos, pMovingObject);
 	if (pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == BIG_MARIO)
 		mario_ = pMovingObject;
@@ -86,8 +86,8 @@ void Arena::pushBack(MovingObject* pMovingObject)
 
 void Arena::pushBack(Object* pObject)
 {
-	auto iPos = find_if(staticObjects_.cbegin(), staticObjects_.cend(), [&](const Object& i)
-				{return i.getPriority() > pObject->getPriority(); });
+	auto iPos = find_if(staticObjects_.cbegin(), staticObjects_.cend(), [&](Object* i)
+				{return (*i).getPriority() > pObject->getPriority(); });
 	staticObjects_.insert(iPos, pObject);
 }
 
