@@ -65,30 +65,26 @@ void Arena::freeFall(double time)
 
 void Arena::erase(const Object& object)
 {
-	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* i)
-	{ 	if (i->getType() == SMALL_MARIO || i->getType() == SMALL_MARIO || i->getType() == BIG_MARIO)
+	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* obj)
+	{ 	if (obj->getType() == SMALL_MARIO || obj->getType() == SMALL_MARIO || obj->getType() == BIG_MARIO)
 			mario_ = nullptr; 
-		return *i == object; });
+		return *obj == object; });
 	movingObjects_.erase(iNewEnd, movingObjects_.end());
-	auto jNewEnd = std::remove_if(staticObjects_.begin(), staticObjects_.end(), [&object](const Object* i)
-	{ return *i == object; });
+	auto jNewEnd = std::remove_if(staticObjects_.begin(), staticObjects_.end(), [&object](const Object* obj)
+	{ return *obj == object; });
 	staticObjects_.erase(jNewEnd, staticObjects_.end());
 }
 
 void Arena::pushBack(MovingObject* pMovingObject)
 {
-	auto iPos = find_if(movingObjects_.cbegin(), movingObjects_.cend(), [&](MovingObject* i)
-				{return (*i).getPriority() > pMovingObject->getPriority(); });
-	movingObjects_.insert(iPos, pMovingObject);
+	movingObjects_.push_back(pMovingObject);
 	if (pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == BIG_MARIO)
 		mario_ = pMovingObject;
 }
 
 void Arena::pushBack(Object* pObject)
 {
-	auto iPos = find_if(staticObjects_.cbegin(), staticObjects_.cend(), [&](Object* i)
-				{return (*i).getPriority() > pObject->getPriority(); });
-	staticObjects_.insert(iPos, pObject);
+	staticObjects_.push_back(pObject);
 }
 
 void Arena::move(double time)
@@ -99,19 +95,19 @@ void Arena::move(double time)
 
 void Arena::deleteDyingObject()
 {
-	auto iNewEnd = remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const MovingObject* i){
-		if (i->gety() > LOWEST_POSITION && (i->getType() == SMALL_MARIO || i->getType() == SMALL_MARIO || i->getType() == BIG_MARIO))
+	auto iNewEnd = remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const MovingObject* obj){
+		if (obj->gety() > LOWEST_POSITION && (obj->getType() == SMALL_MARIO || obj->getType() == SMALL_MARIO || obj->getType() == BIG_MARIO))
 			mario_ = nullptr; 
-		return i->gety() > LOWEST_POSITION; });
+		return obj->gety() > LOWEST_POSITION; });
 		movingObjects_.erase(iNewEnd, movingObjects_.end());
 	LARGE_INTEGER frequency, now;
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&now);
-	auto jNewEnd = remove_if(dyingObjectData_.begin(), dyingObjectData_.end(), [&](const DyingObjectData& i)
+	auto jNewEnd = remove_if(dyingObjectData_.begin(), dyingObjectData_.end(), [&](const DyingObjectData& data)
 	{
-		if ((double)(now.QuadPart - i.startTime) / (double)frequency.QuadPart > i.duration)
+		if ((double)(now.QuadPart - data.startTime) / (double)frequency.QuadPart > data.duration)
 		{
-			this->erase(*(i.data));
+			this->erase(*(data.data));
 			return true;
 		}
 		return false;
@@ -197,41 +193,10 @@ const std::list<Object*>& Arena::getStaticObjects() const
 	return staticObjects_;
 }
 
-const std::list<Gap>& Arena::getGaps() const
-{
-	return gaps_;
-}
-
 void Arena::addGap(double newStartX, double newEndX)
 {
-	if (newStartX > newEndX)
-		return;
 	if (gaps_.empty())
 	{
 		gaps_.emplace_back(newStartX, newEndX);
-	}
-	else
-	{
-		auto iNewEnd = remove_if(gaps_.begin(), gaps_.end(), [&](const Gap& i)
-		{
-			bool flag = false;
-			if (i.startX <= newStartX && newStartX <= i.endX)
-			{
-				flag = true;
-				newStartX = i.startX;
-			}
-			if (i.startX <= newEndX && newEndX <= i.endX)
-			{
-				flag = true;
-				newEndX = i.endX;
-			}
-			if (newStartX <= i.startX && i.endX <= newEndX)
-				flag = true;
-
-			return flag;
-		});
-		gaps_.erase(iNewEnd, gaps_.end());
-		auto iPos = find_if(gaps_.cbegin(), gaps_.cend(), [&](const Gap& i){ return i.startX > newEndX; });
-		gaps_.emplace(iPos, newStartX, newEndX);
 	}
 }

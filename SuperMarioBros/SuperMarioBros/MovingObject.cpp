@@ -62,6 +62,64 @@ Direction MovingObject::didCollide(const Object& object) const // Check if two o
 		return NONE;
 	if (passable_ || object.passable())
 		return NONE;
+	double left = x_ + width_  - object.getx(), right  = object.getx() + object.getWidth() -  x_;
+	double up  = y_ + height_ - object.gety(), down = object.gety() + object.getHeight() - y_;
+	if (!(
+		((left > 0 && left <= object.getWidth())  || (right > 0 && right <= object.getWidth())   || (left > 0 && right > 0)) && 
+		((up   > 0 && up   <= object.getHeight()) || (down  > 0 && down  <= object.getHeight())  || (up   > 0 && down  > 0))
+		   ))
+		return NONE;
+	Direction direction = NONE;
+	if (vx_ == 0 && vy_ == 0)
+	{
+		double minDistance = INT_MAX;
+		if (((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left < minDistance)
+		{
+			minDistance = left;
+			direction = LEFT;
+		}
+		if (((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right < minDistance)
+		{
+			minDistance = right;
+			direction = RIGHT;
+		}
+		if (((up > 0 && up <= object.getHeight()) || (up > 0 && down > 0)) && up < minDistance)
+		{
+			minDistance = up;
+			direction = UP;
+		}
+		if (((down > 0 && down <= object.getHeight()) || (up > 0 && down > 0)) && down < minDistance)
+		{
+			minDistance = down;
+			direction = DOWN;
+		}
+	}
+	else
+	{
+		double minTime = INT_MAX;
+		if (vx_ > 0 && ((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left / vx_ < minTime)
+		{
+			minTime = left / vx_;
+			direction = LEFT;
+		}
+		else if (vx_ < 0 && ((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right / (-vx_) < minTime)
+		{
+			minTime = right / (-vx_);
+			direction = RIGHT;
+		}
+		if (vy_ > 0 && ((up > 0 && up <= object.getHeight()) || (up > 0 && down > 0)) && up / vy_ < minTime)
+		{
+			minTime = up / vy_;
+			direction = UP;
+		}
+		else if (vy_ < 0 && ((down > 0 && down <= object.getHeight()) || (up > 0 && down > 0)) && down / (-vy_) < minTime)
+		{
+			minTime = down / (-vy_);
+			direction = DOWN;
+		}	
+	}
+	return direction;
+	/*
 	if (!(((object.gety() <= y_ + height_ - 1 && y_ + height_ <= object.gety() + object.getHeight()) ||
 		(object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1))
 		&& ((object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth()) ||
@@ -126,6 +184,5 @@ Direction MovingObject::didCollide(const Object& object) const // Check if two o
 			direction = RIGHT;
 		}
 	}
-	
-	return direction;
+	*/
 }

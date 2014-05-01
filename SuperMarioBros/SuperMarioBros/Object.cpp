@@ -151,20 +151,36 @@ Direction Object::didCollide(const Object& object) const // Check if two objects
 		return NONE;
 	if (passable_ || object.passable())
 		return NONE;
-	if (!(((object.gety() <= y_ + height_ - 1 && y_ + height_ <= object.gety() + object.getHeight()) ||
-		(object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1))
-		&& ((object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth()) ||
-		(object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1))))
+	double left = x_ + width_ - object.getx(), right = object.getx() + object.getWidth() - x_;
+	double up = y_ + height_ - object.gety(), down = object.gety() + object.getHeight() - y_;
+	if (!(
+		((left > 0 && left <= object.getWidth()) || (right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) &&
+		((up   > 0 && up <= object.getHeight()) || (down  > 0 && down <= object.getHeight()) || (up   > 0 && down  > 0))
+		))
 		return NONE;
-	if (object.gety() <= y_ + height_ - 1 && y_ + height_ <= object.gety() + object.getHeight())
-		return UP;
-	if (object.gety() <= y_ && y_ <= object.gety() + object.getHeight() - 1)
-		return DOWN;
-	if (object.getx() <= x_ + width_ - 1 && x_ + width_ <= object.getx() + object.getWidth())
-		return LEFT;
-	if (object.getx() <= x_ && x_ <= object.getx() + object.getWidth() - 1)
-		return RIGHT;
-	return NONE;
+	Direction direction;
+	double minDistance = INT_MAX;
+	if (((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left < minDistance)
+	{
+		minDistance = left;
+		direction = LEFT;
+	}
+	if (((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right < minDistance)
+	{
+		minDistance = right;
+		direction = RIGHT;
+	}
+	if (((up > 0 && up <= object.getHeight()) || (up > 0 && down > 0)) && up < minDistance)
+	{
+		minDistance = up;
+		direction = UP;
+	}
+	if (((down > 0 && down <= object.getHeight()) || (up > 0 && down > 0)) && down < minDistance)
+	{
+		minDistance = down;
+		direction = DOWN;
+	}
+	return direction;
 }
 
 int Object::getCurrentFrame() const

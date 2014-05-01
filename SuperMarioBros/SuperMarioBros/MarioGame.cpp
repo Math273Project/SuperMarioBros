@@ -19,8 +19,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//Initialze textures
 	//Initialize arena and started objects
 
-	ObjectMario* objectMario = new ObjectMario(0, 50, 480, (int)MARIO_SPEED, 0);
-	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 473+144);
+	ObjectMario* objectMario = new ObjectMario(0, 50, 490-300, (int)MARIO_SPEED, 0);
+	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144-300);
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
 	//Initialize textures
