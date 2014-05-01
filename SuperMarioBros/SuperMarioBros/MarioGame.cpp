@@ -77,6 +77,7 @@ void MarioGame::update()
 	{
 		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
+		walk(mario_);
 		
 	}
 	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0) // some edit here to make Mario cannot go back
@@ -153,4 +154,10 @@ void MarioGame::resetAll()
 	marioTexture_.onResetDevice();
 	Game::resetAll();
 	return;
+}
+
+void MarioGame::walk(Image& image)
+{
+	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_START_FRAME + 3);
+	mario_.setCurrentFrame(MARIO_START_FRAME + 1);
 }

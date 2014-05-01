@@ -46,4 +46,7 @@ private:
 	Image block_;
 
 	int centerx_;
+	
+	// Used to make mario walk
+	void walk(Image& image);
 };
