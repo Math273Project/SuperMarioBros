@@ -37,8 +37,8 @@ private:
 	TextureManager backgroundTexture_;
 	TextureManager enemyTexture_;
 	TextureManager floorTexture_;
-
 	TextureManager blocksTexture_;
+
 	//All the animations are done with an image
 	//std::list<Image> images_;
 	Image mario_; 
@@ -48,4 +48,6 @@ private:
 	Image floor_;
 
 	int centerx_;
+
+	void walk();
 };

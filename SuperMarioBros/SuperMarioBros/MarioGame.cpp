@@ -19,7 +19,6 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//Initialze textures
 	//Initialize arena and started objects
 
-	Arena& arena = Arena::getUniqueInstance();
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490-300, (int)MARIO_SPEED, 0);
 	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144-300);
 	ObjectFloor* objectFloor = new ObjectFloor(0, 0, 600, 800);
@@ -46,8 +45,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
-	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME - 4);   // animation frames
-	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
+	mario_.setFrames(MARIO_START_FRAME , MARIO_START_FRAME);   // animation frames
+	mario_.setCurrentFrame(MARIO_START_FRAME + 8);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);
 	mario_.setScale(MARIO_SCALE);
@@ -65,25 +64,31 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 void MarioGame::update()
 {
-	arena.move(frameTime_*1000);
+	arena.move(frameTime_ * 1000);
 	arena.freeFall(frameTime_ * 1000);
 	arena.collisionDetection();
 	arena.deleteDyingObject();
+
 	if (arena.isGameOver())
 	{
-		exit(0); // end the game
+		PostQuitMessage(0); // end the game
 	}
+
 	if (arena.getMarioX() - centerx_ > GAME_WIDTH / 2) // move the center.
+	{
 		centerx_ = arena.getMarioX() - GAME_WIDTH / 2;
+	}
 
 	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
+		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
+		walk();
 		
 	}
-
 	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0) // some edit here to make Mario cannot go back
 	{
+		mario_.flipHorizontal(true);
 		arena.setMarioVx(-MARIO_SPEED);
 	}
 	else
@@ -106,6 +111,7 @@ void MarioGame::update()
 void MarioGame::render()
 {
 	graphics_->spriteBegin();
+
 	background_.setX(-centerx_);
 	background_.draw();
 	
@@ -117,6 +123,10 @@ void MarioGame::render()
 			block_.setX(i->getx() - centerx_);
 			block_.setY(i->gety());
 			block_.draw();
+			break;
+		case QUESTION:
+			i->setx(i->getx() - centerx_);
+			i->sety(i->gety() - centerx_);
 			break;
 		case FLOOR:
 			int floorStartX = i->getx(), floorEndX = i->getx() + i->getWidth() - 1;
@@ -153,6 +163,7 @@ void MarioGame::render()
 			break;
 		}
 	}
+	//enemy_.draw();
 	graphics_->spriteEnd();
 }
 
@@ -169,4 +180,10 @@ void MarioGame::resetAll()
 	marioTexture_.onResetDevice();
 	Game::resetAll();
 	return;
+}
+
+void MarioGame::walk()
+{
+	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_START_FRAME + 3);
+	mario_.setCurrentFrame(MARIO_START_FRAME + 1);
 }
