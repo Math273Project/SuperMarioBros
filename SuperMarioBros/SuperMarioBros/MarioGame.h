@@ -36,8 +36,8 @@ private:
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
 	TextureManager enemyTexture_;
-
 	TextureManager blocksTexture_;
+
 	//All the animations are done with an image
 	//std::list<Image> images_;
 	Image mario_; 

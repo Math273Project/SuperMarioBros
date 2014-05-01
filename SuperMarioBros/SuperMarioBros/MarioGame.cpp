@@ -19,9 +19,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//Initialze textures
 	//Initialize arena and started objects
 
-	Arena& arena = Arena::getUniqueInstance();
-	ObjectMario* objectMario = new ObjectMario(0, 50, 490, (int)MARIO_SPEED, 0);
-	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144);
+	ObjectMario* objectMario = new ObjectMario(0, 50, 480, (int)MARIO_SPEED, 0);
+	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 473+144);
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
 	//Initialize textures
@@ -40,7 +39,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
-	mario_.setFrames(MARIO_START_FRAME, MARIO_START_FRAME);   // animation frames
+	mario_.setFrames(MARIO_START_FRAME , MARIO_START_FRAME);   // animation frames
 	mario_.setCurrentFrame(MARIO_START_FRAME);     // starting frame
 	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 	mario_.setDegrees(0);
@@ -59,16 +58,20 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 void MarioGame::update()
 {
-	arena.move(frameTime_*1000);
+	arena.move(frameTime_ * 1000);
 	arena.freeFall(frameTime_ * 1000);
 	arena.collisionDetection();
 	arena.deleteDyingObject();
+
 	if (arena.isGameOver())
 	{
-		exit(0); // end the game
+		PostQuitMessage(0); // end the game
 	}
+
 	if (arena.getMarioX() - centerx_ > GAME_WIDTH / 2) // move the center.
+	{
 		centerx_ = arena.getMarioX() - GAME_WIDTH / 2;
+	}
 
 	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
@@ -76,11 +79,10 @@ void MarioGame::update()
 		arena.setMarioVx(MARIO_SPEED);
 		
 	}
-
 	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0) // some edit here to make Mario cannot go back
 	{
-		arena.setMarioVx(-MARIO_SPEED);
 		mario_.flipHorizontal(true);
+		arena.setMarioVx(-MARIO_SPEED);
 	}
 	else
 	{
@@ -102,6 +104,7 @@ void MarioGame::update()
 void MarioGame::render()
 {
 	graphics_->spriteBegin();
+
 	background_.setX(-centerx_);
 	background_.draw();
 	for (const auto& i : arena.getStaticObjects())
@@ -113,6 +116,9 @@ void MarioGame::render()
 			block_.setY(i->gety());
 			block_.draw();
 			break;
+		case QUESTION:
+			i->setx(i->getx() - centerx_);
+			i->sety(i->gety() - centerx_);
 		}
 	}
 	for (const auto& i : arena.getMovingObjects())
@@ -130,6 +136,7 @@ void MarioGame::render()
 			break;
 		}
 	}
+	enemy_.draw();
 	graphics_->spriteEnd();
 }
 
