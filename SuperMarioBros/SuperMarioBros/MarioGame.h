@@ -36,6 +36,7 @@ private:
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
 	TextureManager enemyTexture_;
+	TextureManager floorTexture_;
 
 	TextureManager blocksTexture_;
 	//All the animations are done with an image
@@ -44,6 +45,7 @@ private:
 	Image background_;
 	Image enemy_;
 	Image block_;
+	Image floor_;
 
 	int centerx_;
 };

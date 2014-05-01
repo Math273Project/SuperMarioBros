@@ -6,6 +6,7 @@
 #include "ObjectBrick.h"
 #include "ObjectCoin.h"
 #include "ObjectEnemy.h"
+#include "ObjectFloor.h"
 #include "ObjectMario.h"
 #include "ObjectMario.h"
 #include "ObjectMushroom.h"
@@ -42,6 +43,11 @@ const int ObjectEnemy::WIDTH = 32;
 const int ObjectEnemy::HEIGHT = 32;
 const int ObjectEnemy::FLAT_ENEMY_WIDTH = 32;
 const int ObjectEnemy::FLAT_ENEMY_HEIGHT = 32;
+
+const int ObjectFloor::DYING_DURATION = 500;
+const int ObjectFloor::PRIORITY = 5;
+const int ObjectFloor::WIDTH = 51;
+const int ObjectFloor::HEIGHT = 100;
 
 const int ObjectMario::DYING_DURATION = 500;
 const int ObjectMario::PRIORITY = INT_MAX;

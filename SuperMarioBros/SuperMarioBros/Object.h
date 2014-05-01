@@ -27,6 +27,7 @@ enum ObjectType
 	TURTLE,
 	SPIN_TURTLE,
 	BULLET,
+	FLOOR,
 	// etc...
 };
 

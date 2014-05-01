@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "MovingObject.h"
 
+
 // call this name?
 struct DyingObjectData
 {
@@ -17,16 +18,6 @@ struct DyingObjectData
 	}
 };
 
-struct Gap
-{
-	double startX;
-	double endX;
-	Gap(double newStartX, double newEndX)
-	{
-		startX = newStartX;
-		endX = newEndX;
-	}
-};
 class Arena
 {
 public:
@@ -37,7 +28,6 @@ public:
 		static Arena arena;
 		return arena;
 	}
-	void addGap(double newStartX, double newEndX);
 	void collisionDetection(); // Do collisionDetection of every objects in Arena
 	void freeFall(double time); //adjust the object' vy according to gravity if it is in the air
 	void erase(const Object& object);
@@ -57,18 +47,16 @@ public:
 	~Arena();
 	const std::list<MovingObject*>& getMovingObjects() const;
 	const std::list<Object*>& getStaticObjects() const;
-	const std::list<Gap>& getGaps() const;
 	void pushDyingObjectData(const DyingObjectData& data);
 	// delete the objects that flagged as deleted_;
 protected:
 	std::list<MovingObject*> movingObjects_; // in accending order of priority.
 	std::list<Object*> staticObjects_; //  in accedning order of priority
-	std::list<Gap> gaps_; // in accending order of gap position. No gap will overlap or connected.
 	Arena(); // Unique Instance
 	MovingObject* mario_;
 	std::list<DyingObjectData> dyingObjectData_;
 	static const double ACCELARATION;
-	static const int LOWEST_POSITION; // the biggest y-position. 
+	static const double LOWEST_POSITION; // the biggest y-position. 
 									// The object beyond this position will be deleted in deleteDyingObject(). 
 };
 

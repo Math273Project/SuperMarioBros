@@ -1,7 +1,7 @@
 #include "MarioGame.h"
 #include "ObjectMario.h"
 #include "ObjectBlock.h"
-
+#include "ObjectFloor.h"
 MarioGame::MarioGame()
 {
 	centerx_ = 0;
@@ -22,14 +22,18 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	Arena& arena = Arena::getUniqueInstance();
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490-300, (int)MARIO_SPEED, 0);
 	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144-300);
+	ObjectFloor* objectFloor = new ObjectFloor(0, 0, 600, 800);
+
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
+	arena.pushBack(objectFloor);
 	//Initialize textures
 	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
 	backgroundTexture_.initialize(graphics_, BACKGROUND_START); //background will be split in multiple parts
 	enemyTexture_.initialize(graphics_, MARIO_TEXTURE);
 	blocksTexture_.initialize(graphics_, BLOCKS);
+	floorTexture_.initialize(graphics_, FLOOR_TEXTURE);
 
 
 	//Initialize images
@@ -37,6 +41,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_); // some edit here, full load the background is okay.
 	enemy_.initialize(graphics_, SMALL_MARIO_WIDTH, SMALL_MARIO_HEIGHT, SMALL_MARIO_COLS, &enemyTexture_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
+	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
+	floor_.setY(FLOOR_Y);
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
@@ -102,6 +108,7 @@ void MarioGame::render()
 	graphics_->spriteBegin();
 	background_.setX(-centerx_);
 	background_.draw();
+	
 	for (const auto& i : arena.getStaticObjects())
 	{
 		switch (i->getType())
@@ -110,6 +117,24 @@ void MarioGame::render()
 			block_.setX(i->getx() - centerx_);
 			block_.setY(i->gety());
 			block_.draw();
+			break;
+		case FLOOR:
+			int floorStartX = i->getx(), floorEndX = i->getx() + i->getWidth() - 1;
+			
+			int x = floorStartX;
+			while (x + FLOOR_WIDTH - 1 <= floorEndX)
+			{
+				floor_.setX(x - centerx_);
+				floor_.setY(i->gety());
+				floor_.draw();
+				x += FLOOR_WIDTH;
+			}
+			floor_.setX(x - centerx_);
+			floor_.setY(i->gety());
+			floor_.initialize(graphics_, floorEndX - x + 1, FLOOR_HEIGHT, 1, &floorTexture_); // need floor_.setWidth() function
+			floor_.setX(x - centerx_);
+			floor_.draw();
+			floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
 			break;
 		}
 	}

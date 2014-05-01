@@ -1,13 +1,14 @@
 #include "Arena.h"
+#include "Constants.h"
 #include <algorithm>
 
 
 const double Arena::ACCELARATION = 200;
-const int Arena::LOWEST_POSITION = 2000;
+const double Arena::LOWEST_POSITION = 2000;
 
 Arena::Arena()
 {
-
+	
 }
 
 void Arena::collisionDetection() // Do collisionDetection of every objects in Arena
@@ -52,6 +53,8 @@ void Arena::freeFall(double time)
 	bool onTopOrCollide = false;
 	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
 	{
+		(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
+		/*
 		onTopOrCollide = false;
 		for (auto& j = staticObjects_.begin(); j != staticObjects_.end() && !onTopOrCollide; ++j)
 		{
@@ -59,7 +62,24 @@ void Arena::freeFall(double time)
 				onTopOrCollide = true;
 		}
 		if (!onTopOrCollide)
-			(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
+		{
+			if ((*i)->gety() + (*i)->getHeight() < FLOOR_Y)
+				(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
+			else
+			{
+				bool isFall = false;
+				for (auto& j = floors_.begin(); j != floors_.end() && !isFall; ++j)
+				{
+					if (j->startX <= (*i)->getx() && (*i)->getx() + (*i)->getWidth() <= j->endX)
+						isFall = true;
+				}
+				if (isFall)
+					(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
+				else
+					(*i)->setvy(0);
+			}
+		}
+		*/
 	}
 }
 
@@ -196,23 +216,23 @@ const std::list<Object*>& Arena::getStaticObjects() const
 {
 	return staticObjects_;
 }
-
-const std::list<Gap>& Arena::getGaps() const
+/*
+const std::list<Floor>& Arena::getFloors() const
 {
-	return gaps_;
+	return floors_;
 }
 
-void Arena::addGap(double newStartX, double newEndX)
+void Arena::addFloor(double newStartX, double newEndX)
 {
 	if (newStartX > newEndX)
 		return;
-	if (gaps_.empty())
+	if (floors_.empty())
 	{
-		gaps_.emplace_back(newStartX, newEndX);
+		floors_.emplace_back(newStartX, newEndX);
 	}
 	else
 	{
-		auto iNewEnd = remove_if(gaps_.begin(), gaps_.end(), [&](const Gap& i)
+		auto iNewEnd = remove_if(floors_.begin(), floors_.end(), [&](const Floor& i)
 		{
 			bool flag = false;
 			if (i.startX <= newStartX && newStartX <= i.endX)
@@ -230,8 +250,9 @@ void Arena::addGap(double newStartX, double newEndX)
 
 			return flag;
 		});
-		gaps_.erase(iNewEnd, gaps_.end());
-		auto iPos = find_if(gaps_.cbegin(), gaps_.cend(), [&](const Gap& i){ return i.startX > newEndX; });
-		gaps_.emplace(iPos, newStartX, newEndX);
+		floors_.erase(iNewEnd, floors_.end());
+		auto iPos = find_if(floors_.cbegin(), floors_.cend(), [&](const Floor& i){ return i.startX > newEndX; });
+		floors_.emplace(iPos, newStartX, newEndX);
 	}
 }
+*/

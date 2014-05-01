@@ -13,6 +13,7 @@ const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 const char BACKGROUND_START[] = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
 const char MARIO_TEXTURE[] = "Textures\\Robot_Mario.bmp";
 const char BLOCKS[] = "Textures\\Blocks.bmp";
+const char FLOOR_TEXTURE[] = "Textures\\floor.bmp";
 
 // Sprite constants
 
@@ -41,6 +42,9 @@ const double SMALL_MARIO_SCALE = .25;
 const int BLOCK_HEIGHT = 72;
 const int BLOCK_WIDTH = 72;
 
+const int FLOOR_WIDTH = 51;
+const int FLOOR_HEIGHT = 100;
+const int FLOOR_Y = 620;
 //constants
 
 const char CLASS_NAME[] = "Super Mario Bros";

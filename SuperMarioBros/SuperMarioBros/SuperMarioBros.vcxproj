@@ -25,6 +25,7 @@
     <ClCompile Include="ObjectCoin.cpp" />
     <ClCompile Include="ObjectConstants.cpp" />
     <ClCompile Include="ObjectEnemy.cpp" />
+    <ClCompile Include="ObjectFloor.cpp" />
     <ClCompile Include="ObjectMario.cpp" />
     <ClCompile Include="ObjectMushroom.cpp" />
     <ClCompile Include="ObjectPipe.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="ObjectBullet.h" />
     <ClInclude Include="ObjectCoin.h" />
     <ClInclude Include="ObjectEnemy.h" />
+    <ClInclude Include="ObjectFloor.h" />
     <ClInclude Include="ObjectMario.h" />
     <ClInclude Include="ObjectMushroom.h" />
     <ClInclude Include="ObjectPipe.h" />

@@ -21,6 +21,7 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		destroy(true);
 		break;
 	case BLOCK:
+	case FLOOR:
 	case PIPE:
 	case BRICK:
 	case QUESTION:
