@@ -3,8 +3,8 @@
 
 ObjectBlock::ObjectBlock(int id, int x, int y) : Object(id, x, y) 
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = BLOCK_WIDTH;
+	height_ = BLOCK_HEIGHT;
 	enabled_ = true;
 }
 
@@ -20,7 +20,7 @@ ObjectType ObjectBlock::getType() const
 
 int ObjectBlock::getPriority() const
 {
-	return PRIORITY; // change it later;
+	return BLOCK_PRIORITY; // change it later;
 }
 
 void ObjectBlock::destroy(bool instantDestroy)
@@ -30,7 +30,7 @@ void ObjectBlock::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, BLOCK_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -42,5 +42,5 @@ void ObjectBlock::destroy(bool instantDestroy)
 
 int ObjectBlock::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return BLOCK_DYING_DURATION;
 }

@@ -23,7 +23,6 @@
     <ClCompile Include="ObjectBrick.cpp" />
     <ClCompile Include="ObjectBullet.cpp" />
     <ClCompile Include="ObjectCoin.cpp" />
-    <ClCompile Include="ObjectConstants.cpp" />
     <ClCompile Include="ObjectEnemy.cpp" />
     <ClCompile Include="ObjectFloor.cpp" />
     <ClCompile Include="ObjectMario.cpp" />

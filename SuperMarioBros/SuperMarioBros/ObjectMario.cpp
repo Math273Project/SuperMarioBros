@@ -3,11 +3,11 @@
 
 ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy) // id 0, highest priority, moveable
 {
-	width_ = SMALL_MARIO_WIDTH;
-	height_ = SMALL_MARIO_HEIGHT;
+	width_ = MARIO_SMALL_WIDTH;
+	height_ = MARIO_SMALL_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
-	type_ = SMALL_MARIO;
+	type_ = MARIO_SMALL;
 }
 
 void ObjectMario::collide(const Object& object, Direction collideDirection)
@@ -60,11 +60,11 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 	case POWERUP:
 		switch (type_)
 		{
-		case SMALL_MARIO:
-			setType(BIG_MARIO);
+		case MARIO_SMALL:
+			setType(MARIO_BIG);
 			break;
-		case BIG_MARIO:
-			setType(SUPER_MARIO);
+		case MARIO_BIG:
+			setType(MARIO_SUPER);
 			break;
 		}
 	}
@@ -78,7 +78,7 @@ ObjectType ObjectMario::getType() const
 
 int ObjectMario::getPriority() const
 {
-	return PRIORITY;
+	return MARIO_PRIORITY;
 }
 
 void ObjectMario::destroy(bool instantDestroy)
@@ -92,7 +92,7 @@ void ObjectMario::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, MARIO_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -106,25 +106,25 @@ void ObjectMario::setType(ObjectType type)
 {
 	switch (type)
 	{
-	case SMALL_MARIO:
-		type_ = SMALL_MARIO;
-		width_ = SMALL_MARIO_WIDTH; // need data
-		height_ = SMALL_MARIO_HEIGHT;
+	case MARIO_SMALL:
+		type_ = MARIO_SMALL;
+		width_ = MARIO_SMALL_WIDTH; // need data
+		height_ = MARIO_SMALL_HEIGHT;
 		break;
-	case BIG_MARIO:
-		type_ = BIG_MARIO;
-		width_ = BIG_MARIO_WIDTH;
-		height_ = BIG_MARIO_HEIGHT;
+	case MARIO_BIG:
+		type_ = MARIO_BIG;
+		width_ = MARIO_BIG_WIDTH;
+		height_ = MARIO_BIG_HEIGHT;
 		break;
-	case SUPER_MARIO:
-		type_ = SUPER_MARIO;
-		width_ = SUPER_MARIO_WIDTH;
-		height_ = SUPER_MARIO_HEIGHT;
+	case MARIO_SUPER:
+		type_ = MARIO_SUPER;
+		width_ = MARIO_SUPER_WIDTH;
+		height_ = MARIO_SUPER_HEIGHT;
 		break;
 	}
 }
 
 int ObjectMario::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return MARIO_DYING_DURATION;
 }

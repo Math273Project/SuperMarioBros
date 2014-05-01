@@ -3,8 +3,8 @@
 
 ObjectCoin::ObjectCoin(int id, int x, int y) : Object(id, x, y)
 {
-	width_ = 32;
-	height_ = 32;
+	width_ = COIN_WIDTH;
+	height_ = COIN_HEIGHT;
 	enabled_ = false;
 	//initializeSprite(0, 0);
 }
@@ -15,7 +15,7 @@ ObjectType ObjectCoin::getType() const
 }
 int ObjectCoin::getPriority() const
 {
-	return 5; // change it later;
+	return COIN_PRIORITY;
 }
 
 void ObjectCoin::destroy(bool instantDestroy)
@@ -25,7 +25,7 @@ void ObjectCoin::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, COIN_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -42,9 +42,9 @@ void ObjectCoin::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	case MARIO_SMALL:
+	case MARIO_BIG:
+	case MARIO_SUPER:
 		switch (collideDirection)
 		{
 		default:
@@ -55,5 +55,5 @@ void ObjectCoin::collide(const Object& object, Direction collideDirection)
 
 int ObjectCoin::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return COIN_DYING_DURATION;
 }

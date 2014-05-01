@@ -3,8 +3,8 @@
 
 ObjectBrick::ObjectBrick(int id, int x, int y) : Object(id, x, y)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = BRICK_WIDTH;
+	height_ = BRICK_HEIGHT;
 	enabled_ = true;
 }
 
@@ -14,9 +14,9 @@ void ObjectBrick::collide(const Object& object, Direction collideDirection)
 		return;
 	switch (object.getType())
 	{
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	case MARIO_SMALL:
+	case MARIO_BIG:
+	case MARIO_SUPER:
 		switch (collideDirection)
 		{
 		case UP:
@@ -30,7 +30,7 @@ void ObjectBrick::collide(const Object& object, Direction collideDirection)
 ObjectType ObjectBrick::getType() const
 {
 	if (dying_)
-		return BRICK_PIECE;
+		return BRICK_DYING;
 	return BRICK;
 }
 
@@ -38,13 +38,13 @@ void ObjectBrick::changeType()
 {
 	dying_ = true;
 	passable_ = true;
-	width_ = BRICK_PIECE_WIDTH;
-	height_ = BRICK_PIECE_HEIGHT;
+	width_ = BRICK_DYING_WIDTH;
+	height_ = BRICK_DYING_HEIGHT;
 }
 
 int ObjectBrick::getPriority() const
 {
-	return PRIORITY;
+	return BRICK_PRIORITY;
 }
 
 void ObjectBrick::destroy(bool instantDestroy)
@@ -55,7 +55,7 @@ void ObjectBrick::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, BRICK_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -67,5 +67,5 @@ void ObjectBrick::destroy(bool instantDestroy)
 
 int ObjectBrick::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return BRICK_DYING_DURATION;
 }

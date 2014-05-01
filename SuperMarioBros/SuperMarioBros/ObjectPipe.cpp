@@ -3,8 +3,8 @@
 
 ObjectPipe::ObjectPipe(int id, int x, int y) : Object(id, x, y)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = PIPE_WIDTH;
+	height_ = PIPE_HEIGHT;
 	enabled_ = true;
 }
 
@@ -20,7 +20,7 @@ ObjectType ObjectPipe::getType() const
 
 int ObjectPipe::getPriority() const
 {
-	return PRIORITY; // change it later
+	return PIPE_PRIORITY; // change it later
 }
 
 void ObjectPipe::destroy(bool instantDestroy)
@@ -30,7 +30,7 @@ void ObjectPipe::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, PIPE_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -42,5 +42,5 @@ void ObjectPipe::destroy(bool instantDestroy)
 
 int ObjectPipe::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return PIPE_DYING_DURATION;
 }

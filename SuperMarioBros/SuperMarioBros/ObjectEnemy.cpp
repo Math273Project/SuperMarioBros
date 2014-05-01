@@ -3,8 +3,8 @@
 
 ObjectEnemy::ObjectEnemy(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = ENEMY_WIDTH;
+	height_ = ENEMY_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -37,9 +37,9 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 		}
 		break;
 
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	case MARIO_SMALL:
+	case MARIO_BIG:
+	case MARIO_SUPER:
 		switch (collideDirection)
 		{
 		case DOWN:
@@ -53,20 +53,20 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 ObjectType ObjectEnemy::getType() const
 {
 	if (dying_)
-		return FLAT_ENEMY;
+		return ENEMY_DYING;
 	return ENEMY;
 }
 
 int ObjectEnemy::getPriority() const
 {
-	return PRIORITY;
+	return ENEMY_PRIORITY;
 }
 
 void ObjectEnemy::changeType()
 {
 	dying_ = true;
-	width_ = FLAT_ENEMY_WIDTH;
-	height_ = FLAT_ENEMY_HEIGHT;
+	width_ = ENEMY_DYING_WIDTH;
+	height_ = ENEMY_DYING_HEIGHT;
 }
 
 void ObjectEnemy::destroy(bool instantDestroy)
@@ -79,7 +79,7 @@ void ObjectEnemy::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, ENEMY_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -91,5 +91,5 @@ void ObjectEnemy::destroy(bool instantDestroy)
 
 int ObjectEnemy::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return ENEMY_DYING_DURATION;
 }

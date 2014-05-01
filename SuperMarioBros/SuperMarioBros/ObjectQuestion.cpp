@@ -3,8 +3,8 @@
 
 ObjectQuestion::ObjectQuestion(int id, int x, int y, ObjectType newObjectType) : Object(id, x, y)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = QUESTION_WIDTH;
+	height_ = QUESTION_HEIGHT;
 	enabled_ = true;
 	newObjectType_ = newObjectType;
 }
@@ -16,9 +16,9 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	case MARIO_SMALL:
+	case MARIO_BIG:
+	case MARIO_SUPER:
 		switch (collideDirection)
 		{
 		case UP:
@@ -47,7 +47,7 @@ ObjectType ObjectQuestion::getType() const
 
 int ObjectQuestion::getPriority() const
 {
-	return PRIORITY; // change it later
+	return QUESTION_PRIORITY; // change it later
 }
 
 void ObjectQuestion::destroy(bool instantDestroy)
@@ -58,7 +58,7 @@ void ObjectQuestion::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, QUESTION_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -70,5 +70,5 @@ void ObjectQuestion::destroy(bool instantDestroy)
 
 int ObjectQuestion::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return QUESTION_DYING_DURATION;
 }

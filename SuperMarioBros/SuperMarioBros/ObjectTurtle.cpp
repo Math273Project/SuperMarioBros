@@ -3,8 +3,8 @@
 
 ObjectTurtle::ObjectTurtle(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = TURTLE_WIDTH;
+	height_ = TURTLE_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -40,9 +40,9 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 		}
 		break;
 
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	case MARIO_SMALL:
+	case MARIO_BIG:
+	case MARIO_SUPER:
 		if (!spining_)
 		{
 			switch (collideDirection)
@@ -68,20 +68,20 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 ObjectType ObjectTurtle::getType() const
 {
 	if (spining_)
-		return SPIN_TURTLE;
+		return TURTLE_SPIN;
 	return TURTLE;
 }
 
 int ObjectTurtle::getPriority() const
 {
-	return PRIORITY; // change it later
+	return TURTLE_PRIORITY; // change it later
 }
 
 void ObjectTurtle::changeType()
 {
 	spining_ = true;
-	width_ = SPIN_TURTLE_WIDTH;
-	height_ = SPIN_TURTLE_HEIGHT;
+	width_ = TURTLE_SPIN_WIDTH;
+	height_ = TURTLE_SPIN_HEIGHT;
 	setvx(100); // change the number later
 }
 
@@ -95,7 +95,7 @@ void ObjectTurtle::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, TURTLE_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -107,5 +107,5 @@ void ObjectTurtle::destroy(bool instantDestroy)
 
 int ObjectTurtle::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return TURTLE_DYING_DURATION;
 }

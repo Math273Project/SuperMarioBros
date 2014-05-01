@@ -5,27 +5,28 @@
 #include <d3d9.h>
 #include <d3dx9tex.h>
 #include <mmsystem.h>
+#include "Constants.h"
 
 // This class is the base class of all the objects.
 enum ObjectType
 {
-	SMALL_MARIO,
-	BIG_MARIO,
-	SUPER_MARIO,
+	MARIO_SMALL,
+	MARIO_BIG,
+	MARIO_SUPER,
 	BLOCK,
 	FLOWER,
 	MUSHROOM,
-	FLAT_MUSHROOM,
+	MUSHROOM_DYING,
 	COIN,
 	ENEMY,
-	FLAT_ENEMY,
+	ENEMY_DYING,
 	QUESTION,
 	BRICK,
-	BRICK_PIECE,
+	BRICK_DYING,
 	POWERUP,
 	PIPE,
 	TURTLE,
-	SPIN_TURTLE,
+	TURTLE_SPIN,
 	BULLET,
 	FLOOR,
 	// etc...

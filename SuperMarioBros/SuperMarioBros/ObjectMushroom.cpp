@@ -3,8 +3,8 @@
 
 ObjectMushroom::ObjectMushroom(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = MUSHROOM_WIDTH;
+	height_ = MUSHROOM_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -35,9 +35,9 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 		}
 		break;
 
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	case MARIO_SMALL:
+	case MARIO_BIG:
+	case MARIO_SUPER:
 		switch (collideDirection)
 		{
 		case DOWN:
@@ -51,13 +51,13 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 ObjectType ObjectMushroom::getType() const
 {
 	if (dying_)
-		return FLAT_MUSHROOM;
+		return MUSHROOM_DYING;
 	return MUSHROOM;
 }
 
 int ObjectMushroom::getPriority() const
 {
-	return PRIORITY; // change it later
+	return MUSHROOM_PRIORITY; // change it later
 }
 
 void ObjectMushroom::destroy(bool instantDestroy)
@@ -70,7 +70,7 @@ void ObjectMushroom::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, MUSHROOM_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -83,11 +83,11 @@ void ObjectMushroom::destroy(bool instantDestroy)
 void ObjectMushroom::changeType() // change mushroom to flat mushroom, change sprite
 {
 	dying_ = true;
-	width_ = FLAT_MUSHROOM_WIDTH;
-	height_ = FLAT_MUSHROOM_HEIGHT;
+	width_ = MUSHROOM_DYING_WIDTH;
+	height_ = MUSHROOM_DYING_HEIGHT;
 }
 
 int ObjectMushroom::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return MUSHROOM_DYING_DURATION;
 }

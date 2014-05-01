@@ -21,7 +21,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490-300, (int)MARIO_SPEED, 0);
 	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144-300);
-	ObjectFloor* objectFloor = new ObjectFloor(0, 0, 600, 800);
+	ObjectFloor* objectFloor = new ObjectFloor(0, 0, 600, 2000);
 
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
@@ -36,12 +36,11 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 
 	//Initialize images
-	mario_.initialize(graphics_, BIG_MARIO_WIDTH, BIG_MARIO_HEIGHT, MARIO_COLS, &marioTexture_);
+	mario_.initialize(graphics_, MARIO_BIG_WIDTH, MARIO_BIG_HEIGHT, MARIO_COLS, &marioTexture_);
 	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_); // some edit here, full load the background is okay.
-	enemy_.initialize(graphics_, SMALL_MARIO_WIDTH, SMALL_MARIO_HEIGHT, SMALL_MARIO_COLS, &enemyTexture_);
+	enemy_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &enemyTexture_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
 	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
-	floor_.setY(FLOOR_Y);
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
@@ -53,9 +52,9 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	enemy_.setX(200);
 	enemy_.setY(490);
-	enemy_.setFrames(SMALL_MARIO_START_FRAME, SMALL_MARIO_END_FRAME);
-	enemy_.setCurrentFrame(SMALL_MARIO_START_FRAME);
-	enemy_.setFrameDelay(SMALL_MARIO_ANIMATION_DELAY);
+	enemy_.setFrames(MARIO_SMALL_START_FRAME, MARIO_SMALL_END_FRAME);
+	enemy_.setCurrentFrame(MARIO_SMALL_START_FRAME);
+	enemy_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
 	enemy_.setDegrees(0);
 	enemy_.flipHorizontal(true);
 	
@@ -129,10 +128,8 @@ void MarioGame::render()
 			i->sety(i->gety() - centerx_);
 			break;
 		case FLOOR:
-			int floorStartX = i->getx(), floorEndX = i->getx() + i->getWidth() - 1;
-			
-			int x = floorStartX;
-			while (x + FLOOR_WIDTH - 1 <= floorEndX)
+			int x = i->getx();
+			while (x + FLOOR_WIDTH < i->getx() + i->getWidth())
 			{
 				floor_.setX(x - centerx_);
 				floor_.setY(i->gety());
@@ -141,8 +138,7 @@ void MarioGame::render()
 			}
 			floor_.setX(x - centerx_);
 			floor_.setY(i->gety());
-			floor_.initialize(graphics_, floorEndX - x + 1, FLOOR_HEIGHT, 1, &floorTexture_); // need floor_.setWidth() function
-			floor_.setX(x - centerx_);
+			floor_.initialize(graphics_, i->getx() + i->getWidth() - x, FLOOR_HEIGHT, 1, &floorTexture_); // need floor_.setWidth() function
 			floor_.draw();
 			floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
 			break;
@@ -152,7 +148,7 @@ void MarioGame::render()
 	{
 		switch (i->getType())
 		{
-		case SMALL_MARIO:
+		case MARIO_SMALL:
 			mario_.setX(i->getx() - centerx_);
 			mario_.setY(i->gety());
 			mario_.setCurrentFrame(i->getCurrentFrame());

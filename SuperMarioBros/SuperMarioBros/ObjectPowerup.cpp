@@ -3,8 +3,8 @@
 
 ObjectPowerup::ObjectPowerup(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = POWERUP_WIDTH;
+	height_ = POWERUP_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -16,9 +16,9 @@ void ObjectPowerup::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
-	case SMALL_MARIO:
-	case BIG_MARIO:
-	case SUPER_MARIO:
+	case MARIO_SMALL:
+	case MARIO_BIG:
+	case MARIO_SUPER:
 		destroy();
 		break;
 	}
@@ -31,7 +31,7 @@ ObjectType ObjectPowerup::getType() const
 
 int ObjectPowerup::getPriority() const
 {
-	return PRIORITY; // change it later
+	return POWERUP_PRIORITY; // change it later
 }
 
 void ObjectPowerup::destroy(bool instantDestroy)
@@ -41,7 +41,7 @@ void ObjectPowerup::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, POWERUP_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -53,5 +53,5 @@ void ObjectPowerup::destroy(bool instantDestroy)
 
 int ObjectPowerup::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return POWERUP_DYING_DURATION;
 }

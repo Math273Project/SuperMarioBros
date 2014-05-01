@@ -4,7 +4,7 @@
 ObjectFloor::ObjectFloor(int id, int x, int y, int width) : Object(id, x, y)
 {
 	width_ = width;
-	height_ = HEIGHT;
+	height_ = FLOOR_HEIGHT;
 	enabled_ = true;
 }
 
@@ -20,7 +20,7 @@ ObjectType ObjectFloor::getType() const
 
 int ObjectFloor::getPriority() const
 {
-	return PRIORITY; // change it later;
+	return FLOOR_PRIORITY; // change it later;
 }
 
 void ObjectFloor::destroy(bool instantDestroy)
@@ -30,7 +30,7 @@ void ObjectFloor::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, FLOOR_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -42,5 +42,5 @@ void ObjectFloor::destroy(bool instantDestroy)
 
 int ObjectFloor::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return FLOOR_DYING_DURATION;
 }

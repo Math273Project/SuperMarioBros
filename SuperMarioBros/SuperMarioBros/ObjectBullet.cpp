@@ -3,8 +3,8 @@
 
 ObjectBullet::ObjectBullet(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
 {
-	width_ = WIDTH;
-	height_ = HEIGHT;
+	width_ = BULLET_WIDTH;
+	height_ = BULLET_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }
@@ -29,7 +29,7 @@ ObjectType ObjectBullet::getType() const
 
 int ObjectBullet::getPriority() const
 {
-	return PRIORITY;
+	return BULLET_PRIORITY;
 }
 
 void ObjectBullet::destroy(bool instantDestroy)
@@ -41,7 +41,7 @@ void ObjectBullet::destroy(bool instantDestroy)
 	QueryPerformanceCounter(&time);
 	if (!instantDestroy)
 	{
-		DyingObjectData data(this, time.QuadPart, DYING_DURATION);
+		DyingObjectData data(this, time.QuadPart, BULLET_DYING_DURATION);
 		arena.pushDyingObjectData(data);
 	}
 	else
@@ -53,5 +53,5 @@ void ObjectBullet::destroy(bool instantDestroy)
 
 int ObjectBullet::getDyingDuration() const
 {
-	return DYING_DURATION;
+	return BULLET_DYING_DURATION;
 }

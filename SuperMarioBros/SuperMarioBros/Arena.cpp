@@ -86,7 +86,7 @@ void Arena::freeFall(double time)
 void Arena::erase(const Object& object)
 {
 	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* i)
-	{ 	if (i->getType() == SMALL_MARIO || i->getType() == SMALL_MARIO || i->getType() == BIG_MARIO)
+	{ 	if (i->getType() == MARIO_SMALL || i->getType() == MARIO_BIG || i->getType() == MARIO_SUPER)
 			mario_ = nullptr; 
 		return *i == object; });
 	movingObjects_.erase(iNewEnd, movingObjects_.end());
@@ -100,7 +100,7 @@ void Arena::pushBack(MovingObject* pMovingObject)
 	auto iPos = find_if(movingObjects_.cbegin(), movingObjects_.cend(), [&](MovingObject* i)
 				{return (*i).getPriority() > pMovingObject->getPriority(); });
 	movingObjects_.insert(iPos, pMovingObject);
-	if (pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == SMALL_MARIO || pMovingObject->getType() == BIG_MARIO)
+	if (pMovingObject->getType() == MARIO_SMALL || pMovingObject->getType() == MARIO_BIG || pMovingObject->getType() == MARIO_SUPER)
 		mario_ = pMovingObject;
 }
 
@@ -120,7 +120,7 @@ void Arena::move(double time)
 void Arena::deleteDyingObject()
 {
 	auto iNewEnd = remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const MovingObject* i){
-		if (i->gety() > LOWEST_POSITION && (i->getType() == SMALL_MARIO || i->getType() == SMALL_MARIO || i->getType() == BIG_MARIO))
+		if (i->gety() > LOWEST_POSITION && (i->getType() == MARIO_SMALL || i->getType() == MARIO_BIG || i->getType() == MARIO_SUPER))
 			mario_ = nullptr; 
 		return i->gety() > LOWEST_POSITION; });
 		movingObjects_.erase(iNewEnd, movingObjects_.end());

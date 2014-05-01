@@ -15,13 +15,5 @@ public:
 protected:
 	ObjectType type_;
 	void setType(ObjectType type); // will change the sprite
-	static const int DYING_DURATION;
-	static const int PRIORITY;
-	static const int SMALL_MARIO_WIDTH;
-	static const int SMALL_MARIO_HEIGHT;
-	static const int BIG_MARIO_WIDTH;
-	static const int BIG_MARIO_HEIGHT;
-	static const int SUPER_MARIO_WIDTH;
-	static const int SUPER_MARIO_HEIGHT;
 };
 
