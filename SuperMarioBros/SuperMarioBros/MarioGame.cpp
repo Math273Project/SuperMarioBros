@@ -21,7 +21,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	ObjectMario* objectMario = new ObjectMario(0, 50, 490-300, (int)MARIO_SPEED, 0);
 	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144-300);
-	ObjectFloor* objectFloor = new ObjectFloor(0, 0, 600, 2000);
+	ObjectFloor* objectFloor = new ObjectFloor(0, 0, 618, 2000);
 
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
