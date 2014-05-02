@@ -4,18 +4,19 @@
 class MovingObject : public Object
 {
 public:
-	MovingObject(int id, int x, int y, int vx, int vy);
+	MovingObject(int x, int y, int vx, int vy);
 	double getvx() const;
 	double getvy() const;
 	Direction getFacingDirection() const;
-	Direction didCollide(const Object& object) const; // Check if two objects are collide, return a collide direction
-	Direction MovingObject::didCollide(const MovingObject& object) const; // Check if two objects are collide
 	void setvx(double vx); // will callsetFacingDirection if the direction of velocity changes;
 	void setvy(double vy);
-	bool moveable() const override final;
+	bool getMoveable() const;
 	void setFacingDirection(Direction facingDirection);
 	void move(double time);
+	bool getGravityAffected() const;
+	void setGravityAffected(bool gravityAffected);
 protected:
+	bool gravityAffected_;
 	double vx_; // unit: pixel / second
 	double vy_;
 	Direction facingDirection_;

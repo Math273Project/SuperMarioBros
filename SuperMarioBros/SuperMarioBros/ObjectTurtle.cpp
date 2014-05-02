@@ -1,12 +1,10 @@
 #include "ObjectTurtle.h"
 #include "Arena.h"
 
-ObjectTurtle::ObjectTurtle(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
+ObjectTurtle::ObjectTurtle(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
 	width_ = TURTLE_WIDTH;
 	height_ = TURTLE_HEIGHT;
-	enabled_ = true;
-	facingDirection_ = RIGHT;
 }
 
 void ObjectTurtle::collide(const Object& object, Direction collideDirection)
@@ -58,8 +56,10 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 			switch (collideDirection)
 			{
 			case DOWN:
-				destroy();
-				break;
+				if (!spining_)
+				{
+					changeType();
+				}
 			}
 		}
 		break;
@@ -84,29 +84,4 @@ void ObjectTurtle::changeType()
 	width_ = TURTLE_SPIN_WIDTH;
 	height_ = TURTLE_SPIN_HEIGHT;
 	setvx(100); // change the number later
-}
-
-void ObjectTurtle::destroy(bool instantDestroy)
-{
-	changeType();
-	setvx(0);
-	setvy(0);
-	Arena& arena = Arena::getUniqueInstance();
-	LARGE_INTEGER time;
-	QueryPerformanceCounter(&time);
-	if (!instantDestroy)
-	{
-		DyingObjectData data(this, time.QuadPart, TURTLE_DYING_DURATION);
-		arena.pushDyingObjectData(data);
-	}
-	else
-	{
-		DyingObjectData data(this, time.QuadPart, 0);
-		arena.pushDyingObjectData(data);
-	}
-}
-
-int ObjectTurtle::getDyingDuration() const
-{
-	return TURTLE_DYING_DURATION;
 }

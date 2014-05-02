@@ -8,8 +8,8 @@ const double MIN_FRAME_RATE = 10.0;
 const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
 const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
-const double GRAVITY = 100;
-const double LOWEST_POSITION = 2000; // the biggest y-position. 
+const double GRAVITY = 200;
+const double LOWEST_POSITION = 1500; // the biggest y-position. 
 									// The object beyond this position will be deleted in deleteDyingObject(). 
 // Texture constants
 
@@ -29,7 +29,7 @@ const int TEXTURE_WIDTH = 72;     //standard size of entity textures
 const int TEXTURE_HEIGHT = 144;
 //const int BIG_MARIO_WIDTH = 72;     //standard size of entity textures
 //const int BIG_MARIO_HEIGHT = 144;
-const double MARIO_SPEED = 200.0; // pixels per second (velocity)
+const double MARIO_SPEED = 400.0; // pixels per second (velocity)
 const double MARIO_SCALE = 1.00;
 
 // Small Mario
@@ -102,7 +102,7 @@ const int POWERUP_WIDTH = 72;
 const int POWERUP_HEIGHT = 72;
 
 const int QUESTION_DYING_DURATION = 500;
-const int QUESTION_PRIORITY = 5;
+const int QUESTION_PRIORITY = INT_MAX;
 const int QUESTION_WIDTH = 72;
 const int QUESTION_HEIGHT = 72;
 

@@ -1,13 +1,9 @@
 #include "ObjectEnemy.h"
-#include "Arena.h"
 
-ObjectEnemy::ObjectEnemy(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy)
+ObjectEnemy::ObjectEnemy(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
 	width_ = ENEMY_WIDTH;
 	height_ = ENEMY_HEIGHT;
-	dying_ = false;
-	enabled_ = true;
-	facingDirection_ = RIGHT;
 }
 
 void ObjectEnemy::collide(const Object& object, Direction collideDirection)
@@ -44,7 +40,11 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 		switch (collideDirection)
 		{
 		case DOWN:
-			destroy();
+			if (!dying_)
+			{
+				changeType();
+				destroy(ENEMY_DYING_DURATION);
+			}
 			break;
 		}
 		break;
@@ -68,29 +68,4 @@ void ObjectEnemy::changeType()
 	dying_ = true;
 	width_ = ENEMY_DYING_WIDTH;
 	height_ = ENEMY_DYING_HEIGHT;
-}
-
-void ObjectEnemy::destroy(bool instantDestroy)
-{
-	changeType();
-	setvx(0);
-	setvy(0);
-	Arena& arena = Arena::getUniqueInstance();
-	LARGE_INTEGER time;
-	QueryPerformanceCounter(&time);
-	if (!instantDestroy)
-	{
-		DyingObjectData data(this, time.QuadPart, ENEMY_DYING_DURATION);
-		arena.pushDyingObjectData(data);
-	}
-	else
-	{
-		DyingObjectData data(this, time.QuadPart, 0);
-		arena.pushDyingObjectData(data);
-	}
-}
-
-int ObjectEnemy::getDyingDuration() const
-{
-	return ENEMY_DYING_DURATION;
 }

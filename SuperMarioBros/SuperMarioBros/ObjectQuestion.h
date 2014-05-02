@@ -6,13 +6,11 @@
 class ObjectQuestion : public Object
 {
 public:
-	ObjectQuestion(int id, int x, int y, Object* linkedObject);
+	ObjectQuestion(int x, int y, ObjectType attachedObject);
 	void collide(const Object& object, Direction collideDirection);
 	ObjectType getType() const override;
 	int getPriority() const override;
-	void destroy(bool instantDestroy = false) override;
-	int getDyingDuration() const override;
 protected:
 	bool changed_;
-	Object* linkedObject_;
+	ObjectType attachedObjectType_;
 };
