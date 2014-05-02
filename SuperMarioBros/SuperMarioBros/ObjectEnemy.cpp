@@ -5,6 +5,7 @@ ObjectEnemy::ObjectEnemy(int id, int x, int y, int vx, int vy) : MovingObject(id
 {
 	width_ = ENEMY_WIDTH;
 	height_ = ENEMY_HEIGHT;
+	dying_ = false;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
 }

@@ -5,6 +5,7 @@ ObjectBrick::ObjectBrick(int id, int x, int y) : Object(id, x, y)
 {
 	width_ = BRICK_WIDTH;
 	height_ = BRICK_HEIGHT;
+	dying_ = false;
 	enabled_ = true;
 }
 
@@ -20,6 +21,7 @@ void ObjectBrick::collide(const Object& object, Direction collideDirection)
 		switch (collideDirection)
 		{
 		case UP:
+			if (!dying_)
 			destroy();
 			break;
 		}

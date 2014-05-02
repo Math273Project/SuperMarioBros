@@ -17,14 +17,12 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
-	case BULLET:
-		destroy(true);
-		break;
 	case BLOCK:
 	case FLOOR:
 	case PIPE:
 	case BRICK:
 	case QUESTION:
+	case MUSHROOM_DYING:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)
 		{
@@ -57,6 +55,7 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 			setvy(0);
 			break;
 		}
+		break;
 	case POWERUP:
 		switch (type_)
 		{
@@ -67,6 +66,7 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 			setType(MARIO_SUPER);
 			break;
 		}
+		break;
 	}
 }
 
@@ -83,9 +83,8 @@ int ObjectMario::getPriority() const
 
 void ObjectMario::destroy(bool instantDestroy)
 {
-	// need add more
-	setvy(-100); // mario jumps and die
-	facingDirection_ = UP;
+	setvy(-MARIO_DYING_SPEED); // mario jumps and die
+	//facingDirection_ = UP;
 	passable_ = true;
 	Arena& arena = Arena::getUniqueInstance();
 	LARGE_INTEGER time;

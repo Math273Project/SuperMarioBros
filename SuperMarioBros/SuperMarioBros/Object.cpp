@@ -123,20 +123,23 @@ Object::Object(int id, int x, int y) : Object(id)
 
 void Object::adjustPosition(const Object& object, Direction collideDirection)
 {
-	switch (collideDirection)
+	if (enabled_)
 	{
-	case UP:
-		y_ = object.gety() - height_;
-		break;
-	case DOWN:
-		y_ = object.gety() + object.getHeight();
-		break;
-	case LEFT:
-		x_ = object.getx() - width_;
-		break;
-	case RIGHT:
-		x_ = object.getx() + object.getWidth();
-		break;
+		switch (collideDirection)
+		{
+		case UP:
+			y_ = object.gety() - height_;
+			break;
+		case DOWN:
+			y_ = object.gety() + object.getHeight();
+			break;
+		case LEFT:
+			x_ = object.getx() - width_;
+			break;
+		case RIGHT:
+			x_ = object.getx() + object.getWidth();
+			break;
+		}
 	}
 }
 

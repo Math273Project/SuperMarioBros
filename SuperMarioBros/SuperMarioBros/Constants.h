@@ -8,6 +8,9 @@ const double MIN_FRAME_RATE = 10.0;
 const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
 const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
+const double GRAVITY = 100;
+const double LOWEST_POSITION = 2000; // the biggest y-position. 
+									// The object beyond this position will be deleted in deleteDyingObject(). 
 // Texture constants
 
 const char BACKGROUND_START[] = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
@@ -35,6 +38,7 @@ const int MARIO_SMALL_END_FRAME = 1; //change later
 const double MARIO_SMALL_ANIMATION_DELAY = 0.1; //should look like its moving faster
 const int MARIO_SMALL_COLS = 6;
 const double MARIO_SMALL_SPEED = 200.0;
+const double MARIO_DYING_SPEED = 100.0;
 const double MARIO_SMALL_SCALE = .25;
 
 const int BLOCK_DYING_DURATION = 500;
@@ -44,34 +48,34 @@ const int BLOCK_HEIGHT = 72;
 
 const int BRICK_DYING_DURATION = 500;
 const int BRICK_PRIORITY = 5;
-const int BRICK_WIDTH = 32;
-const int BRICK_HEIGHT = 32;
-const int BRICK_DYING_WIDTH = 32;
-const int BRICK_DYING_HEIGHT = 32;
+const int BRICK_WIDTH = 72;
+const int BRICK_HEIGHT = 72;
+const int BRICK_DYING_WIDTH = 72;
+const int BRICK_DYING_HEIGHT = 72;
 
-const int BULLET_DYING_DURATION = 32;
-const int BULLET_PRIORITY = 32;
-const int BULLET_WIDTH = 32;
-const int BULLET_HEIGHT = 32;
+const int BULLET_DYING_DURATION = 72;
+const int BULLET_PRIORITY = 72;
+const int BULLET_WIDTH = 72;
+const int BULLET_HEIGHT = 72;
 
 const int COIN_DYING_DURATION = 500;
 const int COIN_PRIORITY = 5;
-const int COIN_WIDTH = 32;
-const int COIN_HEIGHT = 32;
+const int COIN_WIDTH = 72;
+const int COIN_HEIGHT = 72;
 
 const int ENEMY_DYING_DURATION = 500;
 const int ENEMY_PRIORITY = 5;
-const int ENEMY_WIDTH = 32;
-const int ENEMY_HEIGHT = 32;
-const int ENEMY_DYING_WIDTH = 32;
-const int ENEMY_DYING_HEIGHT = 32;
+const int ENEMY_WIDTH = 72;
+const int ENEMY_HEIGHT = 72;
+const int ENEMY_DYING_WIDTH = 72;
+const int ENEMY_DYING_HEIGHT = 72;
 
 const int FLOOR_DYING_DURATION = 500;
 const int FLOOR_PRIORITY = 5;
 const int FLOOR_WIDTH = 51;
 const int FLOOR_HEIGHT = 100;
 
-const int MARIO_DYING_DURATION = 500;
+const int MARIO_DYING_DURATION = 10000;
 const int MARIO_PRIORITY = INT_MAX;
 const int MARIO_SMALL_WIDTH = 72;
 const int MARIO_SMALL_HEIGHT = 144;
@@ -82,32 +86,32 @@ const int MARIO_SUPER_HEIGHT = 144;
 
 const int MUSHROOM_DYING_DURATION = 500;
 const int MUSHROOM_PRIORITY = 5;
-const int MUSHROOM_WIDTH = 32;
-const int MUSHROOM_HEIGHT = 32;
-const int MUSHROOM_DYING_WIDTH = 32;
-const int MUSHROOM_DYING_HEIGHT = 32;
+const int MUSHROOM_WIDTH = 72;
+const int MUSHROOM_HEIGHT = 72;
+const int MUSHROOM_DYING_WIDTH = 72;
+const int MUSHROOM_DYING_HEIGHT = 72;
 
 const int PIPE_DYING_DURATION = 500;
 const int PIPE_PRIORITY = 5;
-const int PIPE_WIDTH = 32;
-const int PIPE_HEIGHT = 32;
+const int PIPE_WIDTH = 72;
+const int PIPE_HEIGHT = 72;
 
 const int POWERUP_DYING_DURATION = 500;
 const int POWERUP_PRIORITY = 5;
-const int POWERUP_WIDTH = 32;
-const int POWERUP_HEIGHT = 32;
+const int POWERUP_WIDTH = 72;
+const int POWERUP_HEIGHT = 72;
 
 const int QUESTION_DYING_DURATION = 500;
 const int QUESTION_PRIORITY = 5;
-const int QUESTION_WIDTH = 32;
-const int QUESTION_HEIGHT = 32;
+const int QUESTION_WIDTH = 72;
+const int QUESTION_HEIGHT = 72;
 
 const int TURTLE_DYING_DURATION = 500;
 const int TURTLE_PRIORITY = 5;
-const int TURTLE_WIDTH = 32;
-const int TURTLE_HEIGHT = 32;
-const int TURTLE_SPIN_WIDTH = 32;
-const int TURTLE_SPIN_HEIGHT = 32;
+const int TURTLE_WIDTH = 72;
+const int TURTLE_HEIGHT = 72;
+const int TURTLE_SPIN_WIDTH = 72;
+const int TURTLE_SPIN_HEIGHT = 72;
 //constants
 
 const char CLASS_NAME[] = "Super Mario Bros";
