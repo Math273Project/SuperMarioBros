@@ -46,6 +46,9 @@ private:
 	Image enemy_;
 	Image block_;
 	Image floor_;
+	Image brick_;
+	Image mushroom_;
+	Image question_;
 
 	int centerx_;
 

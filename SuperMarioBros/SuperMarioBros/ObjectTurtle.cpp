@@ -21,6 +21,7 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 		break;
 	case BLOCK:
 	case BRICK:
+	case FLOOR:
 	case PIPE:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)

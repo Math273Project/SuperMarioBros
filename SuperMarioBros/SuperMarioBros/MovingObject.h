@@ -9,6 +9,7 @@ public:
 	double getvy() const;
 	Direction getFacingDirection() const;
 	Direction didCollide(const Object& object) const; // Check if two objects are collide, return a collide direction
+	Direction MovingObject::didCollide(const MovingObject& object) const; // Check if two objects are collide
 	void setvx(double vx); // will callsetFacingDirection if the direction of velocity changes;
 	void setvy(double vy);
 	bool moveable() const override final;

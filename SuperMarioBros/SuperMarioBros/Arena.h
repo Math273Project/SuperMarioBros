@@ -30,7 +30,7 @@ public:
 	}
 	void collisionDetection(); // Do collisionDetection of every objects in Arena
 	void freeFall(double time); //adjust the object' vy according to gravity if it is in the air
-	void erase(const Object& object);
+	void erase(const Object* object);
 	void pushBack(MovingObject* object);
 	void pushBack(Object* object);
 	void move(double time); // move all objects according to current velocity.
@@ -39,6 +39,7 @@ public:
 
 	void setMarioVx(double vx);
 	void setMarioVy(double vy);
+	bool MarioDownToEarth() const;
 	double getMarioVx() const;
 	double getMarioVy() const;
 	double getMarioX() const;
@@ -55,8 +56,6 @@ protected:
 	Arena(); // Unique Instance
 	MovingObject* mario_;
 	std::list<DyingObjectData> dyingObjectData_;
-	static const double ACCELARATION;
-	static const double LOWEST_POSITION; // the biggest y-position. 
-									// The object beyond this position will be deleted in deleteDyingObject(). 
+	
 };
 

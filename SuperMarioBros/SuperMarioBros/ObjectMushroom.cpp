@@ -7,6 +7,7 @@ ObjectMushroom::ObjectMushroom(int id, int x, int y, int vx, int vy) : MovingObj
 	height_ = MUSHROOM_HEIGHT;
 	enabled_ = true;
 	facingDirection_ = RIGHT;
+	dying_ = false;
 }
 
 void ObjectMushroom::collide(const Object& object, Direction collideDirection)
@@ -20,18 +21,25 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 		destroy(true);
 		break;
 	case BLOCK:
+	case FLOOR:
 	case PIPE:
 	case BRICK:
 	case QUESTION:
+		adjustPosition(object, collideDirection);
 		switch (collideDirection)
 		{
-		case LEFT:
-		case RIGHT:
-			setvx(-vx_);
-			break;
 		case UP:
+			setvy(0);
+			break;
 		case DOWN:
 			setvy(0);
+			break;
+		case LEFT:
+			setvx(0);
+			break;
+		case RIGHT:
+			setvx(0);
+			break;
 		}
 		break;
 
@@ -41,7 +49,8 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 		switch (collideDirection)
 		{
 		case DOWN:
-			destroy();
+			if (!dying_)
+				destroy();
 			break;
 		}
 		break;

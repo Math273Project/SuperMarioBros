@@ -3,9 +3,6 @@
 #include <algorithm>
 
 
-const double Arena::ACCELARATION = 200;
-const double Arena::LOWEST_POSITION = 2000;
-
 Arena::Arena()
 {
 	
@@ -53,7 +50,7 @@ void Arena::freeFall(double time)
 	bool onTopOrCollide = false;
 	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
 	{
-		(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
+		(*i)->setvy((*i)->getvy() + GRAVITY * time / 1000);
 		/*
 		onTopOrCollide = false;
 		for (auto& j = staticObjects_.begin(); j != staticObjects_.end() && !onTopOrCollide; ++j)
@@ -83,15 +80,33 @@ void Arena::freeFall(double time)
 	}
 }
 
-void Arena::erase(const Object& object)
+void Arena::erase(const Object* object)
 {
+	if (object == nullptr)
+		return;
+	if (object == mario_)
+		mario_ = nullptr;
 	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* i)
-	{ 	if (i->getType() == MARIO_SMALL || i->getType() == MARIO_BIG || i->getType() == MARIO_SUPER)
-			mario_ = nullptr; 
-		return *i == object; });
+	{ 
+		if (i == object)
+		{
+			delete i;
+			i = nullptr;
+			return true;
+		}
+		return false;
+	});
 	movingObjects_.erase(iNewEnd, movingObjects_.end());
 	auto jNewEnd = std::remove_if(staticObjects_.begin(), staticObjects_.end(), [&object](const Object* i)
-	{ return *i == object; });
+	{ 
+		if (i == object)
+		{
+			delete i;
+			i = nullptr;
+			return true;
+		}
+		return false; 
+	});
 	staticObjects_.erase(jNewEnd, staticObjects_.end());
 }
 
@@ -101,7 +116,11 @@ void Arena::pushBack(MovingObject* pMovingObject)
 				{return (*i).getPriority() > pMovingObject->getPriority(); });
 	movingObjects_.insert(iPos, pMovingObject);
 	if (pMovingObject->getType() == MARIO_SMALL || pMovingObject->getType() == MARIO_BIG || pMovingObject->getType() == MARIO_SUPER)
+	{
+		if (mario_ != nullptr)
+			delete mario_;
 		mario_ = pMovingObject;
+	}
 }
 
 void Arena::pushBack(Object* pObject)
@@ -120,8 +139,12 @@ void Arena::move(double time)
 void Arena::deleteDyingObject()
 {
 	auto iNewEnd = remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const MovingObject* i){
-		if (i->gety() > LOWEST_POSITION && (i->getType() == MARIO_SMALL || i->getType() == MARIO_BIG || i->getType() == MARIO_SUPER))
-			mario_ = nullptr; 
+		if (i->gety() > LOWEST_POSITION)
+		{
+			delete i;
+			if (mario_ == i)
+				mario_ = nullptr;
+		}
 		return i->gety() > LOWEST_POSITION; });
 		movingObjects_.erase(iNewEnd, movingObjects_.end());
 	LARGE_INTEGER frequency, now;
@@ -129,9 +152,9 @@ void Arena::deleteDyingObject()
 	QueryPerformanceCounter(&now);
 	auto jNewEnd = remove_if(dyingObjectData_.begin(), dyingObjectData_.end(), [&](const DyingObjectData& i)
 	{
-		if ((double)(now.QuadPart - i.startTime) / (double)frequency.QuadPart > i.duration)
+		if ((double)(now.QuadPart - i.startTime) / (double)frequency.QuadPart > (double)i.duration / 1000)
 		{
-			this->erase(*(i.data));
+			this->erase(i.data);
 			return true;
 		}
 		return false;
@@ -144,12 +167,12 @@ Arena::~Arena()
 	for (auto& i : staticObjects_)
 	{
 		delete i;
-		i = 0;
+		i = nullptr;
 	}
 	for (auto& i : movingObjects_)
 	{
 		delete i;
-		i = 0;
+		i = nullptr;
 	}
 }
 
@@ -216,43 +239,25 @@ const std::list<Object*>& Arena::getStaticObjects() const
 {
 	return staticObjects_;
 }
-/*
-const std::list<Floor>& Arena::getFloors() const
-{
-	return floors_;
-}
 
-void Arena::addFloor(double newStartX, double newEndX)
+bool Arena::MarioDownToEarth() const
 {
-	if (newStartX > newEndX)
-		return;
-	if (floors_.empty())
+	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
 	{
-		floors_.emplace_back(newStartX, newEndX);
-	}
-	else
-	{
-		auto iNewEnd = remove_if(floors_.begin(), floors_.end(), [&](const Floor& i)
+		if (!((*i)->getType() == MARIO_SMALL || (*i)->getType() == MARIO_BIG || (*i)->getType() == MARIO_SUPER))
 		{
-			bool flag = false;
-			if (i.startX <= newStartX && newStartX <= i.endX)
-			{
-				flag = true;
-				newStartX = i.startX;
-			}
-			if (i.startX <= newEndX && newEndX <= i.endX)
-			{
-				flag = true;
-				newEndX = i.endX;
-			}
-			if (newStartX <= i.startX && i.endX <= newEndX)
-				flag = true;
-
-			return flag;
-		});
-		floors_.erase(iNewEnd, floors_.end());
-		auto iPos = find_if(floors_.cbegin(), floors_.cend(), [&](const Floor& i){ return i.startX > newEndX; });
-		floors_.emplace(iPos, newStartX, newEndX);
+			if (mario_->onTop(**i))
+				return true;
+			if (mario_->didCollide(**i) != NONE)
+				return true;
+		}
 	}
+	for (auto& i = staticObjects_.begin(); i != staticObjects_.end(); ++i)
+	{
+		if (mario_->onTop(**i))
+			return true;
+		if (mario_->didCollide(**i) != NONE)
+			return true;
+	}
+	return false;
 }
-*/

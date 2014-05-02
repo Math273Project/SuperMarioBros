@@ -2,6 +2,9 @@
 #include "ObjectMario.h"
 #include "ObjectBlock.h"
 #include "ObjectFloor.h"
+#include "ObjectBrick.h"
+#include "ObjectMushroom.h"
+#include "ObjectQuestion.h"
 MarioGame::MarioGame()
 {
 	centerx_ = 0;
@@ -19,13 +22,20 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//Initialze textures
 	//Initialize arena and started objects
 
-	ObjectMario* objectMario = new ObjectMario(0, 50, 490-300, (int)MARIO_SPEED, 0);
-	ObjectBlock* objectBlock = new ObjectBlock(0, 50, 490+144-300);
-	ObjectFloor* objectFloor = new ObjectFloor(0, 0, 600, 2000);
+	ObjectMario* objectMario = new ObjectMario(0, 50, 200, (int)MARIO_SPEED, 0);
+	ObjectBlock* objectBlock = new ObjectBlock(1, 50, 250);
+	ObjectFloor* objectFloor = new ObjectFloor(2, 0, 600, 6000);
+	ObjectBrick* objectBrick = new ObjectBrick(3, 200, 250);
+	ObjectMushroom* objectMushroom = new ObjectMushroom(4, 400, 250 - MUSHROOM_HEIGHT, 50, 0);
+	objectMushroom->disable();
+	ObjectQuestion* objectQuestion = new ObjectQuestion(5, 400, 250, objectMushroom);
 
 	arena.pushBack(objectMario);
 	arena.pushBack(objectBlock);
 	arena.pushBack(objectFloor);
+	arena.pushBack(objectBrick);
+	arena.pushBack(objectMushroom);
+	arena.pushBack(objectQuestion);
 	//Initialize textures
 	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
@@ -41,6 +51,12 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	enemy_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &enemyTexture_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
 	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
+	brick_.initialize(graphics_, BRICK_WIDTH, BRICK_HEIGHT, 2, &blocksTexture_);
+	brick_.setCurrentFrame(1);
+	mushroom_.initialize(graphics_, MUSHROOM_WIDTH, MUSHROOM_HEIGHT, 2, &blocksTexture_);
+	mushroom_.setCurrentFrame(2);
+	question_.initialize(graphics_, QUESTION_WIDTH, QUESTION_HEIGHT, 3, &blocksTexture_);
+	question_.setCurrentFrame(2);
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
@@ -97,6 +113,8 @@ void MarioGame::update()
 	
 	if (input_->isKeyDown(MOVE_UP_KEY))
 	{
+		if (arena.MarioDownToEarth())
+			arena.setMarioVy(-MARIO_SPEED);
 		//make mario jump or move up
 	}
 
@@ -116,50 +134,72 @@ void MarioGame::render()
 	
 	for (const auto& i : arena.getStaticObjects())
 	{
-		switch (i->getType())
+		if (i->isEnabled() && (i->getx() + i->getWidth() - centerx_ > 0 || i->getx() - centerx_ < GAME_WIDTH))
 		{
-		case BLOCK:
-			block_.setX(i->getx() - centerx_);
-			block_.setY(i->gety());
-			block_.draw();
-			break;
-		case QUESTION:
-			i->setx(i->getx() - centerx_);
-			i->sety(i->gety() - centerx_);
-			break;
-		case FLOOR:
-			int x = i->getx();
-			while (x + FLOOR_WIDTH < i->getx() + i->getWidth())
+			switch (i->getType())
 			{
+			case BLOCK:
+				block_.setX(i->getx() - centerx_);
+				block_.setY(i->gety());
+				block_.draw();
+				break;
+			case BRICK:
+				brick_.setX(i->getx() - centerx_);
+				brick_.setY(i->gety());
+				brick_.draw();
+				break;
+			case QUESTION:
+				question_.setX(i->getx() - centerx_);
+				question_.setY(i->gety() - centerx_);
+				question_.draw();
+				break;
+			case FLOOR:
+				int x;
+				if (i->getx() - centerx_ < 0)
+					x = i->getx() + FLOOR_WIDTH * ((int)(centerx_ - i->getx()) / FLOOR_WIDTH);
+				else
+					x = i->getx();
+				while ((x + FLOOR_WIDTH < i->getx() + i->getWidth()) && (x + FLOOR_WIDTH - centerx_ < GAME_WIDTH))
+				{
+						floor_.setX(x - centerx_);
+						floor_.setY(i->gety());
+						floor_.draw();
+					x += FLOOR_WIDTH;
+				}
 				floor_.setX(x - centerx_);
 				floor_.setY(i->gety());
+				floor_.initialize(graphics_, i->getx() + i->getWidth() - x, FLOOR_HEIGHT, 1, &floorTexture_); // need floor_.setWidth() function
 				floor_.draw();
-				x += FLOOR_WIDTH;
+				floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
+				break;
 			}
-			floor_.setX(x - centerx_);
-			floor_.setY(i->gety());
-			floor_.initialize(graphics_, i->getx() + i->getWidth() - x, FLOOR_HEIGHT, 1, &floorTexture_); // need floor_.setWidth() function
-			floor_.draw();
-			floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
-			break;
 		}
 	}
 	for (const auto& i : arena.getMovingObjects())
 	{
-		switch (i->getType())
+		if (i->isEnabled() && (i->getx() + i->getWidth() - centerx_ > 0 || i->getx() - centerx_ < GAME_WIDTH))
 		{
-		case MARIO_SMALL:
-			mario_.setX(i->getx() - centerx_);
-			mario_.setY(i->gety());
-			mario_.setCurrentFrame(i->getCurrentFrame());
-			mario_.update(frameTime_);
-			i->setCurrentFrame(mario_.getCurrentFrame());
-			mario_.draw();
-			
-			break;
+			switch (i->getType())
+			{
+
+			case MARIO_SMALL:
+				mario_.setX(i->getx() - centerx_);
+				mario_.setY(i->gety());
+				mario_.setCurrentFrame(i->getCurrentFrame());
+				mario_.update(frameTime_);
+				i->setCurrentFrame(mario_.getCurrentFrame());
+				mario_.draw();
+				break;
+
+			case MUSHROOM:
+			case MUSHROOM_DYING:
+				mushroom_.setX(i->getx() - centerx_);
+				mushroom_.setY(i->gety());
+				mushroom_.draw();
+				break;
+			}
 		}
 	}
-	//enemy_.draw();
 	graphics_->spriteEnd();
 }
 
