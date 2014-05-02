@@ -86,7 +86,7 @@ void Arena::erase(const Object* object)
 		return;
 	if (object == mario_)
 		mario_ = nullptr;
-	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const Object* i)
+	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&object](const Object* i)
 	{ 
 		if (i == object)
 		{
@@ -141,12 +141,14 @@ void Arena::deleteDyingObject()
 	auto iNewEnd = remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const MovingObject* i){
 		if (i->gety() > LOWEST_POSITION)
 		{
-			delete i;
 			if (mario_ == i)
 				mario_ = nullptr;
+			delete i;
+			i = nullptr;
+			return true;
 		}
-		return i->gety() > LOWEST_POSITION; });
-		movingObjects_.erase(iNewEnd, movingObjects_.end());
+		return false; });
+	movingObjects_.erase(iNewEnd, movingObjects_.end());
 	LARGE_INTEGER frequency, now;
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&now);
