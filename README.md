@@ -14,8 +14,8 @@ File size:
 Images:
 	Row 1 (Normal Mario):
 		Dimensions: 
-			Height: 144 pixels
-			Width: 72 pixels
+			Height: 100 pixels
+			Width: 50 pixels
 		1: Standing
 		2: Walking 1
 		3: Walking 2
@@ -27,8 +27,8 @@ Images:
 	
 	Row 2 (Fireball Mario):
 		Dimensions:
-			Height: 144 pixels
-			Width: 72 pixels
+			Height: 100 pixels
+			Width: 50 pixels
 		1: Standing
 		2: Walking 1
 		3: Walking 2
@@ -43,8 +43,8 @@ Images:
 	
 	Row 3 (Small Mario):
 		Dimensions:
-			Height: 72 pixels
-			Width: 72 pixels
+			Height: 50 pixels
+			Width: 50 pixels
 		1: Standing
 		2: Walking 1
 		3: Walking 2
@@ -55,20 +55,44 @@ Images:
 	
 Block Sprite Sheet Properties (Block.bmp)
 File Size:
-	512x512
+	512x1024
 	Row 1:
 		Dimensions:
-			Height: 72 pixels
-			Width: 72 pixels
+			Height: 50 pixels
+			Width: 50 pixels
 		1: Ground Block
 		2: Brick Block
-		3: Coin/Mushroom Block
-		4: Climbing Block
+		3: Coin/Mushroom Block - Color 1
+		4: Coin/Mushroom Block - Color 2
+		5: Dead Coin/Mushroom Block
+		6: Climbing Block
 	Row 2:
 		Dimensions:
-			Height: 72 pixels
-			Width: 72 pixels
-		1: Mushroom Block
+			Height: 50 pixels
+			Width: 50 pixels
+		1: Mushroom - Red
+		2: Mushroom - Green
+		3: Coin - Color 1
+		4: Coin - Color 2
+		5: Star
+	Row 3:
+		Dimensions:
+			Height: 200 pixels
+			Width: 100 pixels
+		1: Green Pipe
+		2: Silver Pipe
+	Row 4:
+		Dimensions:
+			Height: 100 pixels
+			Width: 100 pixels
+		1: Green Pipe
+		2: Silver Pipe
+	Row 5:
+		Dimensions:
+			Height: 150 pixels
+			Width: 100 pixels
+		1: Green Pipe
+		2: Silver Pipe
 			
 			
 Background Color:
