@@ -99,23 +99,28 @@ void MarioGame::update()
 	{
 		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
-		walk();
+		MarioRun();
 		
 	}
 	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0) // some edit here to make Mario cannot go back
 	{
 		mario_.flipHorizontal(true);
 		arena.setMarioVx(-MARIO_SPEED);
+		MarioRun();
 	}
 	else
 	{
 		arena.setMarioVx(0);
+		MarioStop();
 	}
 	
 	if (input_->isKeyDown(MOVE_UP_KEY))
 	{
+		MarioJump();
 		if (arena.MarioDownToEarth())
+		{
 			arena.setMarioVy(-MARIO_SPEED);
+		}
 		//make mario jump or move up
 	}
 
@@ -151,7 +156,7 @@ void MarioGame::render()
 				break;
 			case QUESTION:
 				question_.setX(i->getx() - centerx_);
-				question_.setY(i->gety() - centerx_);
+				question_.setY(i->gety());
 				question_.draw();
 				break;
 			case FLOOR:
@@ -219,8 +224,20 @@ void MarioGame::resetAll()
 	return;
 }
 
-void MarioGame::walk()
+void MarioGame::MarioRun()
 {
 	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_START_FRAME + 3);
 	mario_.setCurrentFrame(MARIO_START_FRAME + 1);
+}
+
+void MarioGame::MarioStop()
+{
+	mario_.setFrames(MARIO_START_FRAME, MARIO_START_FRAME);
+	mario_.setCurrentFrame(MARIO_START_FRAME);
+}
+
+void MarioGame::MarioJump()
+{
+	mario_.setFrames(MARIO_START_FRAME + 4, MARIO_START_FRAME + 4);
+	mario_.setCurrentFrame(4);
 }

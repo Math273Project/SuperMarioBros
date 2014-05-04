@@ -52,5 +52,9 @@ private:
 
 	int centerx_;
 
-	void walk();
+	//animations
+	void MarioRun();
+	void MarioStop();
+	void MarioJump();
+
 };
