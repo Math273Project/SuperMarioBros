@@ -25,8 +25,8 @@ const int  MARIO_START_FRAME = 0;            // starting frame of Mario animatio
 const int  MARIO_END_FRAME = 7;              // last frame of Mario animation
 const double MARIO_ANIMATION_DELAY = 0.25;    // time between frames of Mario animation
 const int  MARIO_COLS = 7;                   // Mario texture has 7 columns
-const int TEXTURE_WIDTH = 72;     //standard size of entity textures
-const int TEXTURE_HEIGHT = 144;
+const int TEXTURE_WIDTH = 50;   //standard size of entity textures
+const int TEXTURE_HEIGHT = 100;
 //const int BIG_MARIO_WIDTH = 72;     //standard size of entity textures
 //const int BIG_MARIO_HEIGHT = 144;
 const double MARIO_SPEED = 400.0; // pixels per second (velocity)
@@ -43,32 +43,32 @@ const double MARIO_SMALL_SCALE = .25;
 
 const int BLOCK_DYING_DURATION = 500;
 const int BLOCK_PRIORITY = 5;
-const int BLOCK_WIDTH = 72;
-const int BLOCK_HEIGHT = 72;
+const int BLOCK_WIDTH = 50;
+const int BLOCK_HEIGHT = 50;
 
 const int BRICK_DYING_DURATION = 500;
 const int BRICK_PRIORITY = 5;
-const int BRICK_WIDTH = 72;
-const int BRICK_HEIGHT = 72;
-const int BRICK_DYING_WIDTH = 72;
-const int BRICK_DYING_HEIGHT = 72;
+const int BRICK_WIDTH = 50;
+const int BRICK_HEIGHT = 50;
+const int BRICK_DYING_WIDTH = 50;
+const int BRICK_DYING_HEIGHT = 50;
 
-const int BULLET_DYING_DURATION = 72;
-const int BULLET_PRIORITY = 72;
-const int BULLET_WIDTH = 72;
-const int BULLET_HEIGHT = 72;
+const int BULLET_DYING_DURATION = 50;
+const int BULLET_PRIORITY = 50;
+const int BULLET_WIDTH = 50;
+const int BULLET_HEIGHT = 50;
 
 const int COIN_DYING_DURATION = 500;
 const int COIN_PRIORITY = 5;
-const int COIN_WIDTH = 72;
-const int COIN_HEIGHT = 72;
+const int COIN_WIDTH = 50;
+const int COIN_HEIGHT = 50;
 
 const int ENEMY_DYING_DURATION = 500;
 const int ENEMY_PRIORITY = 5;
-const int ENEMY_WIDTH = 72;
-const int ENEMY_HEIGHT = 72;
-const int ENEMY_DYING_WIDTH = 72;
-const int ENEMY_DYING_HEIGHT = 72;
+const int ENEMY_WIDTH = 50;
+const int ENEMY_HEIGHT = 50;
+const int ENEMY_DYING_WIDTH = 50;
+const int ENEMY_DYING_HEIGHT = 50;
 
 const int FLOOR_DYING_DURATION = 500;
 const int FLOOR_PRIORITY = 5;
@@ -77,41 +77,41 @@ const int FLOOR_HEIGHT = 100;
 
 const int MARIO_DYING_DURATION = 10000;
 const int MARIO_PRIORITY = INT_MAX;
-const int MARIO_SMALL_WIDTH = 72;
-const int MARIO_SMALL_HEIGHT = 144;
-const int MARIO_BIG_WIDTH = 72;
-const int MARIO_BIG_HEIGHT = 144;
-const int MARIO_SUPER_WIDTH = 72;
-const int MARIO_SUPER_HEIGHT = 144;
+const int MARIO_SMALL_WIDTH = 50;
+const int MARIO_SMALL_HEIGHT = 100;
+const int MARIO_BIG_WIDTH = 50;
+const int MARIO_BIG_HEIGHT = 100;
+const int MARIO_SUPER_WIDTH = 50;
+const int MARIO_SUPER_HEIGHT = 100;
 
 const int MUSHROOM_DYING_DURATION = 500;
 const int MUSHROOM_PRIORITY = 5;
-const int MUSHROOM_WIDTH = 72;
-const int MUSHROOM_HEIGHT = 72;
-const int MUSHROOM_DYING_WIDTH = 72;
-const int MUSHROOM_DYING_HEIGHT = 72;
+const int MUSHROOM_WIDTH = 50;
+const int MUSHROOM_HEIGHT = 50;
+const int MUSHROOM_DYING_WIDTH = 50;
+const int MUSHROOM_DYING_HEIGHT = 50;
 
 const int PIPE_DYING_DURATION = 500;
 const int PIPE_PRIORITY = 5;
-const int PIPE_WIDTH = 72;
-const int PIPE_HEIGHT = 72;
+const int PIPE_WIDTH = 50;
+const int PIPE_HEIGHT = 50;
 
 const int POWERUP_DYING_DURATION = 500;
 const int POWERUP_PRIORITY = 5;
-const int POWERUP_WIDTH = 72;
-const int POWERUP_HEIGHT = 72;
+const int POWERUP_WIDTH = 50;
+const int POWERUP_HEIGHT = 50;
 
 const int QUESTION_DYING_DURATION = 500;
 const int QUESTION_PRIORITY = INT_MAX;
-const int QUESTION_WIDTH = 72;
-const int QUESTION_HEIGHT = 72;
+const int QUESTION_WIDTH = 50;
+const int QUESTION_HEIGHT = 50;
 
 const int TURTLE_DYING_DURATION = 500;
 const int TURTLE_PRIORITY = 5;
-const int TURTLE_WIDTH = 72;
-const int TURTLE_HEIGHT = 72;
-const int TURTLE_SPIN_WIDTH = 72;
-const int TURTLE_SPIN_HEIGHT = 72;
+const int TURTLE_WIDTH = 50;
+const int TURTLE_HEIGHT = 50;
+const int TURTLE_SPIN_WIDTH = 50;
+const int TURTLE_SPIN_HEIGHT = 50;
 //constants
 
 const char CLASS_NAME[] = "Super Mario Bros";
