@@ -1,12 +1,5 @@
 #include "Object.h"
-
-
-Object::Object(int id)
-:id_(id)
-{
-	passable_ = false;
-	currentFrame_ = 0;
-}
+#include "Arena.h"
 
 Object::~Object()
 {
@@ -56,11 +49,6 @@ bool Object::getEnabled() const
 	return enabled_;
 }
 
-int Object::getId() const
-{
-	return id_;
-}
-
 void Object::setx(double x)
 {
 	x_ = x;
@@ -93,31 +81,30 @@ void Object::enable()
 	enabled_ = true;
 }
 
-
-bool Object::operator ==(const Object& rhs) const
+void Object::destroy(int delay)
 {
-	return id_ == rhs.id_;
+	Arena& arena = Arena::getUniqueInstance();
+	arena.addEvent(DESTROY, this, delay, NULL);
 }
 
-void Object::destroy(bool instantDestroy)
-{
-	
-}
-
-bool Object::passable() const
+bool Object::getPassable() const
 {
 	return passable_;
 }
 
-bool Object::moveable() const
+void Object::setPassable(bool passable)
 {
-	return false;
+	passable_ = passable;
 }
 
-Object::Object(int id, int x, int y) : Object(id)
+Object::Object(int x, int y) 
 {
 	x_ = x;
 	y_ = y;
+	enabled_ = true;
+	passable_ = false;
+	dying_ = false;
+	currentFrame_ = 0;
 }
 
 
@@ -148,44 +135,6 @@ bool Object::isEnabled() const
 	return enabled_;
 }
 
-Direction Object::didCollide(const Object& object) const // Check if two objects are collide
-{
-	if (!enabled_ || !object.isEnabled())
-		return NONE;
-	if (passable_ || object.passable())
-		return NONE;
-	double left = x_ + width_ - object.getx(), right = object.getx() + object.getWidth() - x_;
-	double up = y_ + height_ - object.gety(), down = object.gety() + object.getHeight() - y_;
-	if (!(
-		((left > 0 && left <= object.getWidth()) || (right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) &&
-		((up   > 0 && up <= object.getHeight()) || (down  > 0 && down <= object.getHeight()) || (up   > 0 && down  > 0))
-		))
-		return NONE;
-	Direction direction;
-	double minDistance = INT_MAX;
-	if (((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left < minDistance)
-	{
-		minDistance = left;
-		direction = LEFT;
-	}
-	if (((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right < minDistance)
-	{
-		minDistance = right;
-		direction = RIGHT;
-	}
-	if (((up > 0 && up <= object.getHeight()) || (up > 0 && down > 0)) && up < minDistance)
-	{
-		minDistance = up;
-		direction = UP;
-	}
-	if (((down > 0 && down <= object.getHeight()) || (up > 0 && down > 0)) && down < minDistance)
-	{
-		minDistance = down;
-		direction = DOWN;
-	}
-	return direction;
-}
-
 int Object::getCurrentFrame() const
 {
 	return currentFrame_;
@@ -194,4 +143,127 @@ int Object::getCurrentFrame() const
 void Object::setCurrentFrame(int currentFrame)
 {
 	currentFrame_ = currentFrame;
+}
+
+
+double Object::getvx() const
+{
+	return 0;
+}
+
+double Object::getvy() const
+{
+	return 0;
+}
+
+Direction Object::getFacingDirection() const
+{
+	return NONE;
+}
+
+Direction Object::didCollide(const Object& object) const
+{
+	double vx = getvx() - object.getvx();
+	double vy = getvy() - object.getvy();
+	if (!enabled_ || !object.isEnabled())
+		return NONE;
+	if (passable_ || object.getPassable())
+		return NONE;
+	double left = x_ + width_ - object.getx(), right = object.getx() + object.getWidth() - x_;
+	double up = y_ + height_ - object.gety(), down = object.gety() + object.getHeight() - y_;
+	if (!(
+		((left > 0 && left <= object.getWidth()) || (right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) &&
+		((up   > 0 && up <= object.getHeight()) || (down  > 0 && down <= object.getHeight()) || (up   > 0 && down  > 0))
+		))
+		return NONE;
+	Direction direction = NONE;
+	if (vx == 0 && vy == 0)
+	{
+		double minDistance = INT_MAX;
+		if (((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left < minDistance)
+		{
+			minDistance = left;
+			direction = LEFT;
+		}
+		if (((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right < minDistance)
+		{
+			minDistance = right;
+			direction = RIGHT;
+		}
+		if (((up > 0 && up <= object.getHeight()) || (up > 0 && down > 0)) && up < minDistance)
+		{
+			minDistance = up;
+			direction = UP;
+		}
+		if (((down > 0 && down <= object.getHeight()) || (up > 0 && down > 0)) && down < minDistance)
+		{
+			minDistance = down;
+			direction = DOWN;
+		}
+	}
+	else
+	{
+		double minTime = INT_MAX;
+		if (vx > 0 && ((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left / vx < minTime)
+		{
+			minTime = left / vx;
+			direction = LEFT;
+		}
+		else if (vx < 0 && ((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right / (-vx) < minTime)
+		{
+			minTime = right / (-vx);
+			direction = RIGHT;
+		}
+		if (vy > 0 && ((up > 0 && up <= object.getHeight()) || (up > 0 && down > 0)) && up / vy < minTime)
+		{
+			minTime = up / vy;
+			direction = UP;
+		}
+		else if (vy < 0 && ((down > 0 && down <= object.getHeight()) || (up > 0 && down > 0)) && down / (-vy) < minTime)
+		{
+			minTime = down / (-vy);
+			direction = DOWN;
+		}
+	}
+	return direction;
+}
+
+void Object::setvx(double vx)
+{
+
+}
+
+void Object::setvy(double vy)
+{
+
+}
+
+bool Object::getMoveable() const
+{
+	return false;
+}
+
+void Object::setFacingDirection(Direction facingDirection)
+{
+
+}
+
+void Object::move(double time)
+{
+
+}
+
+bool Object::getGravityAffected() const
+{
+	return false;
+}
+
+void Object::setGravityAffected(bool gravityAffected)
+{
+
+}
+
+bool Object::getDying() const
+{
+	return dying_;
 }

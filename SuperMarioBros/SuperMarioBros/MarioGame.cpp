@@ -22,21 +22,17 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//Initialze textures
 	//Initialize arena and started objects
 
+	ObjectMario* objectMario = new ObjectMario(50, 200, (int)MARIO_SPEED, 0);
+	ObjectBlock* objectBlock = new ObjectBlock(50, 250);
+	ObjectFloor* objectFloor = new ObjectFloor(0, 600, 6000);
+	ObjectBrick* objectBrick = new ObjectBrick(200, 250);
+	ObjectQuestion* objectQuestion = new ObjectQuestion(400, 250, MUSHROOM);
 
-	ObjectMario* objectMario = new ObjectMario(0, 50, 200, (int)MARIO_SPEED, 0);
-	ObjectBlock* objectBlock = new ObjectBlock(1, 50, 250);
-	ObjectFloor* objectFloor = new ObjectFloor(2, 0, 600, 6000);
-	ObjectBrick* objectBrick = new ObjectBrick(3, 200, 250);
-	ObjectMushroom* objectMushroom = new ObjectMushroom(4, 400, 250 - MUSHROOM_HEIGHT, 50, 0);
-	objectMushroom->disable();
-	ObjectQuestion* objectQuestion = new ObjectQuestion(5, 400, 250, objectMushroom);
-
-	arena.pushBack(objectMario);
-	arena.pushBack(objectBlock);
-	arena.pushBack(objectFloor);
-	arena.pushBack(objectBrick);
-	arena.pushBack(objectMushroom);
-	arena.pushBack(objectQuestion);
+	arena.addObject(objectMario);
+	arena.addObject(objectBlock);
+	arena.addObject(objectFloor);
+	arena.addObject(objectBrick);
+	arena.addObject(objectQuestion);
 	//Initialize textures
 	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
@@ -83,7 +79,8 @@ void MarioGame::update()
 	arena.move(frameTime_ * 1000);
 	arena.freeFall(frameTime_ * 1000);
 	arena.collisionDetection();
-	arena.deleteDyingObject();
+	arena.processEvent();
+	arena.removeOutOfBoundObject();
 
 	if (arena.isGameOver())
 	{
@@ -95,26 +92,26 @@ void MarioGame::update()
 		centerx_ = arena.getMarioX() - GAME_WIDTH / 2;
 	}
 
-	if (input_->isKeyDown(MOVE_RIGHT_KEY))
+	if (input_->isKeyDown(MOVE_RIGHT_KEY) && !arena.getMarioDying())
 	{
 		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
 		MarioRun();
 		
 	}
-	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0) // some edit here to make Mario cannot go back
+	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0 && !arena.getMarioDying()) // some edit here to make Mario cannot go back
 	{
 		mario_.flipHorizontal(true);
 		arena.setMarioVx(-MARIO_SPEED);
 		MarioRun();
 	}
-	else
+	else if (!arena.getMarioDying())
 	{
 		arena.setMarioVx(0);
 		MarioStop();
 	}
 	
-	if (input_->isKeyDown(MOVE_UP_KEY))
+	if (input_->isKeyDown(MOVE_UP_KEY) && !arena.getMarioDying())
 	{
 		MarioJump();
 		if (arena.MarioDownToEarth())
@@ -124,7 +121,7 @@ void MarioGame::update()
 		//make mario jump or move up
 	}
 
-	if (input_->isKeyDown(MOVE_DOWN_KEY))
+	if (input_->isKeyDown(MOVE_DOWN_KEY) && !arena.getMarioDying())
 	{
 		//Very minimal usage: only works if mario can move down
 		//ex: flag pole, . . .
@@ -138,10 +135,11 @@ void MarioGame::render()
 	background_.setX(-centerx_);
 	background_.draw();
 	
-	for (const auto& i : arena.getStaticObjects())
+	for (const auto& i : arena.getObjects())
 	{
 		if (i->isEnabled() && (i->getx() + i->getWidth() - centerx_ > 0 || i->getx() - centerx_ < GAME_WIDTH))
 		{
+			ObjectType m = i->getType();
 			switch (i->getType())
 			{
 			case BLOCK:
@@ -150,6 +148,7 @@ void MarioGame::render()
 				block_.draw();
 				break;
 			case BRICK:
+			case BRICK_DYING:
 				brick_.setX(i->getx() - centerx_);
 				brick_.setY(i->gety());
 				brick_.draw();
@@ -178,17 +177,8 @@ void MarioGame::render()
 				floor_.draw();
 				floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
 				break;
-			}
-		}
-	}
-	for (const auto& i : arena.getMovingObjects())
-	{
-		if (i->isEnabled() && (i->getx() + i->getWidth() - centerx_ > 0 || i->getx() - centerx_ < GAME_WIDTH))
-		{
-			switch (i->getType())
-			{
-
 			case MARIO_SMALL:
+			case MARIO_DYING:
 				mario_.setX(i->getx() - centerx_);
 				mario_.setY(i->gety());
 				mario_.setCurrentFrame(i->getCurrentFrame());

@@ -13,6 +13,7 @@ enum ObjectType
 	MARIO_SMALL,
 	MARIO_BIG,
 	MARIO_SUPER,
+	MARIO_DYING,
 	BLOCK,
 	FLOWER,
 	MUSHROOM,
@@ -48,7 +49,7 @@ public:
 	void setPosition(double x, double y);
 	bool onTop(const Object& object) const; // check if this object is on the top of another object;
 	virtual void collide(const Object& object, Direction collideDirection) = 0;
-	Direction didCollide(const Object& object) const; // Check if two objects are collide, return a collide direction
+	virtual Direction didCollide(const Object& object) const; // Check if two objects are collide, return a collide direction
 	double getx() const;
 	double gety() const;
 	int getWidth() const;
@@ -62,31 +63,39 @@ public:
 	void disable();
 	void enable();
 	bool isEnabled() const;
-	bool operator == (const Object& rhs) const;
-	virtual void destroy(bool instantDestroy); // add the object to dyingObject in arena class. 
+	void destroy(int delay = 0); // add the object to dyingObject in arena class. 
 							// the object will be destroyed in arena class.
 							//call it when, example: Mario is killed, Block is destoryed
 							// and split to severl pieces or
 							//	enemy is killed.
-	bool passable() const;
-
-	virtual bool moveable() const;
+	bool getPassable() const;
+	void setPassable(bool passable);
+	bool getDying() const;
 	virtual ObjectType getType() const = 0;
 	virtual int getPriority() const = 0;
-	virtual int getDyingDuration() const = 0;
 	void adjustPosition(const Object& object, Direction collideDirection); // Used for collision.
 	int getCurrentFrame() const;
 	void setCurrentFrame(int currentFrame);
+
+	virtual double getvx() const;
+	virtual double getvy() const;
+	virtual Direction getFacingDirection() const;
+	virtual void setvx(double vx); // will callsetFacingDirection if the direction of velocity changes;
+	virtual void setvy(double vy);
+	virtual bool getMoveable() const;
+	virtual void setFacingDirection(Direction facingDirection);
+	virtual void move(double time);
+	virtual bool getGravityAffected() const;
+	virtual void setGravityAffected(bool gravityAffected);
 protected:
 	int currentFrame_;
 	double x_; 
 	double y_;
 	int width_;
 	int height_;
+	bool dying_;
 	bool enabled_;
 	bool passable_;
-	int id_; // a unique id for this object;
-	Object(int id);
-	Object(int id, int x, int y);
+	Object(int x, int y);
 };
 

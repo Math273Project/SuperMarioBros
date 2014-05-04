@@ -1,12 +1,9 @@
 #include "ObjectMario.h"
-#include "Arena.h"
 
-ObjectMario::ObjectMario(int id, int x, int y, int vx, int vy) : MovingObject(id, x, y, vx, vy) // id 0, highest priority, moveable
+ObjectMario::ObjectMario(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
 	width_ = MARIO_SMALL_WIDTH;
 	height_ = MARIO_SMALL_HEIGHT;
-	enabled_ = true;
-	facingDirection_ = RIGHT;
 	type_ = MARIO_SMALL;
 }
 
@@ -49,6 +46,7 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		case LEFT:
 		case RIGHT:
 		case DOWN:
+			setvx(0);
 			destroy();
 			break;
 		case UP:
@@ -81,26 +79,6 @@ int ObjectMario::getPriority() const
 	return MARIO_PRIORITY;
 }
 
-void ObjectMario::destroy(bool instantDestroy)
-{
-	setvy(-MARIO_DYING_SPEED); // mario jumps and die
-	//facingDirection_ = UP;
-	passable_ = true;
-	Arena& arena = Arena::getUniqueInstance();
-	LARGE_INTEGER time;
-	QueryPerformanceCounter(&time);
-	if (!instantDestroy)
-	{
-		DyingObjectData data(this, time.QuadPart, MARIO_DYING_DURATION);
-		arena.pushDyingObjectData(data);
-	}
-	else
-	{
-		DyingObjectData data(this, time.QuadPart, 0);
-		arena.pushDyingObjectData(data);
-	}
-}
-
 void ObjectMario::setType(ObjectType type)
 {
 	switch (type)
@@ -123,7 +101,10 @@ void ObjectMario::setType(ObjectType type)
 	}
 }
 
-int ObjectMario::getDyingDuration() const
+void ObjectMario::destroy()
 {
-	return MARIO_DYING_DURATION;
+	passable_ = true;
+	dying_ = true;
+	type_ = MARIO_DYING;
+	setvy(-100);
 }

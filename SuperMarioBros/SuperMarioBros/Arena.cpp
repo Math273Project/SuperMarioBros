@@ -8,36 +8,24 @@ Arena::Arena()
 	
 }
 
+void Arena::addEvent(EventType type, Object* pObject, int time, int param)
+{
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
+	events_.emplace_back(type, pObject, now.QuadPart, time, param);
+}
+
 void Arena::collisionDetection() // Do collisionDetection of every objects in Arena
 {
 	Direction collideDirection1 = NONE, collideDirection2 = NONE;
-	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
+	for (auto i = objects_.begin(), j = i; i != objects_.end(); ++i)
 	{
-		for (auto& j = staticObjects_.begin(); j != staticObjects_.end(); ++j)
+		for (auto j = std::next(i, 1); j != objects_.end(); ++j)
 		{
 			collideDirection1 = collideDirection2 = NONE;
 			collideDirection1 = (*i)->didCollide(**j);
 			if (collideDirection1 != NONE)
 				collideDirection2 = (Direction)((collideDirection1 + 2) % 4);
-
-			(*i)->collide(**j, collideDirection1);
-			(*j)->collide(**i, collideDirection2);
-		}
-	}
-	for (auto i = movingObjects_.begin(), j = i; i != movingObjects_.end(); ++i)
-	{
-		for (auto j = std::next(i,1); j != movingObjects_.end(); ++j)
-		{
-			collideDirection1 = collideDirection2 = NONE;
-			collideDirection1 = (*i)->didCollide(**j);
-			if (collideDirection1 != NONE)
-				collideDirection2 = (Direction)((collideDirection1 + 2) % 4);
-			else
-			{
-				collideDirection2 = (*j)->didCollide(**i);
-				if (collideDirection2 != NONE)
-					collideDirection1 = (Direction)((collideDirection2 + 2) % 4);
-			}
 
 			(*i)->collide(**j, collideDirection1);
 			(*j)->collide(**i, collideDirection2);
@@ -48,35 +36,10 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 void Arena::freeFall(double time)
 {
 	bool onTopOrCollide = false;
-	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
+	for (auto& i = objects_.begin(); i != objects_.end(); ++i)
 	{
-		(*i)->setvy((*i)->getvy() + GRAVITY * time / 1000);
-		/*
-		onTopOrCollide = false;
-		for (auto& j = staticObjects_.begin(); j != staticObjects_.end() && !onTopOrCollide; ++j)
-		{
-			if ((*i)->onTop(**j) ) //if ((*i)->onTop(**j) || (*i)->didCollide(**j) != NONE)
-				onTopOrCollide = true;
-		}
-		if (!onTopOrCollide)
-		{
-			if ((*i)->gety() + (*i)->getHeight() < FLOOR_Y)
-				(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
-			else
-			{
-				bool isFall = false;
-				for (auto& j = floors_.begin(); j != floors_.end() && !isFall; ++j)
-				{
-					if (j->startX <= (*i)->getx() && (*i)->getx() + (*i)->getWidth() <= j->endX)
-						isFall = true;
-				}
-				if (isFall)
-					(*i)->setvy((*i)->getvy() + ACCELARATION * time / 1000);
-				else
-					(*i)->setvy(0);
-			}
-		}
-		*/
+		if ((*i)->getGravityAffected())
+			(*i)->setvy((*i)->getvy() + GRAVITY * time / 1000);
 	}
 }
 
@@ -86,7 +49,7 @@ void Arena::erase(const Object* object)
 		return;
 	if (object == mario_)
 		mario_ = nullptr;
-	auto iNewEnd = std::remove_if(movingObjects_.begin(), movingObjects_.end(), [&object](const Object* i)
+	auto iNewEnd = std::remove_if(objects_.begin(), objects_.end(), [&object](const Object* i)
 	{ 
 		if (i == object)
 		{
@@ -96,49 +59,31 @@ void Arena::erase(const Object* object)
 		}
 		return false;
 	});
-	movingObjects_.erase(iNewEnd, movingObjects_.end());
-	auto jNewEnd = std::remove_if(staticObjects_.begin(), staticObjects_.end(), [&object](const Object* i)
-	{ 
-		if (i == object)
-		{
-			delete i;
-			i = nullptr;
-			return true;
-		}
-		return false; 
-	});
-	staticObjects_.erase(jNewEnd, staticObjects_.end());
+	objects_.erase(iNewEnd, objects_.end());
 }
 
-void Arena::pushBack(MovingObject* pMovingObject)
+void Arena::addObject(Object* pObject)
 {
-	auto iPos = find_if(movingObjects_.cbegin(), movingObjects_.cend(), [&](MovingObject* i)
-				{return (*i).getPriority() > pMovingObject->getPriority(); });
-	movingObjects_.insert(iPos, pMovingObject);
-	if (pMovingObject->getType() == MARIO_SMALL || pMovingObject->getType() == MARIO_BIG || pMovingObject->getType() == MARIO_SUPER)
+	auto iPos = find_if(objects_.cbegin(), objects_.cend(), [&](Object* i)
+				{return (*i).getPriority() > pObject->getPriority(); });
+	objects_.insert(iPos, pObject);
+	if (pObject->getType() == MARIO_SMALL || pObject->getType() == MARIO_BIG || pObject->getType() == MARIO_SUPER)
 	{
 		if (mario_ != nullptr)
 			delete mario_;
-		mario_ = pMovingObject;
+		mario_ = pObject;
 	}
-}
-
-void Arena::pushBack(Object* pObject)
-{
-	auto iPos = find_if(staticObjects_.cbegin(), staticObjects_.cend(), [&](Object* i)
-				{return (*i).getPriority() > pObject->getPriority(); });
-	staticObjects_.insert(iPos, pObject);
 }
 
 void Arena::move(double time)
 {
-	for (auto& i: movingObjects_)
+	for (auto& i: objects_)
 		i->move(time);
 }
 
-void Arena::deleteDyingObject()
+void Arena::removeOutOfBoundObject()
 {
-	auto iNewEnd = remove_if(movingObjects_.begin(), movingObjects_.end(), [&](const MovingObject* i){
+	auto iNewEnd = remove_if(objects_.begin(), objects_.end(), [&](const Object* i){
 		if (i->gety() > LOWEST_POSITION)
 		{
 			if (mario_ == i)
@@ -148,39 +93,16 @@ void Arena::deleteDyingObject()
 			return true;
 		}
 		return false; });
-	movingObjects_.erase(iNewEnd, movingObjects_.end());
-	LARGE_INTEGER frequency, now;
-	QueryPerformanceFrequency(&frequency);
-	QueryPerformanceCounter(&now);
-	auto jNewEnd = remove_if(dyingObjectData_.begin(), dyingObjectData_.end(), [&](const DyingObjectData& i)
-	{
-		if ((double)(now.QuadPart - i.startTime) / (double)frequency.QuadPart > (double)i.duration / 1000)
-		{
-			this->erase(i.data);
-			return true;
-		}
-		return false;
-	});
-	dyingObjectData_.erase(jNewEnd, dyingObjectData_.end());
+	objects_.erase(iNewEnd, objects_.end());
 }
 
 Arena::~Arena()
 {
-	for (auto& i : staticObjects_)
+	for (auto& i : objects_)
 	{
 		delete i;
 		i = nullptr;
 	}
-	for (auto& i : movingObjects_)
-	{
-		delete i;
-		i = nullptr;
-	}
-}
-
-void Arena::pushDyingObjectData(const DyingObjectData& data)
-{
-	dyingObjectData_.push_back(data);
 }
 
 void Arena::setMarioVx(double vx)
@@ -232,21 +154,18 @@ bool Arena::isGameOver() const
 	return mario_ == nullptr;
 }
 
-const std::list<MovingObject*>& Arena::getMovingObjects() const
+const std::list<Object*>& Arena::getObjects() const
 {
-	return movingObjects_;
-}
-
-const std::list<Object*>& Arena::getStaticObjects() const
-{
-	return staticObjects_;
+	return objects_;
 }
 
 bool Arena::MarioDownToEarth() const
 {
-	for (auto& i = movingObjects_.begin(); i != movingObjects_.end(); ++i)
+	if (mario_ == nullptr)
+		return false;
+	for (auto& i = objects_.begin(); i != objects_.end(); ++i)
 	{
-		if (!((*i)->getType() == MARIO_SMALL || (*i)->getType() == MARIO_BIG || (*i)->getType() == MARIO_SUPER))
+		if (mario_ != *i)
 		{
 			if (mario_->onTop(**i))
 				return true;
@@ -254,12 +173,63 @@ bool Arena::MarioDownToEarth() const
 				return true;
 		}
 	}
-	for (auto& i = staticObjects_.begin(); i != staticObjects_.end(); ++i)
-	{
-		if (mario_->onTop(**i))
-			return true;
-		if (mario_->didCollide(**i) != NONE)
-			return true;
-	}
 	return false;
+}
+
+void Arena::processEvent()
+{
+	LARGE_INTEGER frequency, now;
+	QueryPerformanceFrequency(&frequency);
+	QueryPerformanceCounter(&now);
+	auto iNewEnd = std::remove_if(events_.begin(), events_.end(), [&](Event& i)
+	{
+		double timeElapsed = ((double)(now.QuadPart - i.getStartTime()) / (double)frequency.QuadPart) * 1000;
+		switch (i.getType())
+		{
+		case DESTROY:
+			if (timeElapsed > i.getTime())
+			{
+				erase(i.getObject());
+				return true;
+			}
+			return false;
+			break;
+		case START_MOVING_X:
+			if (timeElapsed > i.getTime())
+			{
+				i.getObject()->setvx(i.getParam());
+				return true;
+			}
+			return false;
+			break;
+		case KEEP_MOVING_Y:
+			i.setTime(i.getTime() - timeElapsed);
+			i.setStartTime(now.QuadPart);
+			if (i.getTime() > 0)
+			{
+				i.getObject()->setvy(i.getParam());
+				i.getObject()->setPassable(true);
+				i.getObject()->setGravityAffected(false);
+				return false;
+			}
+			else
+			{
+				i.getObject()->setvy(0);
+				i.getObject()->setPassable(false);
+				i.getObject()->setGravityAffected(true);
+				return true;
+			}
+			break;
+		}
+		return false;
+	});
+	events_.erase(iNewEnd, events_.end());
+}
+
+bool Arena::getMarioDying() const
+{
+	if (mario_ != nullptr)
+		return mario_->getDying();
+	else
+		return false;
 }

@@ -1,12 +1,9 @@
 #include "ObjectBrick.h"
-#include "Arena.h"
 
-ObjectBrick::ObjectBrick(int id, int x, int y) : Object(id, x, y)
+ObjectBrick::ObjectBrick(int x, int y) : Object(x, y)
 {
 	width_ = BRICK_WIDTH;
 	height_ = BRICK_HEIGHT;
-	dying_ = false;
-	enabled_ = true;
 }
 
 void ObjectBrick::collide(const Object& object, Direction collideDirection)
@@ -47,27 +44,4 @@ void ObjectBrick::changeType()
 int ObjectBrick::getPriority() const
 {
 	return BRICK_PRIORITY;
-}
-
-void ObjectBrick::destroy(bool instantDestroy)
-{
-	// working on
-	Arena& arena = Arena::getUniqueInstance();
-	LARGE_INTEGER time;
-	QueryPerformanceCounter(&time);
-	if (!instantDestroy)
-	{
-		DyingObjectData data(this, time.QuadPart, BRICK_DYING_DURATION);
-		arena.pushDyingObjectData(data);
-	}
-	else
-	{
-		DyingObjectData data(this, time.QuadPart, 0);
-		arena.pushDyingObjectData(data);
-	}
-}
-
-int ObjectBrick::getDyingDuration() const
-{
-	return BRICK_DYING_DURATION;
 }
