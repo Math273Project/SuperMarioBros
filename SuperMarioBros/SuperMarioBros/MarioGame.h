@@ -38,17 +38,26 @@ private:
 	TextureManager enemyTexture_;
 	TextureManager floorTexture_;
 	TextureManager blocksTexture_;
+	TextureManager pipeBigTexture_;
+	TextureManager pipeMiddleTexture_;
+	TextureManager pipeSmallTexture_;
 
 	//All the animations are done with an image
 	//std::list<Image> images_;
 	Image mario_; 
 	Image background_;
+	Image coin_;
 	Image enemy_;
 	Image block_;
 	Image floor_;
 	Image brick_;
 	Image mushroom_;
+	Image powerup_;
 	Image question_;
+	Image pipeBig_;
+	Image pipeMiddle_;
+	Image pipeSmall_;
+
 
 	int centerx_;
 

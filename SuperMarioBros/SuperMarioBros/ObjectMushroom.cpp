@@ -19,7 +19,9 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 		break;
 	case BLOCK:
 	case FLOOR:
-	case PIPE:
+	case PIPE_BIG:
+	case PIPE_MIDDLE:
+	case PIPE_SMALL:
 	case BRICK:
 	case QUESTION:
 		adjustPosition(object, collideDirection);

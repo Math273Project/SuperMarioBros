@@ -16,10 +16,14 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 	{
 	case BLOCK:
 	case FLOOR:
-	case PIPE:
+	case PIPE_BIG:
+	case PIPE_MIDDLE:
+	case PIPE_SMALL:
 	case BRICK:
 	case QUESTION:
 	case MUSHROOM_DYING:
+		if (dying_)
+			break;
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)
 		{
@@ -41,13 +45,15 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 	case ENEMY:
 	case MUSHROOM:
 		adjustPosition(object, collideDirection);
+		
 		switch (collideDirection)
 		{
 		case LEFT:
 		case RIGHT:
 		case DOWN:
 			setvx(0);
-			destroy();
+			if (!dying_)
+				destroy();
 			break;
 		case UP:
 			setvy(0);
@@ -55,6 +61,8 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		}
 		break;
 	case POWERUP:
+		if (dying_)
+			break;
 		switch (type_)
 		{
 		case MARIO_SMALL:
@@ -103,7 +111,6 @@ void ObjectMario::setType(ObjectType type)
 
 void ObjectMario::destroy()
 {
-	passable_ = true;
 	dying_ = true;
 	type_ = MARIO_DYING;
 	setvy(-100);
