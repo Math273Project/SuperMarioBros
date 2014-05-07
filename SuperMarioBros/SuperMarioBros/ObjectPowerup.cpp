@@ -13,6 +13,31 @@ void ObjectPowerup::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
+	case BLOCK:
+	case FLOOR:
+	case PIPE_BIG:
+	case PIPE_MIDDLE:
+	case PIPE_SMALL:
+	case BRICK:
+	case QUESTION:
+	case MUSHROOM_DYING:
+		adjustPosition(object, collideDirection);
+		switch (collideDirection)
+		{
+		case UP:
+			setvy(0);
+			break;
+		case DOWN:
+			setvy(0);
+			break;
+		case LEFT:
+			setvx(0);
+			break;
+		case RIGHT:
+			setvx(0);
+			break;
+		}
+		break;
 	case MARIO_SMALL:
 	case MARIO_BIG:
 	case MARIO_SUPER:

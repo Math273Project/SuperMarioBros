@@ -8,7 +8,7 @@ ObjectCoin::ObjectCoin(int x, int y) : Object(x, y)
 
 ObjectType ObjectCoin::getType() const
 {
-	return BLOCK;
+	return COIN;
 }
 
 int ObjectCoin::getPriority() const

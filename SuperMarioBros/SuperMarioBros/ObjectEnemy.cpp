@@ -15,7 +15,9 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 	{
 	case BLOCK:
 	case BRICK:
-	case PIPE:
+	case PIPE_BIG:
+	case PIPE_MIDDLE:
+	case PIPE_SMALL:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)
 		{

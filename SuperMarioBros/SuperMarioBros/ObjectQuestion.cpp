@@ -1,6 +1,8 @@
 #include "ObjectQuestion.h"
 #include "Arena.h"
 #include "ObjectMushroom.h"
+#include "ObjectCoin.h"
+#include "ObjectPowerup.h"
 
 ObjectQuestion::ObjectQuestion(int x, int y, ObjectType attachedObjectType) : Object(x, y)
 {
@@ -30,12 +32,31 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 				switch (attachedObjectType_)
 				{
 				case MUSHROOM:
-					ObjectMushroom* mushroom = new ObjectMushroom(x_, y_, 0, 0);
+					ObjectMushroom* mushroom;
+					mushroom = new ObjectMushroom(x_, y_, 0, 0);
 					mushroom->setPassable(true);
 					mushroom->setGravityAffected(true);
 					arena.addObject(mushroom);
 					arena.addEvent(KEEP_MOVING_Y, mushroom, MUSHROOM_HEIGHT * 1000 / 40, -40);
 					arena.addEvent(START_MOVING_X, mushroom, MUSHROOM_HEIGHT * 1000 / 40 + 100, 40);
+					break;
+
+				case POWERUP:
+					ObjectPowerup* powerup;
+					powerup = new ObjectPowerup(x_, y_, 0, 0);
+					powerup->setPassable(true);
+					powerup->setGravityAffected(true);
+					arena.addObject(powerup);
+					arena.addEvent(KEEP_MOVING_Y, powerup, POWERUP_HEIGHT * 1000 / 40, -40);
+					break;
+
+				case COIN:
+					ObjectCoin* coin;
+					coin = new ObjectCoin(x_, y_);
+					coin->setPassable(true);
+					coin->setGravityAffected(true);
+					arena.addObject(coin);
+					arena.addEvent(KEEP_MOVING_Y, coin, COIN_HEIGHT * 1000 / 40, -40);
 					break;
 				}
 			}

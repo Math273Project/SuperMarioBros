@@ -17,6 +17,9 @@ const char BACKGROUND_START[] = "Textures\\Level_One_resized.bmp"; //The backgro
 const char MARIO_TEXTURE[] = "Textures\\Robot_Mario.bmp";
 const char BLOCKS[] = "Textures\\Blocks.bmp";
 const char FLOOR_TEXTURE[] = "Textures\\floor.bmp";
+const char PIPE_BIG_TEXTURE[] = "Textures\\Pipe_Big.bmp";
+const char PIPE_MIDDLE_TEXTURE[] = "Textures\\Pipe_Middle.bmp";
+const char PIPE_SMALL_TEXTURE[] = "Textures\\Pipe_Small.bmp";
 
 // Sprite constants
 
@@ -37,11 +40,9 @@ const int MARIO_SMALL_START_FRAME = 0;
 const int MARIO_SMALL_END_FRAME = 1; //change later
 const double MARIO_SMALL_ANIMATION_DELAY = 0.1; //should look like its moving faster
 const int MARIO_SMALL_COLS = 6;
-const double MARIO_SMALL_SPEED = 200.0;
 const double MARIO_DYING_SPEED = 100.0;
 const double MARIO_SMALL_SCALE = .25;
 
-const int BLOCK_DYING_DURATION = 500;
 const int BLOCK_PRIORITY = 5;
 const int BLOCK_WIDTH = 50;
 const int BLOCK_HEIGHT = 50;
@@ -70,7 +71,6 @@ const int ENEMY_HEIGHT = 50;
 const int ENEMY_DYING_WIDTH = 50;
 const int ENEMY_DYING_HEIGHT = 50;
 
-const int FLOOR_DYING_DURATION = 500;
 const int FLOOR_PRIORITY = 5;
 const int FLOOR_WIDTH = 51;
 const int FLOOR_HEIGHT = 100;
@@ -91,10 +91,11 @@ const int MUSHROOM_HEIGHT = 50;
 const int MUSHROOM_DYING_WIDTH = 50;
 const int MUSHROOM_DYING_HEIGHT = 50;
 
-const int PIPE_DYING_DURATION = 500;
 const int PIPE_PRIORITY = 5;
-const int PIPE_WIDTH = 50;
-const int PIPE_HEIGHT = 50;
+const int PIPE_WIDTH = 100;
+const int PIPE_BIG_HEIGHT = 200;
+const int PIPE_MIDDLE_HEIGHT = 150;
+const int PIPE_SMALL_HEIGHT = 100;
 
 const int POWERUP_DYING_DURATION = 500;
 const int POWERUP_PRIORITY = 5;

@@ -5,6 +5,10 @@
 #include "ObjectBrick.h"
 #include "ObjectMushroom.h"
 #include "ObjectQuestion.h"
+#include "ObjectPowerup.h"
+#include "ObjectPipe.h"
+#include "ObjectCoin.h"
+
 MarioGame::MarioGame()
 {
 	centerx_ = 0;
@@ -27,12 +31,29 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	ObjectFloor* objectFloor = new ObjectFloor(0, 600, 6000);
 	ObjectBrick* objectBrick = new ObjectBrick(200, 250);
 	ObjectQuestion* objectQuestion = new ObjectQuestion(400, 250, MUSHROOM);
+	ObjectQuestion* objectQuestion2 = new ObjectQuestion(600, 250, POWERUP);
+	ObjectQuestion* objectQuestion3 = new ObjectQuestion(700, 250, COIN);
+	ObjectPowerup* objectPowerup = new ObjectPowerup(600, 300, 0, 0);
+	ObjectCoin* objectCoin = new ObjectCoin(700, 550);
+	ObjectPipe* objectPipeBig = new ObjectPipe(800, 400, PIPE_BIG);
+	ObjectPipe* objectPipeMiddle = new ObjectPipe(700, 450, PIPE_MIDDLE);
+	ObjectPipe* objectPipeSmall = new ObjectPipe(600, 500, PIPE_SMALL);
+
 
 	arena.addObject(objectMario);
 	arena.addObject(objectBlock);
 	arena.addObject(objectFloor);
 	arena.addObject(objectBrick);
 	arena.addObject(objectQuestion);
+	arena.addObject(objectQuestion2);
+	arena.addObject(objectQuestion3);
+	arena.addObject(objectPowerup);
+	arena.addObject(objectCoin);
+	arena.addObject(objectPipeBig);
+	arena.addObject(objectPipeMiddle);
+	arena.addObject(objectPipeSmall);
+
+
 	//Initialize textures
 	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
@@ -40,7 +61,9 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	enemyTexture_.initialize(graphics_, MARIO_TEXTURE);
 	blocksTexture_.initialize(graphics_, BLOCKS);
 	floorTexture_.initialize(graphics_, FLOOR_TEXTURE);
-
+	pipeBigTexture_.initialize(graphics_, PIPE_BIG_TEXTURE);
+	pipeMiddleTexture_.initialize(graphics_, PIPE_MIDDLE_TEXTURE);
+	pipeSmallTexture_.initialize(graphics_, PIPE_SMALL_TEXTURE);
 
 	//Initialize images
 	mario_.initialize(graphics_, MARIO_BIG_WIDTH, MARIO_BIG_HEIGHT, MARIO_COLS, &marioTexture_);
@@ -54,6 +77,15 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	mushroom_.setCurrentFrame(2);
 	question_.initialize(graphics_, QUESTION_WIDTH, QUESTION_HEIGHT, 3, &blocksTexture_);
 	question_.setCurrentFrame(2);
+	powerup_.initialize(graphics_, POWERUP_WIDTH, POWERUP_HEIGHT, 6, &blocksTexture_);
+	powerup_.setCurrentFrame(10);
+	coin_.initialize(graphics_, COIN_WIDTH, COIN_HEIGHT, 6, &blocksTexture_);
+	coin_.setCurrentFrame(9);
+	pipeBig_.initialize(graphics_, PIPE_WIDTH, PIPE_BIG_HEIGHT, 1, &pipeBigTexture_);
+	pipeMiddle_.initialize(graphics_, PIPE_WIDTH, PIPE_MIDDLE_HEIGHT, 1, &pipeMiddleTexture_);
+	pipeSmall_.initialize(graphics_, PIPE_WIDTH, PIPE_SMALL_HEIGHT, 1, &pipeSmallTexture_);
+
+
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
@@ -177,6 +209,11 @@ void MarioGame::render()
 				floor_.draw();
 				floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
 				break;
+			case POWERUP:
+				powerup_.setX(i->getx() - centerx_);
+				powerup_.setY(i->gety());
+				powerup_.draw();
+				break;
 			case MARIO_SMALL:
 			case MARIO_DYING:
 				mario_.setX(i->getx() - centerx_);
@@ -187,11 +224,57 @@ void MarioGame::render()
 				mario_.draw();
 				break;
 
+			case MARIO_BIG: // change to big
+				mario_.setX(i->getx() - centerx_);
+				mario_.setY(i->gety());
+				mario_.setCurrentFrame(i->getCurrentFrame());
+				mario_.update(frameTime_);
+				i->setCurrentFrame(mario_.getCurrentFrame());
+				mario_.draw();
+				break;
+
+			case MARIO_SUPER: // change to super
+				mario_.setX(i->getx() - centerx_);
+				mario_.setY(i->gety());
+				mario_.setCurrentFrame(i->getCurrentFrame());
+				mario_.update(frameTime_);
+				i->setCurrentFrame(mario_.getCurrentFrame());
+				mario_.draw();
+				break;
+
 			case MUSHROOM:
+				mushroom_.setX(i->getx() - centerx_);
+				mushroom_.setY(i->gety());
+				mushroom_.draw();
+				break;
 			case MUSHROOM_DYING:
 				mushroom_.setX(i->getx() - centerx_);
 				mushroom_.setY(i->gety());
 				mushroom_.draw();
+				break;
+
+			case PIPE_BIG:
+				pipeBig_.setX(i->getx() - centerx_);
+				pipeBig_.setY(i->gety());
+				pipeBig_.draw();
+				break;
+
+			case PIPE_MIDDLE:
+				pipeMiddle_.setX(i->getx() - centerx_);
+				pipeMiddle_.setY(i->gety());
+				pipeMiddle_.draw();
+				break;
+
+			case PIPE_SMALL:
+				pipeSmall_.setX(i->getx() - centerx_);
+				pipeSmall_.setY(i->gety());
+				pipeSmall_.draw();
+				break;
+
+			case COIN:
+				coin_.setX(i->getx() - centerx_);
+				coin_.setY(i->gety());
+				coin_.draw();
 				break;
 			}
 		}

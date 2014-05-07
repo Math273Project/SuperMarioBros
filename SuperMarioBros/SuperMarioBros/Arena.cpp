@@ -207,14 +207,16 @@ void Arena::processEvent()
 			i.setStartTime(now.QuadPart);
 			if (i.getTime() > 0)
 			{
-				i.getObject()->setvy(i.getParam());
+				//i.getObject()->setvy(i.getParam());
+				i.getObject()->sety(i.getObject()->gety() + i.getParam() * timeElapsed / 1000);
 				i.getObject()->setPassable(true);
 				i.getObject()->setGravityAffected(false);
 				return false;
 			}
 			else
 			{
-				i.getObject()->setvy(0);
+				//i.getObject()->setvy(0);
+				i.getObject()->sety(i.getObject()->gety() + i.getParam() * (timeElapsed + i.getTime()) / 1000);
 				i.getObject()->setPassable(false);
 				i.getObject()->setGravityAffected(true);
 				return true;
