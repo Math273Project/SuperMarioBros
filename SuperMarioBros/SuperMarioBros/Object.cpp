@@ -104,7 +104,7 @@ Object::Object(int x, int y)
 	enabled_ = true;
 	passable_ = false;
 	dying_ = false;
-	currentFrame_ = 0;
+	currentFrame_ = 36;
 }
 
 

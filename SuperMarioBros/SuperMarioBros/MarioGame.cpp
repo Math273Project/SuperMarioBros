@@ -19,20 +19,21 @@ MarioGame::~MarioGame()
 void MarioGame::initialize(HWND hWnd, bool fullscreen)
 {
 	Game::initialize(hWnd, fullscreen);
-	//Initialze textures
+
 	//Initialize arena and started objects
 
 	ObjectMario* objectMario = new ObjectMario(50, 200, (int)MARIO_SPEED, 0);
-	ObjectBlock* objectBlock = new ObjectBlock(50, 250);
+	//ObjectBlock* objectBlock = new ObjectBlock(50, 250);
 	ObjectFloor* objectFloor = new ObjectFloor(0, 600, 6000);
 	ObjectBrick* objectBrick = new ObjectBrick(200, 250);
-	ObjectQuestion* objectQuestion = new ObjectQuestion(400, 250, MUSHROOM);
+	ObjectQuestion* objectQuestion = new ObjectQuestion(800, 400, MUSHROOM);
 
 	arena.addObject(objectMario);
-	arena.addObject(objectBlock);
+	//arena.addObject(objectBlock);
 	arena.addObject(objectFloor);
 	arena.addObject(objectBrick);
 	arena.addObject(objectQuestion);
+
 	//Initialize textures
 	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
@@ -43,8 +44,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 
 	//Initialize images
-	mario_.initialize(graphics_, MARIO_BIG_WIDTH, MARIO_BIG_HEIGHT, MARIO_COLS, &marioTexture_);
-	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_); // some edit here, full load the background is okay.
+	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
+	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_);
 	enemy_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &enemyTexture_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
 	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
@@ -57,11 +58,11 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
-	mario_.setFrames(MARIO_START_FRAME , MARIO_START_FRAME);   // animation frames
-	mario_.setCurrentFrame(MARIO_START_FRAME + 8);     // starting frame
-	mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
+	mario_.setFrames(MARIO_SMALL_START_FRAME , MARIO_SMALL_END_FRAME);   // animation frames
+	mario_.setCurrentFrame(MARIO_SMALL_START_FRAME + 1);     // starting frame
+	mario_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
 	mario_.setDegrees(0);
-	mario_.setScale(MARIO_SCALE);
+	mario_.setScale(MARIO_SMALL_SCALE);
 
 	enemy_.setX(200);
 	enemy_.setY(490);
@@ -95,14 +96,14 @@ void MarioGame::update()
 	if (input_->isKeyDown(MOVE_RIGHT_KEY) && !arena.getMarioDying())
 	{
 		mario_.flipHorizontal(false);
-		arena.setMarioVx(MARIO_SPEED);
+		arena.setMarioVx(MARIO_SMALL_SPEED);
 		MarioRun();
 		
 	}
 	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0 && !arena.getMarioDying()) // some edit here to make Mario cannot go back
 	{
 		mario_.flipHorizontal(true);
-		arena.setMarioVx(-MARIO_SPEED);
+		arena.setMarioVx(-MARIO_SMALL_SPEED);
 		MarioRun();
 	}
 	else if (!arena.getMarioDying())
@@ -216,18 +217,70 @@ void MarioGame::resetAll()
 
 void MarioGame::MarioRun()
 {
-	mario_.setFrames(MARIO_START_FRAME + 1, MARIO_START_FRAME + 3);
-	mario_.setCurrentFrame(MARIO_START_FRAME + 1);
+	bool done = false;
+	mario_.setLoop(true);
+	for (auto& i = arena.getObjects().begin(); i != arena.getObjects().end() && !done; ++i)
+	{
+		switch ((*i)->getType())
+		{
+		case MARIO_SMALL:
+			mario_.setFrames(MARIO_SMALL_START_FRAME + 1, MARIO_SMALL_START_FRAME + 3);
+			mario_.setCurrentFrame(MARIO_SMALL_START_FRAME);
+			done = true;
+			break;
+		case MARIO_SUPER:
+			mario_.setFrames(MARIO_SUPER_START_FRAME + 1, MARIO_SUPER_START_FRAME + 3);
+			mario_.setCurrentFrame(MARIO_SUPER_START_FRAME);
+			done = true;
+			break;
+		case MARIO_BIG:
+			mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME + 3);
+			mario_.setCurrentFrame(MARIO_START_FRAME);
+			done = true;
+			break;
+		}
+	}
 }
 
 void MarioGame::MarioStop()
 {
-	mario_.setFrames(MARIO_START_FRAME, MARIO_START_FRAME);
-	mario_.setCurrentFrame(MARIO_START_FRAME);
+	bool done = false;
+	mario_.setLoop(false);
+	for (auto& i = arena.getObjects().begin(); i != arena.getObjects().end() && !done; ++i)
+	{
+		switch ((*i)->getType())
+		{
+		case MARIO_SMALL:
+			mario_.setFrames(MARIO_SMALL_START_FRAME, MARIO_SMALL_START_FRAME);
+			mario_.setCurrentFrame(MARIO_SMALL_START_FRAME);
+			done = true;
+			break;
+		case MARIO_SUPER:
+			mario_.setFrames(MARIO_SUPER_START_FRAME, MARIO_SUPER_START_FRAME);
+			mario_.setCurrentFrame(MARIO_SUPER_START_FRAME);
+			done = true;
+			break;
+		case MARIO_BIG:
+			mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME);
+			mario_.setCurrentFrame(MARIO_START_FRAME);
+			done = true;
+			break;
+		}
+	}
 }
 
 void MarioGame::MarioJump()
 {
 	mario_.setFrames(MARIO_START_FRAME + 4, MARIO_START_FRAME + 4);
 	mario_.setCurrentFrame(4);
+}
+
+void MarioGame::MarioGrow()
+{
+
+}
+
+void MarioGame::MarioShrink()
+{
+
 }

@@ -87,6 +87,7 @@ public:
 	virtual void move(double time);
 	virtual bool getGravityAffected() const;
 	virtual void setGravityAffected(bool gravityAffected);
+
 protected:
 	int currentFrame_;
 	double x_; 
