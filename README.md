@@ -9,8 +9,7 @@ this game is not for sale, and no copyright infringment is intended.
 
 
 Robot Mario Sprite Sheet Properties (Robot_Mario.bmp)
-File size:
-	1024x512
+File size: 1024x512
 Images:
 	Row 1 (Normal Mario):
 		Dimensions: 
@@ -54,8 +53,7 @@ Images:
 	
 	
 Block Sprite Sheet Properties (Block.bmp)
-File Size:
-	512x1024
+File Size: 512x1024
 	Row 1:
 		Dimensions:
 			Height: 50 pixels
@@ -93,7 +91,18 @@ File Size:
 			Width: 100 pixels
 		1: Green Pipe
 		2: Silver Pipe
-			
+		
+Enemies Sprite Sheet Properties (Enemies.bmp)
+	File Size: 512x512
+	Row 1:
+		Dimensions:
+			Height: 50 pixels
+			Width: 50 pixels
+		1: Robot Goomba Walking 1
+		2: Robot Goomba Walking 2
+		3: Robot Goomba Smashed 1
+		4: Robot Goomba Smashed 2
+		
 			
 Background Color:
 	R: 255
