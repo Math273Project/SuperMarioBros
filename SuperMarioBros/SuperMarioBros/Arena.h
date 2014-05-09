@@ -21,6 +21,7 @@ public:
 	void freeFall(double time); //adjust the object' vy according to gravity if it is in the air
 	void erase(const Object* pObject);
 	void addObject(Object* pObject);
+	template <typename... Args> void emplaceObject(Args&&... args);
 	void move(double time); // move all objects according to current velocity.
 	void removeOutOfBoundObject();
 	void setMarioVx(double vx);

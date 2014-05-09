@@ -13,4 +13,5 @@ public:
 protected:
 	bool changed_;
 	ObjectType attachedObjectType_;
+	Object* attachedObject_;
 };

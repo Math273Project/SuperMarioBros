@@ -74,6 +74,11 @@ void Arena::addObject(Object* pObject)
 		mario_ = pObject;
 	}
 }
+template <typename... Args> void emplaceObject(Args&&... args)
+{
+	Object* object = new T(std::forward<Args>(args)...);
+	objects_.push_back(object);
+}
 
 void Arena::move(double time)
 {

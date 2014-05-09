@@ -32,6 +32,8 @@ enum ObjectType
 	TURTLE_SPIN,
 	BULLET,
 	FLOOR,
+	FLAG_POLE,
+	FLAG,
 	// etc...
 };
 

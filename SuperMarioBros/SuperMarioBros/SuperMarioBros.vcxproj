@@ -24,6 +24,8 @@
     <ClCompile Include="ObjectBullet.cpp" />
     <ClCompile Include="ObjectCoin.cpp" />
     <ClCompile Include="ObjectEnemy.cpp" />
+    <ClCompile Include="ObjectFlag.cpp" />
+    <ClCompile Include="ObjectFlagPole.cpp" />
     <ClCompile Include="ObjectFloor.cpp" />
     <ClCompile Include="ObjectMario.cpp" />
     <ClCompile Include="ObjectMushroom.cpp" />
@@ -38,6 +40,8 @@
     <ClInclude Include="Arena.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="ObjectFlag.h" />
+    <ClInclude Include="ObjectFlagPole.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameError.h" />
     <ClInclude Include="Graphics.h" />
@@ -113,7 +117,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>

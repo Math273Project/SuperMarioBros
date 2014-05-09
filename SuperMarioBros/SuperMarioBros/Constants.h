@@ -8,7 +8,7 @@ const double MIN_FRAME_RATE = 10.0;
 const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
 const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
-const double GRAVITY = 200;
+const double GRAVITY = 400;
 const double LOWEST_POSITION = 1500; // the biggest y-position. 
 									// The object beyond this position will be deleted in deleteDyingObject(). 
 // Texture constants
@@ -70,6 +70,14 @@ const int ENEMY_WIDTH = 50;
 const int ENEMY_HEIGHT = 50;
 const int ENEMY_DYING_WIDTH = 50;
 const int ENEMY_DYING_HEIGHT = 50;
+
+const int FLAG_PRIORITY = 5;
+const int FLAG_WIDTH = 10;
+const int FLAG_HEIGHT = 10;
+
+const int FLAG_POLE_PRIORITY = 4;
+const int FLAG_POLE_WIDTH = 100;
+const int FLAG_POLE_HEIGHT = 10;
 
 const int FLOOR_PRIORITY = 5;
 const int FLOOR_WIDTH = 51;

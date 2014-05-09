@@ -8,7 +8,10 @@
 #include "ObjectPowerup.h"
 #include "ObjectPipe.h"
 #include "ObjectCoin.h"
-
+template <typename... Args> void emplaceObject(Args&&... args)
+{
+	Object* object = new T(std::forward<Args>(args)...);
+}
 MarioGame::MarioGame()
 {
 	centerx_ = 0;
@@ -28,7 +31,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	ObjectMario* objectMario = new ObjectMario(50, 200, (int)MARIO_SPEED, 0);
 	ObjectBlock* objectBlock = new ObjectBlock(50, 250);
-	ObjectFloor* objectFloor = new ObjectFloor(0, 600, 6000);
+	ObjectFloor* objectFloor = new ObjectFloor(0, 617, 10340);
 	ObjectBrick* objectBrick = new ObjectBrick(200, 250);
 	ObjectQuestion* objectQuestion = new ObjectQuestion(400, 250, MUSHROOM);
 	ObjectQuestion* objectQuestion2 = new ObjectQuestion(600, 250, POWERUP);
@@ -39,6 +42,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	ObjectPipe* objectPipeMiddle = new ObjectPipe(700, 450, PIPE_MIDDLE);
 	ObjectPipe* objectPipeSmall = new ObjectPipe(600, 500, PIPE_SMALL);
 
+//	emplaceObject<ObjectMario>(50, 200, (int)MARIO_SPEED, 0);
 
 	arena.addObject(objectMario);
 	arena.addObject(objectBlock);
@@ -67,7 +71,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	//Initialize images
 	mario_.initialize(graphics_, MARIO_BIG_WIDTH, MARIO_BIG_HEIGHT, MARIO_COLS, &marioTexture_);
-	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_); // some edit here, full load the background is okay.
+	background_.initialize(graphics_, 10340, 718, 1, &backgroundTexture_); // some edit here, full load the background is okay.
 	enemy_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &enemyTexture_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
 	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
