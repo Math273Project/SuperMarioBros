@@ -20,6 +20,8 @@ const char FLOOR_TEXTURE[] = "Textures\\floor.bmp";
 const char PIPE_BIG_TEXTURE[] = "Textures\\Pipe_Big.bmp";
 const char PIPE_MIDDLE_TEXTURE[] = "Textures\\Pipe_Middle.bmp";
 const char PIPE_SMALL_TEXTURE[] = "Textures\\Pipe_Small.bmp";
+const char FLAG_POLE_TEXTURE[] = "Textures\\Flag_Pole.bmp";
+const char FLAG_TEXTURE[] = "Textures\\Flag.bmp";
 
 // Sprite constants
 
@@ -72,12 +74,12 @@ const int ENEMY_DYING_WIDTH = 50;
 const int ENEMY_DYING_HEIGHT = 50;
 
 const int FLAG_PRIORITY = 5;
-const int FLAG_WIDTH = 10;
-const int FLAG_HEIGHT = 10;
+const int FLAG_WIDTH = 50;
+const int FLAG_HEIGHT = 50;
 
 const int FLAG_POLE_PRIORITY = 4;
-const int FLAG_POLE_WIDTH = 100;
-const int FLAG_POLE_HEIGHT = 10;
+const int FLAG_POLE_WIDTH = 25;
+const int FLAG_POLE_HEIGHT = 470;
 
 const int FLOOR_PRIORITY = 5;
 const int FLOOR_WIDTH = 51;

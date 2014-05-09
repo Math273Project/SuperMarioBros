@@ -104,6 +104,7 @@ Object::Object(int x, int y)
 	enabled_ = true;
 	passable_ = false;
 	dying_ = false;
+	inEvent_ = false;
 	currentFrame_ = 0;
 }
 
@@ -266,4 +267,14 @@ void Object::setGravityAffected(bool gravityAffected)
 bool Object::getDying() const
 {
 	return dying_;
+}
+
+bool Object::getInEvent() const
+{
+	return inEvent_;
+}
+
+void Object::setInEvent(bool inEvent)
+{
+	inEvent_ = inEvent;
 }

@@ -10,6 +10,5 @@ public:
 	int getPriority() const override;
 protected:
 	ObjectFlag(int x, int y);
-	Object* flag_;
 	friend class ObjectFlagPole;
 };

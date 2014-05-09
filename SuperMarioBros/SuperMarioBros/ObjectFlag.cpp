@@ -4,6 +4,7 @@ ObjectFlag::ObjectFlag(int x, int y) : Object(x, y)
 {
 	width_ = FLAG_POLE_WIDTH;
 	height_ = FLAG_POLE_HEIGHT;
+	passable_ = true;
 }
 
 void ObjectFlag::collide(const Object& object, Direction collideDirection)

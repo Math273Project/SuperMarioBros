@@ -41,6 +41,8 @@ private:
 	TextureManager pipeBigTexture_;
 	TextureManager pipeMiddleTexture_;
 	TextureManager pipeSmallTexture_;
+	TextureManager flagPoleTexture_;
+	TextureManager flagTexture_;
 
 	//All the animations are done with an image
 	//std::list<Image> images_;
@@ -57,6 +59,8 @@ private:
 	Image pipeBig_;
 	Image pipeMiddle_;
 	Image pipeSmall_;
+	Image flagPole_;
+	Image flag_;
 
 
 	int centerx_;

@@ -91,6 +91,8 @@ public:
 	virtual void move(double time);
 	virtual bool getGravityAffected() const;
 	virtual void setGravityAffected(bool gravityAffected);
+	bool getInEvent() const;
+	void setInEvent(bool inEvent);
 protected:
 	int currentFrame_;
 	double x_; 
@@ -100,6 +102,7 @@ protected:
 	bool dying_;
 	bool enabled_;
 	bool passable_;
+	bool inEvent_;
 	Object(int x, int y);
 };
 

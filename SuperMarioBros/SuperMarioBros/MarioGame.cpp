@@ -8,6 +8,8 @@
 #include "ObjectPowerup.h"
 #include "ObjectPipe.h"
 #include "ObjectCoin.h"
+#include "ObjectFlagPole.h"
+
 template <typename... Args> void emplaceObject(Args&&... args)
 {
 	Object* object = new T(std::forward<Args>(args)...);
@@ -36,11 +38,12 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	ObjectQuestion* objectQuestion = new ObjectQuestion(400, 250, MUSHROOM);
 	ObjectQuestion* objectQuestion2 = new ObjectQuestion(600, 250, POWERUP);
 	ObjectQuestion* objectQuestion3 = new ObjectQuestion(700, 250, COIN);
-	ObjectPowerup* objectPowerup = new ObjectPowerup(600, 300, 0, 0);
+	ObjectPowerup* objectPowerup = new ObjectPowerup(400, 300, 0, 0);
 	ObjectCoin* objectCoin = new ObjectCoin(700, 550);
 	ObjectPipe* objectPipeBig = new ObjectPipe(800, 400, PIPE_BIG);
 	ObjectPipe* objectPipeMiddle = new ObjectPipe(700, 450, PIPE_MIDDLE);
 	ObjectPipe* objectPipeSmall = new ObjectPipe(600, 500, PIPE_SMALL);
+	ObjectFlagPole* objectFlagPole = new ObjectFlagPole(1200, 150);
 
 //	emplaceObject<ObjectMario>(50, 200, (int)MARIO_SPEED, 0);
 
@@ -56,6 +59,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	arena.addObject(objectPipeBig);
 	arena.addObject(objectPipeMiddle);
 	arena.addObject(objectPipeSmall);
+	arena.addObject(objectFlagPole);
 
 
 	//Initialize textures
@@ -68,6 +72,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	pipeBigTexture_.initialize(graphics_, PIPE_BIG_TEXTURE);
 	pipeMiddleTexture_.initialize(graphics_, PIPE_MIDDLE_TEXTURE);
 	pipeSmallTexture_.initialize(graphics_, PIPE_SMALL_TEXTURE);
+	flagPoleTexture_.initialize(graphics_, FLAG_POLE_TEXTURE);
+	flagTexture_.initialize(graphics_, FLAG_TEXTURE);
 
 	//Initialize images
 	mario_.initialize(graphics_, MARIO_BIG_WIDTH, MARIO_BIG_HEIGHT, MARIO_COLS, &marioTexture_);
@@ -88,7 +94,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	pipeBig_.initialize(graphics_, PIPE_WIDTH, PIPE_BIG_HEIGHT, 1, &pipeBigTexture_);
 	pipeMiddle_.initialize(graphics_, PIPE_WIDTH, PIPE_MIDDLE_HEIGHT, 1, &pipeMiddleTexture_);
 	pipeSmall_.initialize(graphics_, PIPE_WIDTH, PIPE_SMALL_HEIGHT, 1, &pipeSmallTexture_);
-
+	flagPole_.initialize(graphics_, FLAG_POLE_WIDTH, FLAG_POLE_HEIGHT, 1, &flagPoleTexture_);
+	flag_.initialize(graphics_, FLAG_WIDTH, FLAG_HEIGHT, 1, &flagTexture_);
 
 
 	mario_.setX(50);     
@@ -112,30 +119,24 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 void MarioGame::update()
 {
+	
+	//
+	//
+	//
 	arena.move(frameTime_ * 1000);
 	arena.freeFall(frameTime_ * 1000);
 	arena.collisionDetection();
 	arena.processEvent();
 	arena.removeOutOfBoundObject();
-
-	if (arena.isGameOver())
-	{
-		PostQuitMessage(0); // end the game
-	}
-
-	if (arena.getMarioX() - centerx_ > GAME_WIDTH / 2) // move the center.
-	{
-		centerx_ = arena.getMarioX() - GAME_WIDTH / 2;
-	}
-
-	if (input_->isKeyDown(MOVE_RIGHT_KEY) && !arena.getMarioDying())
+	
+	if (input_->isKeyDown(MOVE_RIGHT_KEY) && !arena.getMarioDying() && !arena.getMarioInEvent())
 	{
 		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
 		MarioRun();
-		
+
 	}
-	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0 && !arena.getMarioDying()) // some edit here to make Mario cannot go back
+	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0 && !arena.getMarioDying() && !arena.getMarioInEvent()) // some edit here to make Mario cannot go back
 	{
 		mario_.flipHorizontal(true);
 		arena.setMarioVx(-MARIO_SPEED);
@@ -146,7 +147,7 @@ void MarioGame::update()
 		arena.setMarioVx(0);
 		MarioStop();
 	}
-	
+
 	if (input_->isKeyDown(MOVE_UP_KEY) && !arena.getMarioDying())
 	{
 		MarioJump();
@@ -162,6 +163,18 @@ void MarioGame::update()
 		//Very minimal usage: only works if mario can move down
 		//ex: flag pole, . . .
 	}
+
+	if (arena.isGameOver())
+	{
+		PostQuitMessage(0); // end the game
+	}
+
+	if (arena.getMarioX() - centerx_ > GAME_WIDTH / 2) // move the center.
+	{
+		centerx_ = arena.getMarioX() - GAME_WIDTH / 2;
+	}
+
+
 }
 
 void MarioGame::render()
@@ -279,6 +292,18 @@ void MarioGame::render()
 				coin_.setX(i->getx() - centerx_);
 				coin_.setY(i->gety());
 				coin_.draw();
+				break;
+
+			case FLAG_POLE:
+				flagPole_.setX(i->getx() - centerx_);
+				flagPole_.setY(i->gety());
+				flagPole_.draw();
+				break;
+
+			case FLAG:
+				flag_.setX(i->getx() - centerx_);
+				flag_.setY(i->gety());
+				flag_.draw();
 				break;
 			}
 		}
