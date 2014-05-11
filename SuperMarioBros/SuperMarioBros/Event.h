@@ -5,13 +5,14 @@ enum EventType
 {
 	KEEP_MOVING_Y,
 	START_MOVING_X,
+	KEEP_NOT_PASSABLE,
 	DESTROY,
 };
 
 class Event
 {
 public:
-	Event(EventType type, Object* pObject, long long startTime, int time, int param)
+	Event(EventType type, Object* pObject, long long startTime, int time, double param)
 	{	
 		type_ = type;
 		pObject_ = pObject;
@@ -56,5 +57,5 @@ protected:
 	Object* pObject_;
 	long long startTime_;
 	int time_;
-	int param_;
+	double param_;
 };

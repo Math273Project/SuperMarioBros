@@ -8,8 +8,8 @@ ObjectQuestion::ObjectQuestion(int x, int y, ObjectType attachedObjectType) : Ob
 {
 	width_ = QUESTION_WIDTH;
 	height_ = QUESTION_HEIGHT;
-	attachedObjectType_ = attachedObjectType;
 	changed_ = false;
+	attachedObjectType_ = attachedObjectType;
 }
 
 void ObjectQuestion::collide(const Object& object, Direction collideDirection)
@@ -32,33 +32,35 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 				switch (attachedObjectType_)
 				{
 				case MUSHROOM:
-					ObjectMushroom* mushroom;
-					mushroom = new ObjectMushroom(x_, y_, 0, 0);
-					mushroom->setPassable(true);
-					mushroom->setGravityAffected(true);
-					arena.addObject(mushroom);
-					arena.addEvent(KEEP_MOVING_Y, mushroom, MUSHROOM_HEIGHT * 1000 / 40, -40);
-					arena.addEvent(START_MOVING_X, mushroom, MUSHROOM_HEIGHT * 1000 / 40 + 100, 40);
+					attachedObject_ = new ObjectMushroom(x_, y_, 0, 0);
+					break;
+				case COIN:
+					attachedObject_ = new ObjectCoin(x_, y_);
+					break;
+				case POWERUP:
+					attachedObject_ = new ObjectPowerup(x_, y_, 0, 0);
+					break;
+				}
+				arena.addObject(attachedObject_);
+				switch (attachedObject_->getType())
+				{
+				case MUSHROOM:			
+					attachedObject_->setPassable(true);
+					arena.addEvent(KEEP_MOVING_Y, attachedObject_, MUSHROOM_HEIGHT * 1000 / 40, -40);
+					arena.addEvent(START_MOVING_X, attachedObject_, MUSHROOM_HEIGHT * 1000 / 40 + 100, 40);
 					break;
 
 				case POWERUP:
-					ObjectPowerup* powerup;
-					powerup = new ObjectPowerup(x_, y_, 0, 0);
-					powerup->setPassable(true);
-					powerup->setGravityAffected(true);
-					arena.addObject(powerup);
-					arena.addEvent(KEEP_MOVING_Y, powerup, POWERUP_HEIGHT * 1000 / 40, -40);
+					attachedObject_->setPassable(true);
+					arena.addEvent(KEEP_MOVING_Y, attachedObject_, POWERUP_HEIGHT * 1000 / 40, -40);
 					break;
 
 				case COIN:
-					ObjectCoin* coin;
-					coin = new ObjectCoin(x_, y_);
-					coin->setPassable(true);
-					coin->setGravityAffected(true);
-					arena.addObject(coin);
-					arena.addEvent(KEEP_MOVING_Y, coin, COIN_HEIGHT * 1000 / 40, -40);
+					attachedObject_->setPassable(true);
+					arena.addEvent(KEEP_MOVING_Y, attachedObject_, COIN_HEIGHT * 1000 / 40, -40);
 					break;
 				}
+				
 			}
 			break;
 		}

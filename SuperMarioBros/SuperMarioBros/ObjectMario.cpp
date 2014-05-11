@@ -1,4 +1,5 @@
 #include "ObjectMario.h"
+#include "Arena.h"
 
 ObjectMario::ObjectMario(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
@@ -73,6 +74,17 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 			break;
 		}
 		break;
+
+	case FLAG_POLE:
+		if (!inEvent_)
+		{
+			adjustPosition(object, collideDirection);
+			if (dying_)
+				break;
+			Arena& arena = Arena::getUniqueInstance();
+			arena.addEvent(KEEP_MOVING_Y, this, 1000, 515 - y_);
+			break;
+		}
 	}
 }
 

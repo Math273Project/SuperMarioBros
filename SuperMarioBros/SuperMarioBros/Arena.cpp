@@ -8,7 +8,7 @@ Arena::Arena()
 	
 }
 
-void Arena::addEvent(EventType type, Object* pObject, int time, int param)
+void Arena::addEvent(EventType type, Object* pObject, int time, double param)
 {
 	LARGE_INTEGER now;
 	QueryPerformanceCounter(&now);
@@ -184,11 +184,13 @@ void Arena::processEvent()
 	auto iNewEnd = std::remove_if(events_.begin(), events_.end(), [&](Event& i)
 	{
 		double timeElapsed = ((double)(now.QuadPart - i.getStartTime()) / (double)frequency.QuadPart) * 1000;
+		i.getObject()->setInEvent(true);
 		switch (i.getType())
 		{
 		case DESTROY:
 			if (timeElapsed > i.getTime())
 			{
+				i.getObject()->setInEvent(false);
 				erase(i.getObject());
 				return true;
 			}
@@ -205,6 +207,7 @@ void Arena::processEvent()
 		case KEEP_MOVING_Y:
 			i.setTime(i.getTime() - timeElapsed);
 			i.setStartTime(now.QuadPart);
+			i.getObject()->setvx(0);
 			if (i.getTime() > 0)
 			{
 				//i.getObject()->setvy(i.getParam());
@@ -216,9 +219,25 @@ void Arena::processEvent()
 			else
 			{
 				//i.getObject()->setvy(0);
+				i.getObject()->setInEvent(false);
 				i.getObject()->sety(i.getObject()->gety() + i.getParam() * (timeElapsed + i.getTime()) / 1000);
 				i.getObject()->setPassable(false);
 				i.getObject()->setGravityAffected(true);
+				return true;
+			}
+			break;
+		case KEEP_NOT_PASSABLE:
+			i.setTime(i.getTime() - timeElapsed);
+			i.setStartTime(now.QuadPart);
+			if (i.getTime() > 0)
+			{
+				i.getObject()->setPassable(false);
+				return false;
+			}
+			else
+			{
+				i.getObject()->setInEvent(false);
+				i.getObject()->setPassable(true);
 				return true;
 			}
 			break;
@@ -232,6 +251,14 @@ bool Arena::getMarioDying() const
 {
 	if (mario_ != nullptr)
 		return mario_->getDying();
+	else
+		return false;
+}
+
+bool Arena::getMarioInEvent() const
+{
+	if (mario_ != nullptr)
+		return mario_->getInEvent();
 	else
 		return false;
 }
