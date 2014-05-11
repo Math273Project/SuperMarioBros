@@ -8,7 +8,7 @@ const double MIN_FRAME_RATE = 10.0;
 const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
 const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
-const double GRAVITY = 600;
+const double GRAVITY = 400;
 const double LOWEST_POSITION = 1500; // the biggest y-position. 
 									// The object beyond this position will be deleted in deleteDyingObject(). 
 // Texture constants
@@ -27,21 +27,21 @@ const char PIPE_SMALL_TEXTURE[] = "Textures\\Pipe_Small.bmp";
 const int  MARIO_START_FRAME = 0;            // starting frame of Mario animation
 const int  MARIO_END_FRAME = 7;              // last frame of Mario animation
 const double MARIO_ANIMATION_DELAY = 0.25;    // time between frames of Mario animation
-const int  MARIO_COLS = 8;                   // Mario texture has 7 columns
+const int  MARIO_COLS = 7;                   // Mario texture has 7 columns
 const double MARIO_SPEED = 400; // pixels per second (velocity)
 const double MARIO_SCALE = 1.00;
 
 //Super Mario
 
-const int MARIO_SUPER_START_FRAME = 12;
-const int MARIO_SUPER_END_FRAME = 22;
+const int MARIO_SUPER_START_FRAME = 11;
+const int MARIO_SUPER_END_FRAME = 21;
 const int MARIO_SUPER_COLS = 11;
 
 
 // Small Mario
 const int MARIO_SMALL_START_FRAME = 36;
-const int MARIO_SMALL_END_FRAME = 45;
-const double MARIO_SMALL_ANIMATION_DELAY = 0.05; //should look like its moving faster
+const int MARIO_SMALL_END_FRAME = 44;
+const double MARIO_SMALL_ANIMATION_DELAY = .1; //should look like its moving faster
 const int MARIO_SMALL_COLS = 9;
 const double MARIO_SMALL_SPEED = 200.0;
 const double MARIO_DYING_SPEED = 100.0;
@@ -76,13 +76,13 @@ const int ENEMY_DYING_WIDTH = 50;
 const int ENEMY_DYING_HEIGHT = 50;
 
 const int FLOOR_PRIORITY = 5;
-const int FLOOR_WIDTH = 51;
+const int FLOOR_WIDTH = 50;
 const int FLOOR_HEIGHT = 100;
 
 const int MARIO_DYING_DURATION = 10000;
 const int MARIO_PRIORITY = INT_MAX;
-const int MARIO_SMALL_WIDTH = 51;
-const int MARIO_SMALL_HEIGHT = 51;
+const int MARIO_SMALL_WIDTH = 50;
+const int MARIO_SMALL_HEIGHT = 50;
 const int MARIO_BIG_WIDTH = 50;
 const int MARIO_BIG_HEIGHT = 100;
 const int MARIO_SUPER_WIDTH = 50;

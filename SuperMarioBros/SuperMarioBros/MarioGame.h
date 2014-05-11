@@ -65,7 +65,7 @@ private:
 	void MarioRun();
 	void MarioStop();
 	void MarioJump();
-	void MarioGrow();
-	void MarioShrink();
+	void MarioUpgrade();
+	void MarioDowngrade();
 
 };

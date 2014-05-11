@@ -95,6 +95,15 @@ public:
 	// Set Y location.
 	virtual void setY(double y)   { spriteData_.y = y; }
 
+	// Set Width.
+	virtual void setWidth(double width) { spriteData_.width = width; }
+
+	// Set Height.
+	virtual void setHeight(double height) { spriteData_.height = height; }
+
+	// Set columns.
+	virtual void setCols(int cols) { cols_ = cols; }
+
 	// Set scale.
 	virtual void setScale(double scale)  { spriteData_.scale = scale; }
 
