@@ -5,7 +5,7 @@
 
 Arena::Arena()
 {
-	
+	loseControl_ = false;
 }
 
 void Arena::addEvent(EventType type, Object* pObject, int time, double param)
@@ -71,7 +71,7 @@ void Arena::addObject(Object* pObject)
 	{
 		if (mario_ != nullptr)
 			delete mario_;
-		mario_ = pObject;
+		mario_ = dynamic_cast<ObjectMario*>(pObject);
 	}
 }
 
@@ -107,14 +107,20 @@ Arena::~Arena()
 
 void Arena::setMarioVx(double vx)
 {
-	if (mario_ != nullptr)
-		mario_->setvx(vx);
+	if (loseControl_)
+		return;
+	if (mario_ == nullptr || mario_->getDying())
+		return;
+	return mario_->setvx(vx);
 }
 
 void Arena::setMarioVy(double vy)
 {
-	if (mario_ != nullptr)
-		mario_->setvy(vy);
+	if (loseControl_)
+		return;
+	if (mario_ == nullptr || mario_->getDying())
+		return;
+	return mario_->setvy(vy);
 }
 
 double Arena::getMarioVx() const
@@ -240,6 +246,16 @@ void Arena::processEvent()
 				i.getObject()->setPassable(true);
 				return true;
 			}
+			break;
+		case KEEP_LOSE_CONTROL:
+			loseControl_ = true;
+			if (timeElapsed > i.getTime())
+			{
+				loseControl_ = false;
+				i.getObject()->setInEvent(false);
+				return true;
+			}
+			return false;
 			break;
 		}
 		return false;

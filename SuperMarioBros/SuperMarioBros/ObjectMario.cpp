@@ -79,10 +79,12 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		if (!inEvent_)
 		{
 			adjustPosition(object, collideDirection);
+			setvx(0);
+			setvy(0);
 			if (dying_)
 				break;
 			Arena& arena = Arena::getUniqueInstance();
-			arena.addEvent(KEEP_MOVING_Y, this, 1000, 515 - y_);
+			arena.addEvent(KEEP_LOSE_CONTROL, this, 1000, NULL);
 			break;
 		}
 	}
@@ -107,8 +109,13 @@ void ObjectMario::setType(ObjectType type)
 		type_ = MARIO_SMALL;
 		width_ = MARIO_SMALL_WIDTH; // need data
 		height_ = MARIO_SMALL_HEIGHT;
+		y_ += MARIO_BIG_HEIGHT - MARIO_SMALL_HEIGHT;
 		break;
 	case MARIO_BIG:
+		if (type_ == MARIO_SMALL)
+			y_ += MARIO_SMALL_HEIGHT - MARIO_BIG_HEIGHT;
+		else
+			y_ += MARIO_SUPER_HEIGHT - MARIO_BIG_HEIGHT;
 		type_ = MARIO_BIG;
 		width_ = MARIO_BIG_WIDTH;
 		height_ = MARIO_BIG_HEIGHT;
@@ -117,6 +124,7 @@ void ObjectMario::setType(ObjectType type)
 		type_ = MARIO_SUPER;
 		width_ = MARIO_SUPER_WIDTH;
 		height_ = MARIO_SUPER_HEIGHT;
+		y_ += MARIO_BIG_HEIGHT - MARIO_SUPER_HEIGHT;
 		break;
 	}
 }
@@ -124,6 +132,8 @@ void ObjectMario::setType(ObjectType type)
 void ObjectMario::destroy()
 {
 	dying_ = true;
+	passable_ = true;
 	type_ = MARIO_DYING;
-	setvy(-100);
+	setvx(0);
+	setvy(-300);
 }

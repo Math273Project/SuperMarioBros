@@ -7,6 +7,7 @@ enum EventType
 	START_MOVING_X,
 	KEEP_NOT_PASSABLE,
 	DESTROY,
+	KEEP_LOSE_CONTROL,
 };
 
 class Event
