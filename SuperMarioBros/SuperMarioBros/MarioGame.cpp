@@ -255,7 +255,7 @@ void MarioGame::MarioRun()
 		case MARIO_BIG:
 			mario_.setHeight(MARIO_BIG_HEIGHT);
 			mario_.setCols(MARIO_COLS);
-			mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME + 3);
+			mario_.setFrames(MARIO_START_FRAME + 1, MARIO_START_FRAME + 3);
 			mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 			done = true;
 			break;
