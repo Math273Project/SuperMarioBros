@@ -72,4 +72,5 @@ private:
 	void MarioUpgrade();
 	void MarioDowngrade();
 
+	void level_one();
 };

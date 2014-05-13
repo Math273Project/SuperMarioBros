@@ -29,91 +29,13 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 {
 	Game::initialize(hWnd, fullscreen);
 
-	//Initialize arena and started objects
-
-	ObjectMario* objectMario = new ObjectMario(50, 200, (int)MARIO_SMALL_SPEED, 0);
-	//ObjectBlock* objectBlock = new ObjectBlock(50, 250);
-	ObjectFloor* objectFloor = new ObjectFloor(0, 618, 6000);
-	ObjectBrick* objectBrick = new ObjectBrick(989, 420);
-
-	ObjectQuestion* objectQuestion = new ObjectQuestion(791, 420, MUSHROOM);
-	ObjectQuestion* objectQuestion2 = new ObjectQuestion(1039, 420, POWERUP);
-	ObjectQuestion* objectQuestion3 = new ObjectQuestion(700, 250, COIN);
-	ObjectPowerup* objectPowerup = new ObjectPowerup(400, 300, 0, 0);
-	ObjectCoin* objectCoin = new ObjectCoin(700, 550);
-
-	ObjectPipe* objectPipeBig = new ObjectPipe(2274, 420, PIPE_BIG);
-	ObjectPipe* objectPipeMiddle = new ObjectPipe(1878, 469, PIPE_MIDDLE);
-	ObjectPipe* objectPipeSmall = new ObjectPipe(1384, 519, PIPE_SMALL);
-	ObjectFlagPole* objectFlagPole = new ObjectFlagPole(1200, 150);
-
-//	emplaceObject<ObjectMario>(50, 200, (int)MARIO_SPEED, 0);
-
-	arena.addObject(objectMario);
-	//arena.addObject(objectBlock);
-	arena.addObject(objectFloor);
-	arena.addObject(objectBrick);
-	arena.addObject(objectQuestion);
-	arena.addObject(objectQuestion2);
-	arena.addObject(objectQuestion3);
-	arena.addObject(objectPowerup);
-	arena.addObject(objectCoin);
-	arena.addObject(objectPipeBig);
-	arena.addObject(objectPipeMiddle);
-	arena.addObject(objectPipeSmall);
-	arena.addObject(objectFlagPole);
-
-	//Initialize textures
+	//load level; only have one to start
+	level_one();
 	
-	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
-	backgroundTexture_.initialize(graphics_, BACKGROUND_START); //background should be split in multiple parts
-	enemyTexture_.initialize(graphics_, MARIO_TEXTURE);
-	blocksTexture_.initialize(graphics_, BLOCKS);
-	floorTexture_.initialize(graphics_, FLOOR_TEXTURE);
-	pipeBigTexture_.initialize(graphics_, PIPE_BIG_TEXTURE);
-	pipeMiddleTexture_.initialize(graphics_, PIPE_MIDDLE_TEXTURE);
-	pipeSmallTexture_.initialize(graphics_, PIPE_SMALL_TEXTURE);
-	flagPoleTexture_.initialize(graphics_, FLAG_POLE_TEXTURE);
-	flagTexture_.initialize(graphics_, FLAG_TEXTURE);
-
-	//Initialize images
-	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
-	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_);
-
-	enemy_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &enemyTexture_);
-	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
-	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
-	brick_.initialize(graphics_, BRICK_WIDTH, BRICK_HEIGHT, 2, &blocksTexture_);
-	brick_.setCurrentFrame(1);
-	mushroom_.initialize(graphics_, MUSHROOM_WIDTH, MUSHROOM_HEIGHT, 2, &blocksTexture_);
-	mushroom_.setCurrentFrame(2);
-	question_.initialize(graphics_, QUESTION_WIDTH, QUESTION_HEIGHT, 3, &blocksTexture_);
-	question_.setCurrentFrame(2);
-	powerup_.initialize(graphics_, POWERUP_WIDTH, POWERUP_HEIGHT, 6, &blocksTexture_);
-	powerup_.setCurrentFrame(10);
-	coin_.initialize(graphics_, COIN_WIDTH, COIN_HEIGHT, 6, &blocksTexture_);
-	coin_.setCurrentFrame(9);
-	pipeBig_.initialize(graphics_, PIPE_WIDTH, PIPE_BIG_HEIGHT, 1, &pipeBigTexture_);
-	pipeMiddle_.initialize(graphics_, PIPE_WIDTH, PIPE_MIDDLE_HEIGHT, 1, &pipeMiddleTexture_);
-	pipeSmall_.initialize(graphics_, PIPE_WIDTH, PIPE_SMALL_HEIGHT, 1, &pipeSmallTexture_);
-	flagPole_.initialize(graphics_, FLAG_POLE_WIDTH, FLAG_POLE_HEIGHT, 1, &flagPoleTexture_);
-	flag_.initialize(graphics_, FLAG_WIDTH, FLAG_HEIGHT, 1, &flagTexture_);
-
-	mario_.setX(50);     
-	mario_.setY(512); //get rid of magic constant
-	mario_.setFrames(MARIO_SMALL_START_FRAME , MARIO_SMALL_END_FRAME);   // animation frames
-	mario_.setCurrentFrame(MARIO_SMALL_START_FRAME + 1);     // starting frame
-	mario_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
-	mario_.setDegrees(0);
-	mario_.setScale(MARIO_SMALL_SCALE);
 }
 
 void MarioGame::update()
 {
-	
-	//
-	//
-	//
 	arena.move(frameTime_ * 1000);
 	arena.freeFall(frameTime_ * 1000);
 	arena.collisionDetection();
@@ -146,16 +68,12 @@ void MarioGame::update()
 		{
 			arena.setMarioVy(-MARIO_SPEED);
 		}
-		//make mario jump or move up
 	}
 
 	if (input_->isKeyDown(MOVE_DOWN_KEY) && !arena.getMarioDying())
 	{
 		//Very minimal usage: only works if mario can move down
-		//ex: flag pole, . . .
 	}
-	
-	mario_.update(frameTime_);
 
 	if (arena.isGameOver())
 	{
@@ -227,18 +145,21 @@ void MarioGame::render()
 			case MARIO_DYING:
 				mario_.setX(i->getx() - centerx_);
 				mario_.setY(i->gety());
+				mario_.update(frameTime_);
 				mario_.draw();
 				break;
 
 			case MARIO_BIG: // change to big
 				mario_.setX(i->getx() - centerx_);
 				mario_.setY(i->gety());
+				mario_.update(frameTime_);
 				mario_.draw();
 				break;
 
 			case MARIO_SUPER: // change to super
 				mario_.setX(i->getx() - centerx_);
 				mario_.setY(i->gety());
+				mario_.update(frameTime_);
 				mario_.draw();
 				break;
 
@@ -321,7 +242,6 @@ void MarioGame::MarioRun()
 			mario_.setHeight(MARIO_SMALL_HEIGHT);
 			mario_.setCols(MARIO_SMALL_COLS);
 			mario_.setFrames(MARIO_SMALL_START_FRAME + 1, MARIO_SMALL_START_FRAME + 3);
-			mario_.setCurrentFrame(MARIO_SMALL_START_FRAME + 1);
 			mario_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
 			done = true;
 			break;
@@ -329,7 +249,6 @@ void MarioGame::MarioRun()
 			mario_.setHeight(MARIO_SUPER_HEIGHT);
 			mario_.setCols(MARIO_SUPER_COLS);
 			mario_.setFrames(MARIO_SUPER_START_FRAME + 1, MARIO_SUPER_START_FRAME + 3);
-			mario_.setCurrentFrame(MARIO_SUPER_START_FRAME + 1);
 			mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 			done = true;
 			break;
@@ -337,7 +256,6 @@ void MarioGame::MarioRun()
 			mario_.setHeight(MARIO_BIG_HEIGHT);
 			mario_.setCols(MARIO_COLS);
 			mario_.setFrames(MARIO_START_FRAME + 1, MARIO_END_FRAME + 3);
-			mario_.setCurrentFrame(MARIO_START_FRAME + 1);
 			mario_.setFrameDelay(MARIO_ANIMATION_DELAY);
 			done = true;
 			break;
@@ -403,7 +321,7 @@ void MarioGame::MarioJump()
 		case MARIO_BIG:
 			mario_.setHeight(MARIO_BIG_HEIGHT);
 			mario_.setCols(MARIO_COLS);
-			mario_.setFrames(MARIO_START_FRAME + 5, MARIO_END_FRAME + 5);
+			mario_.setFrames(MARIO_START_FRAME + 5, MARIO_START_FRAME + 5);
 			mario_.setCurrentFrame(MARIO_START_FRAME + 5);
 			done = true;
 			break;
@@ -419,4 +337,83 @@ void MarioGame::MarioUpgrade()
 void MarioGame::MarioDowngrade()
 {
 
+}
+
+void MarioGame::level_one()
+{
+	ObjectMario* objectMario = new ObjectMario(50, 570, (int)MARIO_SMALL_SPEED, 0);
+	//ObjectBlock* objectBlock = new ObjectBlock(50, 250);
+	ObjectFloor* objectFloor = new ObjectFloor(0, 618, 6000);
+	ObjectBrick* objectBrick = new ObjectBrick(989, 420);
+
+	ObjectQuestion* objectQuestion = new ObjectQuestion(791, 420, MUSHROOM);
+	ObjectQuestion* objectQuestion2 = new ObjectQuestion(1039, 420, POWERUP);
+	ObjectQuestion* objectQuestion3 = new ObjectQuestion(1139, 420, COIN);
+	ObjectPowerup* objectPowerup = new ObjectPowerup(400, 300, 0, 0);
+	ObjectCoin* objectCoin = new ObjectCoin(700, 550);
+
+	ObjectPipe* objectPipeBig = new ObjectPipe(2274, 420, PIPE_BIG);
+	ObjectPipe* objectPipeMiddle = new ObjectPipe(1878, 469, PIPE_MIDDLE);
+	ObjectPipe* objectPipeSmall = new ObjectPipe(1384, 519, PIPE_SMALL);
+	ObjectFlagPole* objectFlagPole = new ObjectFlagPole(1200, 150);
+
+//	emplaceObject<ObjectMario>(50, 200, (int)MARIO_SPEED, 0);
+
+	arena.addObject(objectMario);
+	//arena.addObject(objectBlock);
+	arena.addObject(objectFloor);
+	arena.addObject(objectBrick);
+	arena.addObject(objectQuestion);
+	arena.addObject(objectQuestion2);
+	arena.addObject(objectQuestion3);
+	arena.addObject(objectPowerup);
+	arena.addObject(objectCoin);
+	arena.addObject(objectPipeBig);
+	arena.addObject(objectPipeMiddle);
+	arena.addObject(objectPipeSmall);
+	arena.addObject(objectFlagPole);
+
+	//Initialize textures
+	
+	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
+	backgroundTexture_.initialize(graphics_, BACKGROUND_START); //background should be split in multiple parts
+	enemyTexture_.initialize(graphics_, MARIO_TEXTURE);
+	blocksTexture_.initialize(graphics_, BLOCKS);
+	floorTexture_.initialize(graphics_, FLOOR_TEXTURE);
+	pipeBigTexture_.initialize(graphics_, PIPE_BIG_TEXTURE);
+	pipeMiddleTexture_.initialize(graphics_, PIPE_MIDDLE_TEXTURE);
+	pipeSmallTexture_.initialize(graphics_, PIPE_SMALL_TEXTURE);
+	flagPoleTexture_.initialize(graphics_, FLAG_POLE_TEXTURE);
+	flagTexture_.initialize(graphics_, FLAG_TEXTURE);
+
+	//Initialize images
+	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
+	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_);
+
+	enemy_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &enemyTexture_);
+	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 1, &blocksTexture_);
+	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
+	brick_.initialize(graphics_, BRICK_WIDTH, BRICK_HEIGHT, 2, &blocksTexture_);
+	brick_.setCurrentFrame(1);
+	mushroom_.initialize(graphics_, MUSHROOM_WIDTH, MUSHROOM_HEIGHT, 2, &blocksTexture_);
+	mushroom_.setCurrentFrame(2);
+	question_.initialize(graphics_, QUESTION_WIDTH, QUESTION_HEIGHT, 3, &blocksTexture_);
+	question_.setCurrentFrame(2);
+	powerup_.initialize(graphics_, POWERUP_WIDTH, POWERUP_HEIGHT, 6, &blocksTexture_);
+	powerup_.setCurrentFrame(10);
+	coin_.initialize(graphics_, COIN_WIDTH, COIN_HEIGHT, 6, &blocksTexture_);
+	coin_.setCurrentFrame(9);
+	pipeBig_.initialize(graphics_, PIPE_WIDTH, PIPE_BIG_HEIGHT, 1, &pipeBigTexture_);
+	pipeMiddle_.initialize(graphics_, PIPE_WIDTH, PIPE_MIDDLE_HEIGHT, 1, &pipeMiddleTexture_);
+	pipeSmall_.initialize(graphics_, PIPE_WIDTH, PIPE_SMALL_HEIGHT, 1, &pipeSmallTexture_);
+	flagPole_.initialize(graphics_, FLAG_POLE_WIDTH, FLAG_POLE_HEIGHT, 1, &flagPoleTexture_);
+	flag_.initialize(graphics_, FLAG_WIDTH, FLAG_HEIGHT, 1, &flagTexture_);
+
+	mario_.setX(50);     
+	mario_.setY(512); //get rid of magic constant
+	mario_.setFrames(MARIO_SMALL_START_FRAME , MARIO_SMALL_END_FRAME);   // animation frames
+	mario_.setCurrentFrame(MARIO_SMALL_START_FRAME + 1);     // starting frame
+	mario_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
+	mario_.setDegrees(0);
+	mario_.setScale(MARIO_SMALL_SCALE);
 }
