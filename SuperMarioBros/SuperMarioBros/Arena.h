@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "Object.h"
+#include "ObjectMario.h"
 #include "event.h"
 
 
@@ -40,8 +41,8 @@ public:
 protected:
 	std::list<Object*> objects_; //  in accedning order of priority
 	Arena(); // Unique Instance
-	Object* mario_;
+	ObjectMario* mario_;
 	std::list<Event> events_;
-	
+	bool loseControl_;
 };
 
