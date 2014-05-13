@@ -69,6 +69,7 @@ private:
 	void MarioRun();
 	void MarioStop();
 	void MarioJump();
+	void MarioDown();  //used to crouch or move down stalks in later levels
 	void MarioUpgrade();
 	void MarioDowngrade();
 

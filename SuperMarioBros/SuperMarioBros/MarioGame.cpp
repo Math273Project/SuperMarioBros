@@ -45,14 +45,14 @@ void MarioGame::update()
 	if (input_->isKeyDown(MOVE_RIGHT_KEY) && !arena.getMarioDying() && !arena.getMarioInEvent())
 	{
 		mario_.flipHorizontal(false);
-		arena.setMarioVx(MARIO_SMALL_SPEED);
+		arena.setMarioVx(MARIO_SPEED);
 		MarioRun();
 
 	}
 	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - centerx_ > 0 && !arena.getMarioDying() && !arena.getMarioInEvent()) // some edit here to make Mario cannot go back
 	{
 		mario_.flipHorizontal(true);
-		arena.setMarioVx(-MARIO_SMALL_SPEED);
+		arena.setMarioVx(-MARIO_SPEED);
 		MarioRun();
 	}
 	else if (!arena.getMarioDying())
@@ -73,6 +73,7 @@ void MarioGame::update()
 	if (input_->isKeyDown(MOVE_DOWN_KEY) && !arena.getMarioDying())
 	{
 		//Very minimal usage: only works if mario can move down
+		MarioDown();
 	}
 
 	if (arena.isGameOver())
@@ -233,7 +234,6 @@ void MarioGame::resetAll()
 void MarioGame::MarioRun()
 {
 	bool done = false;
-	mario_.setLoop(true);
 	for (auto& i = arena.getObjects().begin(); i != arena.getObjects().end() && !done; ++i)
 	{
 		switch ((*i)->getType())
@@ -266,7 +266,6 @@ void MarioGame::MarioRun()
 void MarioGame::MarioStop()
 {
 	bool done = false;
-	mario_.setLoop(false);
 	for (auto& i = arena.getObjects().begin(); i != arena.getObjects().end() && !done; ++i)
 	{
 		switch ((*i)->getType())
@@ -299,7 +298,6 @@ void MarioGame::MarioStop()
 void MarioGame::MarioJump()
 {
 	bool done = false;
-	mario_.setLoop(false);
 	for (auto& i = arena.getObjects().begin(); i != arena.getObjects().end() && !done; ++i)
 	{
 		switch ((*i)->getType())
@@ -329,6 +327,11 @@ void MarioGame::MarioJump()
 	}
 }
 
+void MarioGame::MarioDown()
+{
+
+}
+
 void MarioGame::MarioUpgrade()
 {
 
@@ -341,9 +344,9 @@ void MarioGame::MarioDowngrade()
 
 void MarioGame::level_one()
 {
-	ObjectMario* objectMario = new ObjectMario(50, 570, (int)MARIO_SMALL_SPEED, 0);
+	ObjectMario* objectMario = new ObjectMario(50, 570, (int)MARIO_SPEED, 0);
 	//ObjectBlock* objectBlock = new ObjectBlock(50, 250);
-	ObjectFloor* objectFloor = new ObjectFloor(0, 618, 6000);
+	ObjectFloor* objectFloor = new ObjectFloor(0, 618, 3412);
 	ObjectBrick* objectBrick = new ObjectBrick(989, 420);
 
 	ObjectQuestion* objectQuestion = new ObjectQuestion(791, 420, MUSHROOM);

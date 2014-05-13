@@ -45,7 +45,6 @@ const int MARIO_SMALL_START_FRAME = 36;
 const int MARIO_SMALL_END_FRAME = 44;
 const double MARIO_SMALL_ANIMATION_DELAY = .15; //should look like its moving faster
 const int MARIO_SMALL_COLS = 9;
-const double MARIO_SMALL_SPEED = 300.0;
 const double MARIO_DYING_SPEED = 100.0;
 const double MARIO_SMALL_SCALE = 1.00;
 
