@@ -18,6 +18,7 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 		destroy(true);
 		break;
 	case BLOCK:
+	case QUESTION_BLOCK:
 	case BRICK:
 	case FLOOR:
 	case PIPE_BIG:

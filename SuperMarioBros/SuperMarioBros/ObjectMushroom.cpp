@@ -18,6 +18,7 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 		destroy(true);
 		break;
 	case BLOCK:
+	case QUESTION_BLOCK:
 	case FLOOR:
 	case PIPE_BIG:
 	case PIPE_MIDDLE:

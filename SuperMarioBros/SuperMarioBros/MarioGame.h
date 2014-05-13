@@ -56,6 +56,7 @@ private:
 	Image mushroom_;
 	Image powerup_;
 	Image question_;
+	Image questionBlock_;
 	Image pipeBig_;
 	Image pipeMiddle_;
 	Image pipeSmall_;

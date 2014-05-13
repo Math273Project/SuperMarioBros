@@ -20,6 +20,7 @@ void ObjectPowerup::collide(const Object& object, Direction collideDirection)
 	case PIPE_SMALL:
 	case BRICK:
 	case QUESTION:
+	case QUESTION_BLOCK:
 	case MUSHROOM_DYING:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)

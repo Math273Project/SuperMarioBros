@@ -14,6 +14,7 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 	switch (object.getType())
 	{
 	case BLOCK:
+	case QUESTION_BLOCK:
 	case BRICK:
 	case PIPE_BIG:
 	case PIPE_MIDDLE:

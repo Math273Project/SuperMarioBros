@@ -71,7 +71,7 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 ObjectType ObjectQuestion::getType() const
 {
 	if (changed_)
-		return BLOCK;
+		return QUESTION_BLOCK;
 	return QUESTION;
 }
 
