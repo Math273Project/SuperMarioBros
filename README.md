@@ -93,7 +93,7 @@ File Size: 512x1024
 		2: Silver Pipe
 		
 Enemies Sprite Sheet Properties (Enemies.bmp)
-	File Size: 512x512
+	File Size: 200x50
 	Row 1:
 		Dimensions:
 			Height: 50 pixels
@@ -103,6 +103,18 @@ Enemies Sprite Sheet Properties (Enemies.bmp)
 		3: Robot Goomba Smashed 1
 		4: Robot Goomba Smashed 2
 		
+Enemies2 Sprite Sheet Properties (Enemies2.bmp)
+	File Size: 300x75
+	Row1:
+		Dimensions
+			Height: 75 pixels
+			Width: 50 pixels
+		1: Robot Turtle Walking 1 (with wings)
+		2: Robot Turtle Walking 2 (with wings)
+		3: Robot Turtle Walking 1
+		4: Robot Turtle Walking 2
+		5: Robot Shell with legs
+		6: Robot Shell without legs
 			
 Background Color:
 	R: 255
