@@ -22,6 +22,7 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 	case PIPE_SMALL:
 	case BRICK:
 	case QUESTION:
+	case QUESTION_BLOCK:
 	case MUSHROOM_DYING:
 		if (dying_)
 			break;

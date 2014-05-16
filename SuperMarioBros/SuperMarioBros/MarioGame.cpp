@@ -32,6 +32,50 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//load level; only have one to start
 	level_one();
 	
+	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
+	backgroundTexture_.initialize(graphics_, BACKGROUND_START); //background should be split in multiple parts
+	enemyTexture_.initialize(graphics_, MARIO_TEXTURE);
+	blocksTexture_.initialize(graphics_, BLOCKS);
+	floorTexture_.initialize(graphics_, FLOOR_TEXTURE);
+	pipeBigTexture_.initialize(graphics_, PIPE_BIG_TEXTURE);
+	pipeMiddleTexture_.initialize(graphics_, PIPE_MIDDLE_TEXTURE);
+	pipeSmallTexture_.initialize(graphics_, PIPE_SMALL_TEXTURE);
+	flagPoleTexture_.initialize(graphics_, FLAG_POLE_TEXTURE);
+	flagTexture_.initialize(graphics_, FLAG_TEXTURE);
+
+	//Initialize images
+	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
+	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_);
+
+	enemy_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &enemyTexture_);
+	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 5, &blocksTexture_);
+	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
+	brick_.initialize(graphics_, BRICK_WIDTH, BRICK_HEIGHT, 2, &blocksTexture_);
+	brick_.setCurrentFrame(1);
+	mushroom_.initialize(graphics_, MUSHROOM_WIDTH, MUSHROOM_HEIGHT, 2, &blocksTexture_);
+	mushroom_.setCurrentFrame(2);
+	question_.initialize(graphics_, QUESTION_WIDTH, QUESTION_HEIGHT, 3, &blocksTexture_);
+	question_.setCurrentFrame(2);
+	questionBlock_.initialize(graphics_, QUESTION_WIDTH, QUESTION_HEIGHT, 6, &blocksTexture_);
+	questionBlock_.setCurrentFrame(4);
+	powerup_.initialize(graphics_, POWERUP_WIDTH, POWERUP_HEIGHT, 6, &blocksTexture_);
+	powerup_.setCurrentFrame(10);
+	coin_.initialize(graphics_, COIN_WIDTH, COIN_HEIGHT, 6, &blocksTexture_);
+	coin_.setCurrentFrame(9);
+	pipeBig_.initialize(graphics_, PIPE_WIDTH, PIPE_BIG_HEIGHT, 1, &pipeBigTexture_);
+	pipeMiddle_.initialize(graphics_, PIPE_WIDTH, PIPE_MIDDLE_HEIGHT, 1, &pipeMiddleTexture_);
+	pipeSmall_.initialize(graphics_, PIPE_WIDTH, PIPE_SMALL_HEIGHT, 1, &pipeSmallTexture_);
+	flagPole_.initialize(graphics_, FLAG_POLE_WIDTH, FLAG_POLE_HEIGHT, 1, &flagPoleTexture_);
+	flag_.initialize(graphics_, FLAG_WIDTH, FLAG_HEIGHT, 1, &flagTexture_);
+
+	mario_.setX(50);     
+	mario_.setY(512); //get rid of magic constant
+	mario_.setFrames(MARIO_SMALL_START_FRAME , MARIO_SMALL_END_FRAME);   // animation frames
+	mario_.setCurrentFrame(MARIO_SMALL_START_FRAME + 1);     // starting frame
+	mario_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
+	mario_.setDegrees(0);
+	mario_.setScale(MARIO_SMALL_SCALE);
+
 }
 
 void MarioGame::update()
@@ -117,6 +161,11 @@ void MarioGame::render()
 				question_.setX(i->getx() - centerx_);
 				question_.setY(i->gety());
 				question_.draw();
+				break;
+			case QUESTION_BLOCK:
+				questionBlock_.setX(i->getx() - centerx_);
+				questionBlock_.setY(i->gety());
+				questionBlock_.draw();
 				break;
 			case FLOOR:
 				int x;

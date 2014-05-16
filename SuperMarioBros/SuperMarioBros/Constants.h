@@ -116,7 +116,7 @@ const int POWERUP_WIDTH = 50;
 const int POWERUP_HEIGHT = 50;
 
 const int QUESTION_DYING_DURATION = 500;
-const int QUESTION_PRIORITY = INT_MAX;
+const int QUESTION_PRIORITY = INT_MAX - 1;
 const int QUESTION_WIDTH = 50;
 const int QUESTION_HEIGHT = 50;
 
