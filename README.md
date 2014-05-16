@@ -100,6 +100,10 @@ Enemies Sprite Sheet Properties (Enemies.bmp)
 			Width: 50 pixels
 		1: Robot Goomba Walking 1
 		2: Robot Goomba Walking 2
+		
+		Dimensions:
+			Height: 25 pixels
+			Width: 50 pixels
 		3: Robot Goomba Smashed 1
 		4: Robot Goomba Smashed 2
 		
