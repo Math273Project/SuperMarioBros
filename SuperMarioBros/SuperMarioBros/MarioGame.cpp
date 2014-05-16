@@ -358,6 +358,7 @@ void MarioGame::level_one()
 	ObjectPipe* objectPipeBig = new ObjectPipe(2274, 420, PIPE_BIG);
 	ObjectPipe* objectPipeMiddle = new ObjectPipe(1878, 469, PIPE_MIDDLE);
 	ObjectPipe* objectPipeSmall = new ObjectPipe(1384, 519, PIPE_SMALL);
+	ObjectPipe* objectPipeBig2 = new ObjectPipe(2818, 420, PIPE_BIG);
 	ObjectFlagPole* objectFlagPole = new ObjectFlagPole(1200, 150);
 
 //	emplaceObject<ObjectMario>(50, 200, (int)MARIO_SPEED, 0);
@@ -374,6 +375,7 @@ void MarioGame::level_one()
 	arena.addObject(objectPipeBig);
 	arena.addObject(objectPipeMiddle);
 	arena.addObject(objectPipeSmall);
+	arena.addObject(objectPipeBig2);
 	arena.addObject(objectFlagPole);
 
 	//Initialize textures
@@ -407,6 +409,7 @@ void MarioGame::level_one()
 	coin_.initialize(graphics_, COIN_WIDTH, COIN_HEIGHT, 6, &blocksTexture_);
 	coin_.setCurrentFrame(9);
 	pipeBig_.initialize(graphics_, PIPE_WIDTH, PIPE_BIG_HEIGHT, 1, &pipeBigTexture_);
+	pipeBig2_.initialize(graphics_, PIPE_WIDTH, PIPE_BIG_HEIGHT, 1, &pipeBigTexture_);
 	pipeMiddle_.initialize(graphics_, PIPE_WIDTH, PIPE_MIDDLE_HEIGHT, 1, &pipeMiddleTexture_);
 	pipeSmall_.initialize(graphics_, PIPE_WIDTH, PIPE_SMALL_HEIGHT, 1, &pipeSmallTexture_);
 	flagPole_.initialize(graphics_, FLAG_POLE_WIDTH, FLAG_POLE_HEIGHT, 1, &flagPoleTexture_);

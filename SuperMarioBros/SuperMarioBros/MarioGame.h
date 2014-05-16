@@ -57,6 +57,7 @@ private:
 	Image powerup_;
 	Image question_;
 	Image pipeBig_;
+	Image pipeBig2_;
 	Image pipeMiddle_;
 	Image pipeSmall_;
 	Image flagPole_;
