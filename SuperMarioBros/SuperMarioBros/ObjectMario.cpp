@@ -24,6 +24,7 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 	case QUESTION:
 	case QUESTION_BLOCK:
 	case MUSHROOM_DYING:
+	case ENEMY_DYING:
 		if (dying_)
 			break;
 		adjustPosition(object, collideDirection);

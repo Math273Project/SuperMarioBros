@@ -35,11 +35,16 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 
 void Arena::freeFall(double time)
 {
-	bool onTopOrCollide = false;
-	for (auto& i = objects_.begin(); i != objects_.end(); ++i)
+	if (getMarioDying())
+		mario_->setvy(mario_->getvy() + GRAVITY * time / 1000);
+	else
 	{
-		if ((*i)->getGravityAffected())
-			(*i)->setvy((*i)->getvy() + GRAVITY * time / 1000);
+		bool onTopOrCollide = false;
+		for (auto& i = objects_.begin(); i != objects_.end(); ++i)
+		{
+			if ((*i)->getGravityAffected())
+				(*i)->setvy((*i)->getvy() + GRAVITY * time / 1000);
+		}
 	}
 }
 
@@ -77,8 +82,11 @@ void Arena::addObject(Object* pObject)
 
 void Arena::move(double time)
 {
-	for (auto& i: objects_)
-		i->move(time);
+	if (getMarioDying())
+		mario_->move(time);
+	else
+		for (auto& i: objects_)
+			i->move(time);
 }
 
 void Arena::removeOutOfBoundObject()

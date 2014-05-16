@@ -14,6 +14,7 @@ const double LOWEST_POSITION = 1500; // the biggest y-position.
 // Texture constants
 
 const char BACKGROUND_START[] = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
+const char ENEMY_TEXTURE[] = "Textures\\Enemies.bmp";
 const char MARIO_TEXTURE[] = "Textures\\Robot_Mario.bmp";
 const char BLOCKS[] = "Textures\\Blocks.bmp";
 const char FLOOR_TEXTURE[] = "Textures\\floor.bmp";
@@ -73,8 +74,9 @@ const int ENEMY_DYING_DURATION = 500;
 const int ENEMY_PRIORITY = 5;
 const int ENEMY_WIDTH = 50;
 const int ENEMY_HEIGHT = 50;
+const int ENEMY_COLS = 2;
 const int ENEMY_DYING_WIDTH = 50;
-const int ENEMY_DYING_HEIGHT = 50;
+const int ENEMY_DYING_HEIGHT = 33;
 
 const int FLAG_PRIORITY = 5;
 const int FLAG_WIDTH = 50;
