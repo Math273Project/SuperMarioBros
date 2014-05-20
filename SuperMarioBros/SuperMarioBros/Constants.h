@@ -15,6 +15,7 @@ const double LOWEST_POSITION = 1500; // the biggest y-position.
 
 const char BACKGROUND_START[] = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
 const char ENEMY_TEXTURE[] = "Textures\\Enemies.bmp";
+const char ENEMY_2_TEXTURE[] = "Textures\\Enemies2.bmp";
 const char MARIO_TEXTURE[] = "Textures\\Robot_Mario.bmp";
 const char BLOCKS[] = "Textures\\Blocks.bmp";
 const char FLOOR_TEXTURE[] = "Textures\\floor.bmp";
@@ -125,7 +126,7 @@ const int QUESTION_HEIGHT = 50;
 const int TURTLE_DYING_DURATION = 500;
 const int TURTLE_PRIORITY = 5;
 const int TURTLE_WIDTH = 50;
-const int TURTLE_HEIGHT = 50;
+const int TURTLE_HEIGHT = 75;
 const int TURTLE_SPIN_WIDTH = 50;
 const int TURTLE_SPIN_HEIGHT = 50;
 //constants
