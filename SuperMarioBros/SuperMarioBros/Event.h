@@ -8,18 +8,19 @@ enum EventType
 	KEEP_NOT_PASSABLE,
 	DESTROY,
 	KEEP_LOSE_CONTROL,
+	START_MOVING_X_CENTERX,
 };
 
 class Event
 {
 public:
-	Event(EventType type, Object* pObject, long long startTime, int time, double param)
+	Event(EventType type, Object* pObject, long long startTime, double wParam, double lParam)
 	{	
 		type_ = type;
 		pObject_ = pObject;
 		startTime_ = startTime;
-		time_ = time;
-		param_ = param;
+		wParam_ = wParam;
+		lParam_ = lParam;
 	}
 	Object* getObject() const
 	{
@@ -33,30 +34,30 @@ public:
 	{
 		return startTime_;
 	}
-	long long getTime() const
+	long long getwParam() const
 	{
-		return time_;
+		return wParam_;
 	}
-	int getParam() const
+	int getlParam() const
 	{
-		return param_;
+		return lParam_;
 	}
 	void setStartTime(long long startTime)
 	{
 		startTime_ = startTime;
 	}
-	void setTime(int time)
+	void setwParam(int wParam)
 	{
-		time_ = time;
+		wParam_ = wParam;
 	}
-	void setParam(int param)
+	void setlParam(int lParam)
 	{
-		param_ = param;
+		lParam_ = lParam;
 	}
 protected:
 	EventType type_;
 	Object* pObject_;
 	long long startTime_;
-	int time_;
-	double param_;
+	double wParam_;
+	double lParam_;
 };

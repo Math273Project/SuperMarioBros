@@ -20,6 +20,8 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 	case PIPE_BIG:
 	case PIPE_MIDDLE:
 	case PIPE_SMALL:
+	case MUSHROOM_DYING:
+	case ENEMY_DYING:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)
 		{
@@ -46,13 +48,16 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 		case DOWN:
 			if (!dying_)
 			{
-				changeType();
 				destroy(ENEMY_DYING_DURATION);
+				changeType();			
 			}
 			break;
 		}
 		break;
-		
+	
+	case TURTLE_SPIN:
+		destroy();
+		break;
 	}
 	
 }

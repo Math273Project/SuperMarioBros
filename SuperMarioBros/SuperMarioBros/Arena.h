@@ -17,7 +17,7 @@ public:
 		static Arena arena;
 		return arena;
 	}
-	void addEvent(EventType type, Object* pObject, int time, double param);
+	void addEvent(EventType type, Object* pObject, int wParam, double lParam);
 	void collisionDetection(); // Do collisionDetection of every objects in Arena
 	void freeFall(double time); //adjust the object' vy according to gravity if it is in the air
 	void erase(const Object* pObject);
@@ -37,12 +37,14 @@ public:
 	void processEvent();
 	~Arena();
 	const std::list<Object*>& getObjects() const;
-
+	int getCenterx() const;
+	void setCenterx(int centerx);
 protected:
 	std::list<Object*> objects_; //  in accedning order of priority
 	Arena(); // Unique Instance
 	ObjectMario* mario_;
 	std::list<Event> events_;
 	bool loseControl_;
+	int centerx_;
 };
 

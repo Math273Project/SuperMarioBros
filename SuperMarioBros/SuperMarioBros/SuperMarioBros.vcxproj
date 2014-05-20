@@ -27,6 +27,8 @@
     <ClCompile Include="ObjectFlag.cpp" />
     <ClCompile Include="ObjectFlagPole.cpp" />
     <ClCompile Include="ObjectFloor.cpp" />
+    <ClCompile Include="ObjectFlower.cpp" />
+    <ClCompile Include="ObjectFlower.h" />
     <ClCompile Include="ObjectMario.cpp" />
     <ClCompile Include="ObjectMushroom.cpp" />
     <ClCompile Include="ObjectPipe.cpp" />

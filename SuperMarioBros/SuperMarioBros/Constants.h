@@ -23,6 +23,7 @@ const char PIPE_MIDDLE_TEXTURE[] = "Textures\\Pipe_Middle.bmp";
 const char PIPE_SMALL_TEXTURE[] = "Textures\\Pipe_Small.bmp";
 const char FLAG_POLE_TEXTURE[] = "Textures\\Flag_Pole.bmp";
 const char FLAG_TEXTURE[] = "Textures\\Flag.bmp";
+const char TURTLE_TEXTURE[] = "Textures\\turtles.bmp";
 
 // Sprite constants
 
@@ -82,6 +83,10 @@ const int FLAG_PRIORITY = 5;
 const int FLAG_WIDTH = 50;
 const int FLAG_HEIGHT = 50;
 
+const int FLOWER_PRIORITY = 5;
+const int FLOWER_WIDTH = 50;
+const int FLOWER_HEIGHT = 50;
+
 const int FLAG_POLE_PRIORITY = 4;
 const int FLAG_POLE_WIDTH = 25;
 const int FLAG_POLE_HEIGHT = 470;
@@ -125,10 +130,12 @@ const int QUESTION_HEIGHT = 50;
 const int TURTLE_DYING_DURATION = 500;
 const int TURTLE_PRIORITY = 5;
 const int TURTLE_WIDTH = 50;
-const int TURTLE_HEIGHT = 50;
+const int TURTLE_HEIGHT = 75;
 const int TURTLE_SPIN_WIDTH = 50;
-const int TURTLE_SPIN_HEIGHT = 50;
+const int TURTLE_SPIN_HEIGHT = 47;
 //constants
+
+//const int MUSHROOM_RED_
 
 const char CLASS_NAME[] = "Super Mario Bros";
 const char WINDOW_NAME[] = "Super Mario Bros";

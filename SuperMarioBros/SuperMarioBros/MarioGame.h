@@ -43,6 +43,7 @@ private:
 	TextureManager pipeSmallTexture_;
 	TextureManager flagPoleTexture_;
 	TextureManager flagTexture_;
+	TextureManager turtleTexture_;
 
 	//All the animations are done with an image
 	//std::list<Image> images_;
@@ -63,9 +64,11 @@ private:
 	Image pipeSmall_;
 	Image flagPole_;
 	Image flag_;
+	Image turtle_;
+	Image turtleSpin_;
 
 
-	int centerx_;
+	
 
 	//animations
 	void MarioRun();

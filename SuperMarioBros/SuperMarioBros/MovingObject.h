@@ -4,6 +4,7 @@
 class MovingObject : public Object
 {
 public:
+	MovingObject();
 	MovingObject(int x, int y, int vx, int vy);
 	double getvx() const;
 	double getvy() const;
