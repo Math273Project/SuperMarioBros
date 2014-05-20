@@ -11,6 +11,5 @@ public:
 	int getPriority() const override;
 protected:
 	void changeType();
-	bool dying_; // if the enemy is dying or not.
 	
 };

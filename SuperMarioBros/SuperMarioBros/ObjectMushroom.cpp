@@ -77,4 +77,6 @@ void ObjectMushroom::changeType() // change mushroom to flat mushroom, change sp
 	dying_ = true;
 	width_ = MUSHROOM_DYING_WIDTH;
 	height_ = MUSHROOM_DYING_HEIGHT;
+	vx_ = 0;
+	y_ += MUSHROOM_HEIGHT - MUSHROOM_DYING_HEIGHT;
 }

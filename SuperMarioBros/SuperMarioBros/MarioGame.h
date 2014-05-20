@@ -50,6 +50,7 @@ private:
 	Image background_;
 	Image coin_;
 	Image enemy_;
+	Image enemyDying_;
 	Image block_;
 	Image floor_;
 	Image brick_;

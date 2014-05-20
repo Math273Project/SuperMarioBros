@@ -15,6 +15,7 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 	{
 	case BLOCK:
 	case QUESTION_BLOCK:
+	case FLOOR:
 	case BRICK:
 	case PIPE_BIG:
 	case PIPE_MIDDLE:
@@ -36,7 +37,7 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 			break;
 		}
 		break;
-
+		
 	case MARIO_SMALL:
 	case MARIO_BIG:
 	case MARIO_SUPER:
@@ -51,7 +52,9 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 			break;
 		}
 		break;
+		
 	}
+	
 }
 
 ObjectType ObjectEnemy::getType() const
@@ -71,4 +74,6 @@ void ObjectEnemy::changeType()
 	dying_ = true;
 	width_ = ENEMY_DYING_WIDTH;
 	height_ = ENEMY_DYING_HEIGHT;
+	vx_ = 0;
+	y_ += ENEMY_HEIGHT - ENEMY_DYING_HEIGHT;
 }
