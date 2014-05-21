@@ -3,6 +3,7 @@
 
 ObjectTurtle::ObjectTurtle(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
+	spining_ = false;
 	width_ = TURTLE_WIDTH;
 	height_ = TURTLE_HEIGHT;
 }

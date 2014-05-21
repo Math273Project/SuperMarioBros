@@ -19,6 +19,7 @@ template <typename... Args> void emplaceObject(Args&&... args)
 MarioGame::MarioGame()
 {
 	centerx_ = 0;
+	marioLives_ = 3;
 }
 
 MarioGame::~MarioGame()
@@ -73,13 +74,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	flagPole_.initialize(graphics_, FLAG_POLE_WIDTH, FLAG_POLE_HEIGHT, 1, &flagPoleTexture_);
 	flag_.initialize(graphics_, FLAG_WIDTH, FLAG_HEIGHT, 1, &flagTexture_);
 
-	mario_.setX(50);     
-	mario_.setY(512); //get rid of magic constant
-	mario_.setFrames(MARIO_SMALL_START_FRAME , MARIO_SMALL_END_FRAME);   // animation frames
-	mario_.setCurrentFrame(MARIO_SMALL_START_FRAME + 1);     // starting frame
-	mario_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
-	mario_.setDegrees(0);
-	mario_.setScale(MARIO_SMALL_SCALE);
+	turtle_.setFrames(3, 4);
+	turtle_.setCurrentFrame(3);
 
 }
 
@@ -280,9 +276,16 @@ void MarioGame::render()
 				break;
 			case TURTLE:
 				if (i->getvx() >= 0)
-					turtle_.setCurrentFrame(2);
-				else
+				{
+					turtle_.flipHorizontal(true);
+					turtle_.setFrames(3, 4);
 					turtle_.setCurrentFrame(3);
+				}
+				else
+				{
+					turtle_.flipHorizontal(false);
+				}
+				turtle_.update(frameTime_);
 				turtle_.setX(i->getx() - centerx_);
 				turtle_.setY(i->gety());
 				turtle_.draw();
@@ -445,8 +448,8 @@ void MarioGame::level_one()
 	ObjectPipe* objectPipeSmall = new ObjectPipe(1384, 519, PIPE_SMALL);
 	ObjectPipe* objectPipeBig2 = new ObjectPipe(2818, 420, PIPE_BIG);
 	ObjectFlagPole* objectFlagPole = new ObjectFlagPole(9802, 150);
-	ObjectEnemy* objectEnemy = new ObjectEnemy(500, 300, -100, 0);
-	ObjectTurtle* objectTurtle = new ObjectTurtle(500,420, 100, 0);
+	ObjectEnemy* objectEnemy = new ObjectEnemy(500, 570, -100, 0);
+	ObjectTurtle* objectTurtle = new ObjectTurtle(1800, 570, 100, 0);
 
 	arena.addObject(objectMario);
 	//arena.addObject(objectBlock);
