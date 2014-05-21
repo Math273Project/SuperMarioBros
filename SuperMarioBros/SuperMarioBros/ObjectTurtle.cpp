@@ -26,7 +26,7 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 	case PIPE_MIDDLE:
 	case PIPE_SMALL:
 	case MUSHROOM_DYING:
-	case ENEMY_DYING:
+	case GOOMBA_DYING:
 	case TURTLE_SPIN:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)

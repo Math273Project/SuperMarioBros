@@ -6,11 +6,6 @@
 #include "MovingObject.h"
 #include "Arena.h"
 
-//All necessary object headers will go here!
-
-/* We can migrate all the functionality of object onto this class
- * Has most of the same funtions as Object anyway*/
-
 class MarioGame : public Game
 {
 public:
@@ -32,10 +27,9 @@ private:
 
 	//ALL textures we need to load
 
-	//std::list<TextureManager> textures_;
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
-	TextureManager enemyTexture_;
+	TextureManager goombaTexture_;
 	TextureManager floorTexture_;
 	TextureManager blocksTexture_;
 	TextureManager pipeBigTexture_;
@@ -46,12 +40,13 @@ private:
 	TextureManager turtleTexture_;
 
 	//All the animations are done with an image
-	//std::list<Image> images_;
+	//std::list<Image> staticImages_;
+
 	Image mario_; 
 	Image background_;
 	Image coin_;
-	Image enemy_;
-	Image enemyDying_;
+	Image goomba_;
+	Image goombaDying_;
 	Image block_;
 	Image floor_;
 	Image brick_;
@@ -60,6 +55,7 @@ private:
 	Image question_;
 	Image questionBlock_;
 	Image pipeBig_;
+	Image pipeBig2_;
 	Image pipeMiddle_;
 	Image pipeSmall_;
 	Image flagPole_;
@@ -71,12 +67,13 @@ private:
 	
 
 	//animations
-	void MarioRun();
-	void MarioStop();
-	void MarioJump();
-	void MarioDown();  //used to crouch or move down stalks in later levels
-	void MarioUpgrade();
-	void MarioDowngrade();
+	void marioRun();
+	void marioStop();
+	void marioJump();
+	void marioDown();  //used to crouch or move down stalks in later levels
+	void marioUpgrade();
+	void marioDowngrade();
+	void marioDeath();
 
 	void level_one();
 };

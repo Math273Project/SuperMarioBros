@@ -2,10 +2,10 @@
 
 #include "MovingObject.h"
 
-class ObjectEnemy : public MovingObject
+class ObjectGoomba : public MovingObject
 {
 public:
-	ObjectEnemy(int x, int y, int vx, int vy);
+	ObjectGoomba(int x, int y, int vx, int vy);
 	void collide(const Object& object, Direction collideDirection) override;
 	ObjectType getType() const override;
 	int getPriority() const override;

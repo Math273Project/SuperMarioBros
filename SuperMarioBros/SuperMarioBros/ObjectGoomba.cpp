@@ -1,12 +1,12 @@
-#include "ObjectEnemy.h"
+#include "ObjectGoomba.h"
 
-ObjectEnemy::ObjectEnemy(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
+ObjectGoomba::ObjectGoomba(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
-	width_ = ENEMY_WIDTH;
-	height_ = ENEMY_HEIGHT;
+	width_ = GOOMBA_WIDTH;
+	height_ = GOOMBA_HEIGHT;
 }
 
-void ObjectEnemy::collide(const Object& object, Direction collideDirection)
+void ObjectGoomba::collide(const Object& object, Direction collideDirection)
 {
 	if (collideDirection == NONE)
 		return;
@@ -21,7 +21,7 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 	case PIPE_MIDDLE:
 	case PIPE_SMALL:
 	case MUSHROOM_DYING:
-	case ENEMY_DYING:
+	case GOOMBA_DYING:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)
 		{
@@ -48,7 +48,7 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 		case DOWN:
 			if (!dying_)
 			{
-				destroy(ENEMY_DYING_DURATION);
+				destroy(GOOMBA_DYING_DURATION);
 				changeType();			
 			}
 			break;
@@ -62,23 +62,23 @@ void ObjectEnemy::collide(const Object& object, Direction collideDirection)
 	
 }
 
-ObjectType ObjectEnemy::getType() const
+ObjectType ObjectGoomba::getType() const
 {
 	if (dying_)
-		return ENEMY_DYING;
-	return ENEMY;
+		return GOOMBA_DYING;
+	return GOOMBA;
 }
 
-int ObjectEnemy::getPriority() const
+int ObjectGoomba::getPriority() const
 {
-	return ENEMY_PRIORITY;
+	return GOOMBA_PRIORITY;
 }
 
-void ObjectEnemy::changeType()
+void ObjectGoomba::changeType()
 {
 	dying_ = true;
-	width_ = ENEMY_DYING_WIDTH;
-	height_ = ENEMY_DYING_HEIGHT;
+	width_ = GOOMBA_DYING_WIDTH;
+	height_ = GOOMBA_DYING_HEIGHT;
 	vx_ = 0;
-	y_ += ENEMY_HEIGHT - ENEMY_DYING_HEIGHT;
+	y_ += GOOMBA_HEIGHT - GOOMBA_DYING_HEIGHT;
 }
