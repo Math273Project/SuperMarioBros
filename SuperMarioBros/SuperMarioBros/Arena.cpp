@@ -270,6 +270,8 @@ void Arena::processEvent()
 			if (centerx_ < i.getwParam())
 			{
 				i.getObject()->setGravityAffected(false);
+				i.getObject()->setvx(0);
+				i.getObject()->setvy(0);
 				return false;
 			}
 			else

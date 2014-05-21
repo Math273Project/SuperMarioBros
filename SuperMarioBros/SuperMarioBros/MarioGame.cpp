@@ -429,6 +429,7 @@ void MarioGame::MarioDowngrade()
 
 void MarioGame::level_one()
 {
+	Object* obj = nullptr;
 	arena.addObject(new ObjectMario(50, 570, (int)MARIO_SPEED, 0));
 	arena.addObject(new ObjectBlock(50, 250));
 	arena.addObject(new ObjectFloor(0, 618, 3412));
@@ -444,8 +445,8 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectPipe(1878, 469, PIPE_MIDDLE));
 	arena.addObject(new ObjectPipe(1384, 519, PIPE_SMALL));
 	arena.addObject(new ObjectFlagPole(1200, 150));
-	arena.addObject(new ObjectEnemy(500, 300, -100, 0));
+	arena.addObject(obj=new ObjectEnemy(500, 300, -100, 0));
 	arena.addObject(new ObjectTurtle(700, 400, -100, 0));
 
-
+	arena.addEvent(START_MOVING_X_CENTERX, obj, 500, -100);
 }
