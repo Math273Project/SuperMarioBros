@@ -28,7 +28,8 @@ private:
 	//ALL textures we need to load
 
 	TextureManager marioTexture_;
-	TextureManager backgroundTexture_;
+	TextureManager backgroundTexture1_;
+	TextureManager backgroundTexture2_;
 	TextureManager goombaTexture_;
 	TextureManager floorTexture_;
 	TextureManager blocksTexture_;
@@ -43,7 +44,8 @@ private:
 	//std::list<Image> staticImages_;
 
 	Image mario_; 
-	Image background_;
+	Image background1_;
+	Image background2_;
 	Image coin_;
 	Image goomba_;
 	Image goombaDying_;

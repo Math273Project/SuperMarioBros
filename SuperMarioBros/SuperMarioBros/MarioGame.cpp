@@ -32,7 +32,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	level_one();
 	
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
-	backgroundTexture_.initialize(graphics_, BACKGROUND_START); //background should be split in multiple parts
+	backgroundTexture1_.initialize(graphics_, BACKGROUND1_TEXTURE); //background should be split in multiple parts
+	backgroundTexture2_.initialize(graphics_, BACKGROUND2_TEXTURE);
 	goombaTexture_.initialize(graphics_, GOOMBA_TEXTURE);
 	turtleTexture_.initialize(graphics_, GOOMBA_2_TEXTURE);
 	blocksTexture_.initialize(graphics_, BLOCKS);
@@ -46,8 +47,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	//Initialize images
 	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
-	background_.initialize(graphics_, 16384, GAME_HEIGHT, 1, &backgroundTexture_);
-
+	background1_.initialize(graphics_, 5530, GAME_HEIGHT, 1, &backgroundTexture1_);
+	background2_.initialize(graphics_, 5530, GAME_HEIGHT, 1, &backgroundTexture2_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 6, &blocksTexture_);
 	block_.setCurrentFrame(5);
 	goomba_.initialize(graphics_, GOOMBA_WIDTH, GOOMBA_HEIGHT, 2, &goombaTexture_);
@@ -152,8 +153,10 @@ void MarioGame::render()
 {
 	graphics_->spriteBegin();
 
-	background_.setX(-arena.getCenterx());
-	background_.draw();
+	background1_.setX(-arena.getCenterx());
+	background2_.setX(5530 - arena.getCenterx());
+	background1_.draw();
+	background2_.draw();
 	
 	for (const auto& i : arena.getObjects())
 	{
@@ -430,23 +433,27 @@ void MarioGame::marioDeath()
 void MarioGame::level_one()
 {
 	Object* obj = nullptr;
-	arena.addObject(new ObjectMario(50, 570, (int)MARIO_SPEED, 0));
+	arena.addObject(new ObjectMario(50, 661-MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
 	arena.addObject(new ObjectBlock(50, 250));
-	arena.addObject(new ObjectFloor(0, 618, 3412));
-	arena.addObject(new ObjectBrick(989, 420));
+	//arena.addObject(new ObjectFloor(0, 661, 3412));
+	arena.addObject(new ObjectFloor(0, 661,11060));
+	arena.addObject(new ObjectBrick(1056, 450));
 
-	arena.addObject(new ObjectQuestion(791, 420, POWERUP));
-	arena.addObject(new ObjectQuestion(1039, 420, POWERUP));
-	arena.addObject(new ObjectQuestion(1139, 420, COIN));
+	arena.addObject(new ObjectQuestion(845, 450, POWERUP));
+	arena.addObject(new ObjectQuestion(1105, 450, POWERUP));
+	arena.addObject(new ObjectQuestion(1163, 238, COIN));
 	arena.addObject(new ObjectPowerup(400, 300, 0, 0));
-	arena.addObject(new ObjectCoin(700, 550));
+	arena.addObject(new ObjectCoin(700, 661-COIN_HEIGHT));
 
-	arena.addObject(new ObjectPipe(2274, 420, PIPE_BIG));
-	arena.addObject(new ObjectPipe(1878, 469, PIPE_MIDDLE));
-	arena.addObject(new ObjectPipe(1384, 519, PIPE_SMALL));
-	arena.addObject(new ObjectFlagPole(1200, 150));
-	arena.addObject(obj=new ObjectGoomba(500, 300, -100, 0));
-	arena.addObject(new ObjectTurtle(500, 420, 100, 0));
+	
+	arena.addObject(new ObjectPipe(1483, 661-PIPE_SMALL_HEIGHT, PIPE_SMALL));
+
+	arena.addObject(new ObjectPipe(2013, 661 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
+	arena.addObject(new ObjectPipe(2435, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
+	arena.addObject(new ObjectPipe(3020, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
+	arena.addObject(new ObjectFlagPole(1300, 661-FLAG_POLE_HEIGHT));
+	arena.addObject(obj=new ObjectGoomba(500, 661-GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectTurtle(500, 661-TURTLE_HEIGHT, 100, 0));
 
 	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
 
