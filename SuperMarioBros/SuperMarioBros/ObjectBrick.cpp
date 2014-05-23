@@ -12,7 +12,6 @@ void ObjectBrick::collide(const Object& object, Direction collideDirection)
 		return;
 	switch (object.getType())
 	{
-	case MARIO_SMALL:
 	case MARIO_BIG:
 	case MARIO_SUPER:
 		switch (collideDirection)

@@ -26,7 +26,7 @@ public:
 	virtual void flipVertical(bool flipVertical)    { spriteData_.flipVertical = flipVertical; }
 
 	// Draw Image. Default color is white
-	virtual void draw();
+	virtual void draw(D3DCOLOR filter = D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	// Draw this image using the specified SpriteData.
 	// The current SpriteData.rect is used to select the texture.

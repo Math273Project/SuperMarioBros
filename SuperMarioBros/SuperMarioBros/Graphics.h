@@ -42,7 +42,7 @@ public:
 	// Display the offscreen backbuffer to the screen
 	HRESULT showBackbuffer();
 
-	void drawSprite(const SpriteData &spriteData);
+	void drawSprite(const SpriteData &spriteData, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	//Returns direct3d
 	LPDIRECT3D9 get3D() { return direct3d_; }

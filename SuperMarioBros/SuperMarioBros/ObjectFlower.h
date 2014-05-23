@@ -1,16 +1,14 @@
 #pragma once
 
-#include "MovingObject.h"
+#include "Object.h"
 
-class ObjectTurtle : public MovingObject
+class ObjectFlower : public Object
 {
 public:
-	ObjectTurtle(int x, int y, int vx, int vy);
+	ObjectFlower(int x, int y);
 	void collide(const Object& object, Direction collideDirection) override;
 	ObjectType getType() const override;
 	int getPriority() const override;
-	void changeType();
 protected:
-	bool spin_; // if the turtle is spining or not.
-	
+
 };

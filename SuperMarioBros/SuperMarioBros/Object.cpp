@@ -82,9 +82,13 @@ void Object::enable()
 }
 
 void Object::destroy(int delay)
-{
-	Arena& arena = Arena::getUniqueInstance();
-	arena.addEvent(DESTROY, this, delay, NULL);
+{	
+	if (!dying_)
+	{
+		Arena& arena = Arena::getUniqueInstance();
+		dying_ = true;
+		arena.addEvent(DESTROY, this, delay, NULL);
+	}
 }
 
 bool Object::getPassable() const
@@ -106,6 +110,9 @@ Object::Object(int x, int y)
 	dying_ = false;
 	currentFrame_ = 36;
 	inEvent_ = false;
+	setGravityAffected(false);
+	setvx(0);
+	setvy(0);
 }
 
 

@@ -54,9 +54,6 @@
     <ClInclude Include="ObjectCoin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectEnemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectMario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -91,6 +88,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFlag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectGoomba.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,9 +155,6 @@
     <ClCompile Include="ObjectFloor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectEnemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,6 +162,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFlag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFlower.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFlower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectGoomba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

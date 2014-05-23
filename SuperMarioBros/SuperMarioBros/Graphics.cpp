@@ -124,7 +124,7 @@ HRESULT Graphics::showBackbuffer()
 	return hResult_;
 }
 
-void Graphics::drawSprite(const SpriteData &spriteData)
+void Graphics::drawSprite(const SpriteData &spriteData, D3DCOLOR color)
 {
 	if (spriteData.texture == NULL) // If no texture
 	{
@@ -156,7 +156,7 @@ void Graphics::drawSprite(const SpriteData &spriteData)
 
 	sprite_->SetTransform(&matrix);
 
-	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
+	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
 }
 
 HRESULT Graphics::getDeviceState()

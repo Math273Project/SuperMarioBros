@@ -30,7 +30,6 @@ private:
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture_;
 	TextureManager goombaTexture_;
-	TextureManager turtleTexture_;
 	TextureManager floorTexture_;
 	TextureManager blocksTexture_;
 	TextureManager pipeBigTexture_;
@@ -38,6 +37,7 @@ private:
 	TextureManager pipeSmallTexture_;
 	TextureManager flagPoleTexture_;
 	TextureManager flagTexture_;
+	TextureManager turtleTexture_;
 
 	//All the animations are done with an image
 	//std::list<Image> staticImages_;
@@ -46,8 +46,7 @@ private:
 	Image background_;
 	Image coin_;
 	Image goomba_;
-	Image turtle_;
-	Image enemyDying_;
+	Image goombaDying_;
 	Image block_;
 	Image floor_;
 	Image brick_;
@@ -61,10 +60,8 @@ private:
 	Image pipeSmall_;
 	Image flagPole_;
 	Image flag_;
-
-
-	int centerx_;
-	int marioLives_;
+	Image turtle_;
+	Image turtleSpin_;
 
 	//animations
 	void marioRun();

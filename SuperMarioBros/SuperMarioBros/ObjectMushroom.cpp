@@ -57,6 +57,9 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 			break;
 		}
 		break;
+	case TURTLE_SPIN:
+		destroy();
+		break;
 	}
 }
 

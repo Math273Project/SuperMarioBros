@@ -3,9 +3,9 @@
 
 ObjectTurtle::ObjectTurtle(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
-	spining_ = false;
 	width_ = TURTLE_WIDTH;
 	height_ = TURTLE_HEIGHT;
+	spin_ = false;
 }
 
 void ObjectTurtle::collide(const Object& object, Direction collideDirection)
@@ -25,6 +25,9 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 	case PIPE_BIG:
 	case PIPE_MIDDLE:
 	case PIPE_SMALL:
+	case MUSHROOM_DYING:
+	case GOOMBA_DYING:
+	case TURTLE_SPIN:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)
 		{
@@ -46,7 +49,7 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 	case MARIO_SMALL:
 	case MARIO_BIG:
 	case MARIO_SUPER:
-		if (!spining_)
+		if (!spin_)
 		{
 			switch (collideDirection)
 			{
@@ -60,10 +63,10 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 			switch (collideDirection)
 			{
 			case DOWN:
-				if (!spining_)
-				{
-					changeType();
-				}
+				const MovingObject* obj = dynamic_cast<const MovingObject*>(&object);
+				if (obj->getvy() - getvy() > 20) // change it later
+					destroy(TURTLE_DYING_DURATION);
+				break;
 			}
 		}
 		break;
@@ -72,7 +75,7 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 
 ObjectType ObjectTurtle::getType() const
 {
-	if (spining_)
+	if (spin_)
 		return TURTLE_SPIN;
 	return TURTLE;
 }
@@ -84,8 +87,9 @@ int ObjectTurtle::getPriority() const
 
 void ObjectTurtle::changeType()
 {
-	spining_ = true;
+	spin_ = true;
 	width_ = TURTLE_SPIN_WIDTH;
 	height_ = TURTLE_SPIN_HEIGHT;
-	setvx(100); // change the number later
+	setvx(-4); // change the number later
+	y_ += TURTLE_HEIGHT - TURTLE_SPIN_HEIGHT;
 }

@@ -24,7 +24,8 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 	case QUESTION:
 	case QUESTION_BLOCK:
 	case MUSHROOM_DYING:
-	case ENEMY_DYING:
+	case GOOMBA_DYING:
+	case TURTLE_SPIN:
 		if (dying_)
 			break;
 		adjustPosition(object, collideDirection);
@@ -45,8 +46,9 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		}
 		break;
 		
-	case ENEMY:
+	case GOOMBA:
 	case MUSHROOM:
+	case TURTLE:
 		adjustPosition(object, collideDirection);
 		
 		switch (collideDirection)
@@ -75,6 +77,12 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 			setType(MARIO_SUPER);
 			break;
 		}
+		break;
+
+	case FLOWER:
+		if (dying_)
+			break;
+		setType(MARIO_SUPER);
 		break;
 
 	case FLAG_POLE:

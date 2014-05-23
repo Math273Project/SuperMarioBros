@@ -6,13 +6,14 @@
 Arena::Arena()
 {
 	loseControl_ = false;
+	centerx_ = 0;
 }
 
-void Arena::addEvent(EventType type, Object* pObject, int time, double param)
+void Arena::addEvent(EventType type, Object* pObject, int wParam, double lParam)
 {
 	LARGE_INTEGER now;
 	QueryPerformanceCounter(&now);
-	events_.emplace_back(type, pObject, now.QuadPart, time, param);
+	events_.emplace_back(type, pObject, now.QuadPart, wParam, lParam);
 }
 
 void Arena::collisionDetection() // Do collisionDetection of every objects in Arena
@@ -202,7 +203,7 @@ void Arena::processEvent()
 		switch (i.getType())
 		{
 		case DESTROY:
-			if (timeElapsed > i.getTime())
+			if (timeElapsed > i.getwParam())
 			{
 				i.getObject()->setInEvent(false);
 				erase(i.getObject());
@@ -211,21 +212,21 @@ void Arena::processEvent()
 			return false;
 			break;
 		case START_MOVING_X:
-			if (timeElapsed > i.getTime())
+			if (timeElapsed > i.getwParam())
 			{
-				i.getObject()->setvx(i.getParam());
+				i.getObject()->setvx(i.getlParam());
 				return true;
 			}
 			return false;
 			break;
 		case KEEP_MOVING_Y:
-			i.setTime(i.getTime() - timeElapsed);
+			i.setwParam(i.getwParam() - timeElapsed);
 			i.setStartTime(now.QuadPart);
 			i.getObject()->setvx(0);
-			if (i.getTime() > 0)
+			if (i.getwParam() > 0)
 			{
 				//i.getObject()->setvy(i.getParam());
-				i.getObject()->sety(i.getObject()->gety() + i.getParam() * timeElapsed / 1000);
+				i.getObject()->sety(i.getObject()->gety() + i.getlParam() * timeElapsed / 1000);
 				i.getObject()->setPassable(true);
 				i.getObject()->setGravityAffected(false);
 				return false;
@@ -234,16 +235,16 @@ void Arena::processEvent()
 			{
 				//i.getObject()->setvy(0);
 				i.getObject()->setInEvent(false);
-				i.getObject()->sety(i.getObject()->gety() + i.getParam() * (timeElapsed + i.getTime()) / 1000);
+				i.getObject()->sety(i.getObject()->gety() + i.getlParam() * (timeElapsed + i.getwParam()) / 1000);
 				i.getObject()->setPassable(false);
 				i.getObject()->setGravityAffected(true);
 				return true;
 			}
 			break;
 		case KEEP_NOT_PASSABLE:
-			i.setTime(i.getTime() - timeElapsed);
+			i.setwParam(i.getwParam() - timeElapsed);
 			i.setStartTime(now.QuadPart);
-			if (i.getTime() > 0)
+			if (i.getwParam() > 0)
 			{
 				i.getObject()->setPassable(false);
 				return false;
@@ -257,7 +258,7 @@ void Arena::processEvent()
 			break;
 		case KEEP_LOSE_CONTROL:
 			loseControl_ = true;
-			if (timeElapsed > i.getTime())
+			if (timeElapsed > i.getwParam())
 			{
 				loseControl_ = false;
 				i.getObject()->setInEvent(false);
@@ -265,6 +266,22 @@ void Arena::processEvent()
 			}
 			return false;
 			break;
+		case START_MOVING_X_CENTERX:
+			if (centerx_ < i.getwParam())
+			{
+				i.getObject()->setGravityAffected(false);
+				i.getObject()->setvx(0);
+				i.getObject()->setvy(0);
+				return false;
+			}
+			else
+			{
+				i.getObject()->setGravityAffected(true);
+				i.getObject()->setvx(i.getlParam());
+				return true;
+			}
+			break;
+
 		}
 		return false;
 	});
@@ -285,4 +302,14 @@ bool Arena::getMarioInEvent() const
 		return mario_->getInEvent();
 	else
 		return false;
+}
+
+int Arena::getCenterx() const
+{
+	return centerx_;
+}
+
+void Arena::setCenterx(int centerx)
+{
+	centerx_ = centerx;
 }
