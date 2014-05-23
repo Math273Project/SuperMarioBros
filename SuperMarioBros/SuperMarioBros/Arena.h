@@ -32,6 +32,7 @@ public:
 	double getMarioVy() const;
 	double getMarioX() const;
 	double getMarioY() const;
+	bool getMarioInvisible() const;
 	bool getMarioInEvent() const;
 	bool isGameOver() const;
 	void processEvent();

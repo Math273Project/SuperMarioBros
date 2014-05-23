@@ -9,6 +9,7 @@ enum EventType
 	DESTROY,
 	KEEP_LOSE_CONTROL,
 	START_MOVING_X_CENTERX,
+	KEEP_MARIO_INVISIBLE,
 };
 
 class Event

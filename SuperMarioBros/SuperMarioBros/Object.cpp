@@ -83,12 +83,9 @@ void Object::enable()
 
 void Object::destroy(int delay)
 {	
-	if (!dying_)
-	{
-		Arena& arena = Arena::getUniqueInstance();
-		dying_ = true;
-		arena.addEvent(DESTROY, this, delay, NULL);
-	}
+	Arena& arena = Arena::getUniqueInstance();
+	dying_ = true;
+	arena.addEvent(DESTROY, this, delay, NULL);
 }
 
 bool Object::getPassable() const

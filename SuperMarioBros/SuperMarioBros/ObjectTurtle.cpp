@@ -12,7 +12,6 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 {
 	if (collideDirection == NONE)
 		return;
-
 	switch (object.getType())
 	{
 	case BULLET:
@@ -49,6 +48,8 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 	case MARIO_SMALL:
 	case MARIO_BIG:
 	case MARIO_SUPER:
+		if (dynamic_cast<const ObjectMario*>(&object)->getInvisible())
+			break;
 		if (!spin_)
 		{
 			switch (collideDirection)

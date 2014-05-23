@@ -6,13 +6,14 @@ ObjectMario::ObjectMario(int x, int y, int vx, int vy) : MovingObject(x, y, vx, 
 	width_ = MARIO_SMALL_WIDTH;
 	height_ = MARIO_SMALL_HEIGHT;
 	type_ = MARIO_SMALL;
+	invisible_ = false;
 }
 
 void ObjectMario::collide(const Object& object, Direction collideDirection)
 {
 	if (collideDirection == NONE)
 		return;
-
+	Arena& arena = Arena::getUniqueInstance();
 	switch (object.getType())
 	{
 	case BLOCK:
@@ -49,6 +50,8 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 	case GOOMBA:
 	case MUSHROOM:
 	case TURTLE:
+		if (invisible_)
+			break;
 		adjustPosition(object, collideDirection);
 		
 		switch (collideDirection)
@@ -57,8 +60,24 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		case RIGHT:
 		case DOWN:
 			setvx(0);
-			if (!dying_)
-				destroy();
+			switch (type_)
+			{
+			case MARIO_SMALL:
+				if (!dying_)
+					destroy();
+				break;
+			case MARIO_BIG:
+				invisible_ = true;
+				arena.addEvent(KEEP_MARIO_INVISIBLE, this, 2000, NULL);
+				setType(MARIO_SMALL);
+				break;
+			case MARIO_SUPER:
+				invisible_ = true;
+				arena.addEvent(KEEP_MARIO_INVISIBLE, this, 2000, NULL);
+				setType(MARIO_BIG);
+				break;
+			}
+			
 			break;
 		case UP:
 			setvy(0);
@@ -146,4 +165,15 @@ void ObjectMario::destroy()
 	type_ = MARIO_DYING;
 	setvx(0);
 	setvy(-300);
+}
+
+
+bool ObjectMario::getInvisible() const
+{
+	return invisible_;
+}
+
+void ObjectMario::setInvisible(bool invisible)
+{
+	invisible_ = invisible;
 }

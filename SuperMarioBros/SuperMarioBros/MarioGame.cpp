@@ -93,14 +93,14 @@ void MarioGame::update()
 	arena.processEvent();
 	arena.removeOutOfBoundObject();
 	
-	if (input_->isKeyDown(MOVE_RIGHT_KEY) && !arena.getMarioDying() && !arena.getMarioInEvent())
+	if (input_->isKeyDown(MOVE_RIGHT_KEY))
 	{
 		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
 		marioRun();
 
 	}
-	else if (input_->isKeyDown(MOVE_LEFT_KEY) && arena.getMarioX() - arena.getCenterx() > 0 && !arena.getMarioDying() && !arena.getMarioInEvent()) // some edit here to make Mario cannot go back
+	else if (input_->isKeyDown(MOVE_LEFT_KEY)) // some edit here to make Mario cannot go back
 	{
 		mario_.flipHorizontal(true);
 		arena.setMarioVx(-MARIO_SPEED);
@@ -122,7 +122,7 @@ void MarioGame::update()
 		marioStop();
 	}
 
-	if (input_->isKeyDown(MOVE_UP_KEY) && !arena.getMarioDying())
+	if (input_->isKeyDown(MOVE_UP_KEY))
 	{
 		marioJump();
 		if (arena.MarioDownToEarth())
@@ -131,7 +131,7 @@ void MarioGame::update()
 		}
 	}
 
-	if (input_->isKeyDown(MOVE_DOWN_KEY) && !arena.getMarioDying())
+	if (input_->isKeyDown(MOVE_DOWN_KEY))
 	{
 		//Very minimal usage: only works if mario can move down
 		marioDown();
@@ -434,13 +434,16 @@ void MarioGame::level_one()
 {
 	Object* obj = nullptr;
 	arena.addObject(new ObjectMario(50, 661-MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
-	arena.addObject(new ObjectBlock(50, 250));
-	//arena.addObject(new ObjectFloor(0, 661, 3412));
-	arena.addObject(new ObjectFloor(0, 661,11060));
-	arena.addObject(new ObjectBrick(1056, 450));
-
+	//arena.addObject(new ObjectBlock(50, 250));
+	arena.addObject(new ObjectFloor(0, 661, 3650));
 	arena.addObject(new ObjectQuestion(845, 450, POWERUP));
-	arena.addObject(new ObjectQuestion(1105, 450, POWERUP));
+
+	arena.addObject(new ObjectBrick(1056, 450));
+	arena.addObject(new ObjectQuestion(1056+BRICK_WIDTH, 450, POWERUP));
+	arena.addObject(new ObjectBrick(1056 + BRICK_WIDTH+ QUESTION_WIDTH, 450));
+	arena.addObject(new ObjectQuestion(1056 + 2* BRICK_WIDTH + QUESTION_WIDTH, 450, COIN));
+	arena.addObject(new ObjectBrick(1056 + 2* BRICK_WIDTH + 2 * QUESTION_WIDTH, 450));
+
 	arena.addObject(new ObjectQuestion(1163, 238, COIN));
 	arena.addObject(new ObjectPowerup(400, 300, 0, 0));
 	arena.addObject(new ObjectCoin(700, 661-COIN_HEIGHT));
@@ -456,5 +459,12 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectTurtle(500, 661-TURTLE_HEIGHT, 100, 0));
 
 	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
+	arena.addObject(new ObjectQuestion(3385, 400, POWERUP));
+	arena.addObject(new ObjectFloor(3754, 661, 4548));
+	arena.addObject(new ObjectBrick(4072, 450));
+	arena.addObject(new ObjectQuestion(4072 + BRICK_WIDTH, 450, POWERUP));
+	arena.addObject(new ObjectBrick(4072 + BRICK_WIDTH + QUESTION_WIDTH, 450));
+
+
 
 }
