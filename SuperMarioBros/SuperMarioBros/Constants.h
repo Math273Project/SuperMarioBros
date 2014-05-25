@@ -13,7 +13,8 @@ const double LOWEST_POSITION = 1500; // the biggest y-position.
 									// The object beyond this position will be deleted in deleteDyingObject(). 
 // Texture constants
 
-const char BACKGROUND_START[] = "Textures\\Level_One_resized.bmp"; //The background needs to be broken down
+const char BACKGROUND1_TEXTURE[] = "Textures\\Background1.bmp"; 
+const char BACKGROUND2_TEXTURE[] = "Textures\\Background2.bmp";
 const char GOOMBA_TEXTURE[] = "Textures\\Enemies.bmp";
 const char MARIO_TEXTURE[] = "Textures\\Robot_Mario.bmp";
 const char BLOCKS[] = "Textures\\Blocks.bmp";
@@ -92,8 +93,8 @@ const int FLAG_POLE_WIDTH = 25;
 const int FLAG_POLE_HEIGHT = 470;
 
 const int FLOOR_PRIORITY = 5;
-const int FLOOR_WIDTH = 50;
-const int FLOOR_HEIGHT = 100;
+const int FLOOR_WIDTH = 53;
+const int FLOOR_HEIGHT = 107;
 
 const int MARIO_DYING_DURATION = 10000;
 const int MARIO_PRIORITY = INT_MAX;
@@ -135,7 +136,6 @@ const int TURTLE_SPIN_WIDTH = 50;
 const int TURTLE_SPIN_HEIGHT = 47;
 //constants
 
-//const int MUSHROOM_RED_
 
 const char CLASS_NAME[] = "Super Mario Bros";
 const char WINDOW_NAME[] = "Super Mario Bros";

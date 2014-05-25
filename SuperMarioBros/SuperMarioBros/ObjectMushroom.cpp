@@ -1,4 +1,5 @@
 #include "ObjectMushroom.h"
+#include "Arena.h"
 
 ObjectMushroom::ObjectMushroom(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
@@ -46,6 +47,8 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 	case MARIO_SMALL:
 	case MARIO_BIG:
 	case MARIO_SUPER:
+		if (dynamic_cast<const ObjectMario*>(&object)->getInvisible())
+			break;
 		switch (collideDirection)
 		{
 		case DOWN:

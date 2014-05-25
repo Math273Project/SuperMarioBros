@@ -1,8 +1,8 @@
 #include "ObjectFloor.h"
 
-ObjectFloor::ObjectFloor(int x, int y, int width) : Object(x, y)
+ObjectFloor::ObjectFloor(int x, int y, int endx) : Object(x, y)
 {
-	width_ = width;
+	width_ = endx - x;
 	height_ = FLOOR_HEIGHT;
 }
 

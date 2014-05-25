@@ -55,7 +55,15 @@ void Arena::erase(const Object* object)
 		return;
 	if (object == mario_)
 		mario_ = nullptr;
-	auto iNewEnd = std::remove_if(objects_.begin(), objects_.end(), [&object](const Object* i)
+	
+	auto iNewEnd = std::remove_if(events_.begin(), events_.end(), [&object](const Event& i)
+	{
+		if (i.getObject() == object)
+			return true;
+		return false;
+	});
+	events_.erase(iNewEnd, events_.end());
+	auto jNewEnd = std::remove_if(objects_.begin(), objects_.end(), [&object](const Object* i)
 	{ 
 		if (i == object)
 		{
@@ -65,7 +73,7 @@ void Arena::erase(const Object* object)
 		}
 		return false;
 	});
-	objects_.erase(iNewEnd, objects_.end());
+	objects_.erase(jNewEnd, objects_.end());
 }
 
 void Arena::addObject(Object* pObject)
@@ -120,7 +128,17 @@ void Arena::setMarioVx(double vx)
 		return;
 	if (mario_ == nullptr || mario_->getDying())
 		return;
-	return mario_->setvx(vx);
+	if (vx > 0 && getMarioX() - getCenterx() >= 11030)
+	{
+		mario_->setvx(0);
+		return;
+	}
+	if (vx < 0 && getMarioX() - centerx_ <= 0)
+	{
+		mario_->setvx(0);
+		return;
+	}
+	mario_->setvx(vx);
 }
 
 void Arena::setMarioVy(double vy)
@@ -164,6 +182,14 @@ double Arena::getMarioY() const
 		return INT_MIN;
 }
 
+bool Arena::getMarioInvisible() const
+{
+	if (mario_ != nullptr)
+		return mario_->getInvisible();
+	else
+		return false;
+}
+
 bool Arena::isGameOver() const
 {
 	return mario_ == nullptr;
@@ -205,9 +231,22 @@ void Arena::processEvent()
 		case DESTROY:
 			if (timeElapsed > i.getwParam())
 			{
-				i.getObject()->setInEvent(false);
 				erase(i.getObject());
 				return true;
+			}
+			return false;
+			break;
+		case KEEP_MARIO_INVISIBLE:
+			if (timeElapsed > i.getwParam())
+			{
+				mario_->setInvisible(false);
+				mario_->setInEvent(false);
+				return true;
+			}
+			else
+			{
+				mario_->setInvisible(true);
+				mario_->setInEvent(true);
 			}
 			return false;
 			break;

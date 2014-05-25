@@ -1,4 +1,5 @@
 #include "ObjectGoomba.h"
+#include "Arena.h"
 
 ObjectGoomba::ObjectGoomba(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
@@ -10,7 +11,6 @@ void ObjectGoomba::collide(const Object& object, Direction collideDirection)
 {
 	if (collideDirection == NONE)
 		return;
-	
 	switch (object.getType())
 	{
 	case BLOCK:
@@ -43,13 +43,15 @@ void ObjectGoomba::collide(const Object& object, Direction collideDirection)
 	case MARIO_SMALL:
 	case MARIO_BIG:
 	case MARIO_SUPER:
+		if (dynamic_cast<const ObjectMario*>(&object)->getInvisible())
+			break;
 		switch (collideDirection)
 		{
 		case DOWN:
 			if (!dying_)
 			{
+				changeType();
 				destroy(GOOMBA_DYING_DURATION);
-				changeType();			
 			}
 			break;
 		}
