@@ -27,10 +27,12 @@ private:
 
 	//ALL textures we need to load
 
+	TextureManager bulletTexture_;
 	TextureManager marioTexture_;
 	TextureManager backgroundTexture1_;
 	TextureManager backgroundTexture2_;
 	TextureManager goombaTexture_;
+	TextureManager flowerTexture_;
 	TextureManager floorTexture_;
 	TextureManager blocksTexture_;
 	TextureManager pipeBigTexture_;
@@ -43,6 +45,7 @@ private:
 	//All the animations are done with an image
 	//std::list<Image> staticImages_;
 
+	Image bullet_;
 	Image mario_; 
 	Image background1_;
 	Image background2_;
@@ -64,6 +67,7 @@ private:
 	Image flag_;
 	Image turtle_;
 	Image turtleSpin_;
+	Image flower_;
 
 
 	

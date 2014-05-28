@@ -56,3 +56,8 @@ int ObjectFlower::getPriority() const
 {
 	return FLOWER_PRIORITY; 
 }
+
+int ObjectFlower::getScore() const
+{
+	return FLOWER_SCORE;
+}

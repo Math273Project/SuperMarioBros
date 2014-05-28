@@ -3,6 +3,7 @@
 #include "ObjectMushroom.h"
 #include "ObjectCoin.h"
 #include "ObjectPowerup.h"
+#include "ObjectFlower.h"
 
 ObjectQuestion::ObjectQuestion(int x, int y, ObjectType attachedObjectType) : Object(x, y)
 {
@@ -31,15 +32,18 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 				changed_ = true;
 				switch (attachedObjectType_)
 				{
+				case FLOWER:
+					attachedObject_ = (Object*)(new ObjectFlower(x_, y_));
+					break;
 				case MUSHROOM:
 					attachedObject_ = new ObjectMushroom(x_, y_, 0, 0);
 					break;
 				case COIN:
-					attachedObject_ = new ObjectCoin(x_, y_);
+					attachedObject_ = new ObjectCoin(x_, y_, 0, 0);
 					break;
 				case POWERUP:
 					attachedObject_ = new ObjectPowerup(x_, y_, 0, 0);
-					break;
+					break;	
 				}
 				arena.addObject(attachedObject_);
 				switch (attachedObject_->getType())
@@ -58,7 +62,13 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 
 				case COIN:
 					attachedObject_->setPassable(true);
-					arena.addEvent(KEEP_MOVING_Y, attachedObject_, COIN_HEIGHT * 1000 / 40, -40);
+					arena.addEvent(KEEP_MOVING_Y, attachedObject_, COIN_HEIGHT * 1000 / 200 + 100, -200);
+					arena.addEvent(START_MOVING_Y, attachedObject_, COIN_HEIGHT * 1000 / 200 + 100, -200);
+					break;
+
+				case FLOWER:
+					attachedObject_->setPassable(true);
+					arena.addEvent(KEEP_MOVING_Y, attachedObject_, FLOWER_HEIGHT * 1000 / 40, -40);
 					break;
 				}
 				

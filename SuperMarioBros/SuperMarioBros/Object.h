@@ -69,7 +69,8 @@ public:
 	void disable();
 	void enable();
 	bool isEnabled() const;
-	void destroy(int delay = 0); // add the object to dyingObject in arena class. 
+	void destroy(int delay = 0); // will add score.
+							// add the object to dyingObject in arena class. 
 							// the object will be destroyed in arena class.
 							//call it when, example: Mario is killed, Block is destoryed
 							// and split to severl pieces or
@@ -93,6 +94,7 @@ public:
 	virtual void move(double time);
 	virtual bool getGravityAffected() const;
 	virtual void setGravityAffected(bool gravityAffected);
+	virtual int getScore() const;
 	bool getInEvent() const;
 	void setInEvent(bool inEvent);
 protected:

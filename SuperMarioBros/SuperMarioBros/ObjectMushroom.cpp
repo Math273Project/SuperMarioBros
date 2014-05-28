@@ -21,7 +21,7 @@ void ObjectMushroom::collide(const Object& object, Direction collideDirection)
 	switch (object.getType())
 	{
 	case BULLET:
-		destroy(true);
+		destroy();
 		break;
 	case BLOCK:
 	case QUESTION_BLOCK:
@@ -90,4 +90,10 @@ void ObjectMushroom::changeType() // change mushroom to flat mushroom, change sp
 	height_ = MUSHROOM_DYING_HEIGHT;
 	vx_ = 0;
 	y_ += MUSHROOM_HEIGHT - MUSHROOM_DYING_HEIGHT;
+}
+
+
+int ObjectMushroom::getScore() const
+{
+	return MUSHROOM_SCORE;
 }

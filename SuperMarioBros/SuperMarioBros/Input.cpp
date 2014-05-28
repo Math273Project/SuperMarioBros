@@ -25,7 +25,7 @@ void Input::keyDown(WPARAM wParam)
 	if (wParam < InputConstants::KEYS_ARRAY_LEN)
 	{
 		keysDown_[wParam] = true; // Update keysDown array
-		// Key has been pressed, erased by clear()
+		// Key has been pressed, deleteObjectd by clear()
 		keysPressed_[wParam] = true; // Update keysPressed array
 	}
 }

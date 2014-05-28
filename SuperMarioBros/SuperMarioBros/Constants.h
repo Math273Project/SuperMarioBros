@@ -13,6 +13,7 @@ const double LOWEST_POSITION = 1500; // the biggest y-position.
 									// The object beyond this position will be deleted in deleteDyingObject(). 
 // Texture constants
 
+const char BULLET_TEXTURE[] = "Textures\\Bullet.bmp";
 const char BACKGROUND1_TEXTURE[] = "Textures\\Background1.bmp"; 
 const char BACKGROUND2_TEXTURE[] = "Textures\\Background2.bmp";
 const char GOOMBA_TEXTURE[] = "Textures\\Enemies.bmp";
@@ -26,6 +27,7 @@ const char PIPE_SMALL_TEXTURE[] = "Textures\\Pipe_Small.bmp";
 const char FLAG_POLE_TEXTURE[] = "Textures\\Flag_Pole.bmp";
 const char FLAG_TEXTURE[] = "Textures\\Flag.bmp";
 const char TURTLE_TEXTURE[] = "Textures\\turtles.bmp";
+const char FLOWER_TEXTURE[] = "Textures\\flower.bmp";
 
 // Sprite constants
 
@@ -61,16 +63,17 @@ const int BRICK_PRIORITY = 5;
 const int BRICK_WIDTH = 50;
 const int BRICK_HEIGHT = 50;
 
-const int BULLET_DYING_DURATION = 50;
 const int BULLET_PRIORITY = 50;
-const int BULLET_WIDTH = 50;
-const int BULLET_HEIGHT = 50;
+const int BULLET_WIDTH = 16;
+const int BULLET_HEIGHT = 16;
 
+const int COIN_SCORE = 100;
 const int COIN_DYING_DURATION = 500;
 const int COIN_PRIORITY = 5;
 const int COIN_WIDTH = 50;
 const int COIN_HEIGHT = 50;
 
+const int GOOMBA_SCORE = 100;
 const int GOOMBA_DYING_DURATION = 500;
 const int GOOMBA_PRIORITY = 5;
 const int GOOMBA_WIDTH = 50;
@@ -83,6 +86,7 @@ const int FLAG_PRIORITY = 5;
 const int FLAG_WIDTH = 50;
 const int FLAG_HEIGHT = 50;
 
+const int FLOWER_SCORE = 1000;
 const int FLOWER_PRIORITY = 5;
 const int FLOWER_WIDTH = 50;
 const int FLOWER_HEIGHT = 50;
@@ -104,6 +108,7 @@ const int MARIO_BIG_HEIGHT = 100;
 const int MARIO_SUPER_WIDTH = 50;
 const int MARIO_SUPER_HEIGHT = 100;
 
+const int MUSHROOM_SCORE = 100;
 const int MUSHROOM_DYING_DURATION = 500;
 const int MUSHROOM_PRIORITY = 5;
 const int MUSHROOM_WIDTH = 50;
@@ -117,6 +122,7 @@ const int PIPE_BIG_HEIGHT = 200;
 const int PIPE_MIDDLE_HEIGHT = 150;
 const int PIPE_SMALL_HEIGHT = 100;
 
+const int POWERUP_SCORE = 200;
 const int POWERUP_DYING_DURATION = 500;
 const int POWERUP_PRIORITY = 5;
 const int POWERUP_WIDTH = 50;
@@ -127,6 +133,7 @@ const int QUESTION_PRIORITY = INT_MAX - 1;
 const int QUESTION_WIDTH = 50;
 const int QUESTION_HEIGHT = 50;
 
+const int TURTLE_SCORE = 200;
 const int TURTLE_DYING_DURATION = 500;
 const int TURTLE_PRIORITY = 5;
 const int TURTLE_WIDTH = 50;

@@ -13,6 +13,7 @@
 #include "ObjectFlagPole.h"
 #include "ObjectTurtle.h"
 #include "ObjectVictorySpot.h"
+#include "ObjectGoomba.h"
 
 MarioGame::MarioGame()
 {
@@ -32,6 +33,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//load level; only have one to start
 	level_one();
 	
+	bulletTexture_.initialize(graphics_, BULLET_TEXTURE);
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
 	backgroundTexture1_.initialize(graphics_, BACKGROUND1_TEXTURE); //background should be split in multiple parts
 	backgroundTexture2_.initialize(graphics_, BACKGROUND2_TEXTURE);
@@ -45,8 +47,10 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	flagPoleTexture_.initialize(graphics_, FLAG_POLE_TEXTURE);
 	flagTexture_.initialize(graphics_, FLAG_TEXTURE);
 	turtleTexture_.initialize(graphics_, TURTLE_TEXTURE);
+	flowerTexture_.initialize(graphics_, FLOWER_TEXTURE);
 
 	//Initialize images
+	bullet_.initialize(graphics_, BULLET_WIDTH, BULLET_HEIGHT, 1, &bulletTexture_);
 	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
 	background1_.initialize(graphics_, 5170, GAME_HEIGHT, 1, &backgroundTexture1_);
 	background2_.initialize(graphics_, 5170, GAME_HEIGHT, 1, &backgroundTexture2_);
@@ -75,6 +79,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	flag_.initialize(graphics_, FLAG_WIDTH, FLAG_HEIGHT, 1, &flagTexture_);
 	turtle_.initialize(graphics_, TURTLE_WIDTH, TURTLE_HEIGHT, 4, &turtleTexture_);
 	turtleSpin_.initialize(graphics_, TURTLE_SPIN_WIDTH, TURTLE_SPIN_HEIGHT, 6, &turtleTexture_);
+	flower_.initialize(graphics_, FLOWER_WIDTH, FLOWER_HEIGHT, 1, &flowerTexture_);
 
 	mario_.setX(50);     
 	mario_.setY(512); //get rid of magic constant
@@ -137,7 +142,10 @@ void MarioGame::update()
 		//Very minimal usage: only works if mario can move down
 		marioDown();
 	}
-
+	if (input_->isKeyDown('Z') && arena.getMarioShootable())
+	{
+		arena.MarioShoot();
+	}
 	if (arena.isGameOver())
 	{
 		PostQuitMessage(0); // end the game
@@ -165,6 +173,12 @@ void MarioGame::render()
 		{
 			switch (i->getType())
 			{
+			case BULLET:
+				bullet_.setX(i->getx() - arena.getCenterx());
+				bullet_.setY(i->gety());
+				bullet_.draw();
+				break;
+
 			case BLOCK:
 				block_.setX(i->getx() - arena.getCenterx());
 				block_.setY(i->gety());
@@ -175,6 +189,11 @@ void MarioGame::render()
 				brick_.setX(i->getx() - arena.getCenterx());
 				brick_.setY(i->gety());
 				brick_.draw();
+				break;
+			case FLOWER:
+				flower_.setX(i->getx() - arena.getCenterx());
+				flower_.setY(i->gety());
+				flower_.draw();
 				break;
 			case QUESTION:
 				question_.setX(i->getx() - arena.getCenterx());
@@ -440,28 +459,28 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectQuestion(791, 422, POWERUP));
 
 	arena.addObject(new ObjectPowerup(400, 300, 0, 0));
+	arena.addObject(new ObjectPowerup(500, 300, 0, 0));
 	arena.addObject(new ObjectBrick(989, 422));
 	arena.addObject(new ObjectQuestion(989+BRICK_WIDTH, 422, POWERUP));
 	arena.addObject(new ObjectBrick(989 + BRICK_WIDTH+ QUESTION_WIDTH, 422));
 	arena.addObject(new ObjectQuestion(989 + 2* BRICK_WIDTH + QUESTION_WIDTH, 422, COIN));
 	arena.addObject(new ObjectBrick(989 + 2* BRICK_WIDTH + 2 * QUESTION_WIDTH, 422));
 
-	arena.addObject(new ObjectGoomba(1040, 622 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(1040, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectQuestion(1087, 224, COIN));
 	
 	//arena.addObject(new ObjectCoin(700, 620-COIN_HEIGHT));
 
 	
 	arena.addObject(new ObjectPipe(1384, 620-PIPE_SMALL_HEIGHT, PIPE_SMALL));
-	arena.addObject(new ObjectGoomba(1500, 622 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(1500, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectPipe(1878, 620 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
+	arena.addObject(new ObjectGoomba(2000, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectPipe(2274, 620 - PIPE_BIG_HEIGHT, PIPE_BIG));
+	arena.addObject(new ObjectGoomba(2400, 620 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(2600, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectPipe(2819, 620 - PIPE_BIG_HEIGHT, PIPE_BIG));
-	//arena.addObject(new ObjectFlagPole(1300, 620-FLAG_POLE_HEIGHT));
-	//arena.addObject(obj=new ObjectGoomba(500, 620-GOOMBA_HEIGHT, -100, 0));
-	//arena.addObject(new ObjectTurtle(500, 620-TURTLE_HEIGHT, 100, 0));
-
-	//arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
+	
 	arena.addObject(new ObjectQuestion(3164, 372, POWERUP));
 	arena.addObject(new ObjectFloor(3511, 620, 4252));
 	arena.addObject(new ObjectBrick(3807, 422));
@@ -477,6 +496,9 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectBrick(3956 + 6 * BRICK_WIDTH, 224));
 	arena.addObject(new ObjectBrick(3956 + 7 * BRICK_WIDTH, 224));
 
+	arena.addObject(new ObjectGoomba(4000, 224- GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(4100, 224-GOOMBA_HEIGHT, -100, 0));
+
 	arena.addObject(new ObjectBrick(4499, 224));
 	arena.addObject(new ObjectBrick(4499 + BRICK_WIDTH, 224));
 	arena.addObject(new ObjectBrick(4499 + 2*BRICK_WIDTH, 224));
@@ -485,15 +507,25 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectQuestion(4647, 422, POWERUP));
 	arena.addObject(new ObjectFloor(4401, 620, 2394 + 5170));
 
+	arena.addObject(new ObjectGoomba(4700, 620 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(4750, 620 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectTurtle(5000, 620 - TURTLE_HEIGHT, -100, 0));
+
 	arena.addObject(new ObjectBrick(4944, 422));
 	arena.addObject(new ObjectQuestion(4944+BRICK_WIDTH, 422, POWERUP));
+
+	arena.addObject(new ObjectGoomba(5170 + 350, 620 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(5170 + 400, 620 - GOOMBA_HEIGHT, -100, 0));
 
 	arena.addObject(new ObjectQuestion(71 + 5170, 422, COIN));
 	arena.addObject(new ObjectQuestion(219 + 5170, 422, COIN));
 	arena.addObject(new ObjectQuestion(219 + 5170, 224, FLOWER));
 	arena.addObject(new ObjectQuestion(368 + 5170, 422, COIN));
 
+	
 	arena.addObject(new ObjectBrick(664 + 5170, 422));
+	arena.addObject(new ObjectGoomba(800 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(900 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
 
 	arena.addObject(new ObjectBrick(813 + 5170, 224));
 	arena.addObject(new ObjectBrick(813 + 5170 + BRICK_WIDTH, 224));
@@ -503,7 +535,8 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectQuestion(1159 + 5170 + BRICK_WIDTH, 224, COIN));
 	arena.addObject(new ObjectQuestion(1159 + 5170 + BRICK_WIDTH + QUESTION_WIDTH, 224, COIN));
 	arena.addObject(new ObjectBrick(1159 + 5170 + BRICK_WIDTH + 2* QUESTION_WIDTH, 224));
-
+	arena.addObject(new ObjectGoomba(1000 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(1100 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectBrick(1208 + 5170, 422));
 	arena.addObject(new ObjectBrick(1208 + 5170 + BRICK_WIDTH, 422));
 
@@ -549,6 +582,8 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectBrick(3137 + 5170 + BRICK_WIDTH, 422));
 	arena.addObject(new ObjectQuestion(3137 + 5170 + 2 * BRICK_WIDTH, 422, COIN));
 	arena.addObject(new ObjectBrick(3137 + 5170 + 2 * BRICK_WIDTH + QUESTION_WIDTH, 422));
+
+	arena.addObject(new ObjectGoomba(3200 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
 
 	arena.addObject(new ObjectPipe(3680 + 5170, 622 - PIPE_SMALL_HEIGHT, PIPE_SMALL));
 

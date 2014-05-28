@@ -20,7 +20,7 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 	switch (object.getType())
 	{
 	case BULLET:
-		destroy(true);
+		destroy();
 		break;
 	case BLOCK:
 	case QUESTION_BLOCK:
@@ -98,4 +98,9 @@ void ObjectTurtle::changeType()
 	height_ = TURTLE_SPIN_HEIGHT;
 	setvx(-4); // change the number later
 	y_ += TURTLE_HEIGHT - TURTLE_SPIN_HEIGHT;
+}
+
+int ObjectTurtle::getScore() const
+{
+	return TURTLE_SCORE;
 }
