@@ -470,13 +470,32 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectTurtle(1800, 570, 100, 0));
 
 	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
-=======*/
+=======
 	arena.addObject(new ObjectPipe(2013, 661 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
 	arena.addObject(new ObjectPipe(2435, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
 	arena.addObject(new ObjectPipe(3020, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
 	arena.addObject(new ObjectFlagPole(1300, 661-FLAG_POLE_HEIGHT));
 	arena.addObject(obj=new ObjectGoomba(500, 661-GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectTurtle(500, 661-TURTLE_HEIGHT, 100, 0));
+=======*/
+
+	
+	arena.addObject(new ObjectPipe(1483, 661-PIPE_SMALL_HEIGHT, PIPE_SMALL));
+
+	arena.addObject(new ObjectPipe(2013, 661 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
+	arena.addObject(new ObjectPipe(2435, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
+	arena.addObject(new ObjectPipe(3020, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
+	arena.addObject(new ObjectFlagPole(1300, 661-FLAG_POLE_HEIGHT));
+	arena.addObject(obj=new ObjectGoomba(500, 661-GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectTurtle(500, 661-TURTLE_HEIGHT, 100, 0));
+
+	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
+	arena.addObject(new ObjectQuestion(3385, 400, POWERUP));
+	arena.addObject(new ObjectFloor(3754, 661, 4548));
+	arena.addObject(new ObjectBrick(4072, 450));
+	arena.addObject(new ObjectQuestion(4072 + BRICK_WIDTH, 450, POWERUP));
+	arena.addObject(new ObjectBrick(4072 + BRICK_WIDTH + QUESTION_WIDTH, 450));
+
 
 	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
 	arena.addObject(new ObjectQuestion(3385, 400, POWERUP));

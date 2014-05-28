@@ -139,8 +139,8 @@ const int TURTLE_SPIN_HEIGHT = 47;
 
 const char CLASS_NAME[] = "Super Mario Bros";
 const char WINDOW_NAME[] = "Super Mario Bros";
-const int GAME_WIDTH = 1280;      // width of game in pixels
-const int GAME_HEIGHT = 720;      // height of game in pixels
+const int GAME_WIDTH = 1366;      // width of game in pixels
+const int GAME_HEIGHT = 768;      // height of game in pixels
 
 
 // key mappings
