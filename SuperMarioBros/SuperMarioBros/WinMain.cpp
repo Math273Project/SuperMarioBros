@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR args, int
 	
 	MSG msg;
 	marioGame = new MarioGame;
-	bool fullscreen = true;
+	bool fullscreen = false;
 
 	if (AnotherInstance())
 	{

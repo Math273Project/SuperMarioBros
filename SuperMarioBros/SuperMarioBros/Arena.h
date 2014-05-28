@@ -40,6 +40,8 @@ public:
 	const std::list<Object*>& getObjects() const;
 	int getCenterx() const;
 	void setCenterx(int centerx);
+	int getLevel() const;
+	void levelPlus(); // add code for victory screen text here.
 protected:
 	std::list<Object*> objects_; //  in accedning order of priority
 	Arena(); // Unique Instance
@@ -47,5 +49,6 @@ protected:
 	std::list<Event> events_;
 	bool loseControl_;
 	int centerx_;
+	int level_;
 };
 

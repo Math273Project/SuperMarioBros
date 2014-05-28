@@ -6,6 +6,11 @@ ObjectTurtle::ObjectTurtle(int x, int y, int vx, int vy) : MovingObject(x, y, vx
 	width_ = TURTLE_WIDTH;
 	height_ = TURTLE_HEIGHT;
 	spin_ = false;
+	Arena& arena = Arena::getUniqueInstance();
+	arena.addEvent(START_MOVING_X_CENTERX, this, x - GAME_WIDTH, vx);
+	vx_ = 0;
+	gravityAffected_ = false;
+	vy_ = 0;
 }
 
 void ObjectTurtle::collide(const Object& object, Direction collideDirection)

@@ -7,6 +7,7 @@ Arena::Arena()
 {
 	loseControl_ = false;
 	centerx_ = 0;
+	level_ = 0;
 }
 
 void Arena::addEvent(EventType type, Object* pObject, int wParam, double lParam)
@@ -55,14 +56,6 @@ void Arena::erase(const Object* object)
 		return;
 	if (object == mario_)
 		mario_ = nullptr;
-	
-	auto iNewEnd = std::remove_if(events_.begin(), events_.end(), [&object](const Event& i)
-	{
-		if (i.getObject() == object)
-			return true;
-		return false;
-	});
-	events_.erase(iNewEnd, events_.end());
 	auto jNewEnd = std::remove_if(objects_.begin(), objects_.end(), [&object](const Object* i)
 	{ 
 		if (i == object)
@@ -128,7 +121,7 @@ void Arena::setMarioVx(double vx)
 		return;
 	if (mario_ == nullptr || mario_->getDying())
 		return;
-	if (vx > 0 && getMarioX() - getCenterx() >= 11030)
+	if (vx > 0 && getMarioX() - getCenterx() >= 10340)
 	{
 		mario_->setvx(0);
 		return;
@@ -210,7 +203,7 @@ bool Arena::MarioDownToEarth() const
 		{
 			if (mario_->onTop(**i))
 				return true;
-			if (mario_->didCollide(**i) != NONE)
+			if (mario_->didCollide(**i) == UP)
 				return true;
 		}
 	}
@@ -351,4 +344,15 @@ int Arena::getCenterx() const
 void Arena::setCenterx(int centerx)
 {
 	centerx_ = centerx;
+}
+
+int Arena::getLevel() const
+{
+	return level_;
+}
+
+void Arena::levelPlus()
+{
+	exit(0); // change this to some words.
+	++level_;
 }

@@ -18,7 +18,7 @@ void ObjectBrick::collide(const Object& object, Direction collideDirection)
 		{
 		case UP:
 			if (!dying_)
-			destroy();
+				destroy(BRICK_DYING_DURATION);
 			break;
 		}
 		break;
@@ -27,17 +27,7 @@ void ObjectBrick::collide(const Object& object, Direction collideDirection)
 
 ObjectType ObjectBrick::getType() const
 {
-	if (dying_)
-		return BRICK_DYING;
 	return BRICK;
-}
-
-void ObjectBrick::changeType() 
-{
-	dying_ = true;
-	passable_ = true;
-	width_ = BRICK_DYING_WIDTH;
-	height_ = BRICK_DYING_HEIGHT;
 }
 
 int ObjectBrick::getPriority() const
