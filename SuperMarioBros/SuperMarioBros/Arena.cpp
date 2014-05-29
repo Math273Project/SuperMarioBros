@@ -1,5 +1,6 @@
 #include "Arena.h"
 #include "Constants.h"
+#include "ObjectBullet.h"
 #include <algorithm>
 
 
@@ -7,7 +8,9 @@ Arena::Arena()
 {
 	loseControl_ = false;
 	centerx_ = 0;
-	level_ = 0;
+	level_ = 1;
+	score_ = 0;
+	coin_ = 0;
 }
 
 void Arena::addEvent(EventType type, Object* pObject, int wParam, double lParam)
@@ -50,13 +53,13 @@ void Arena::freeFall(double time)
 	}
 }
 
-void Arena::erase(const Object* object)
+void Arena::deleteObject(const Object* object)
 {
 	if (object == nullptr)
 		return;
 	if (object == mario_)
 		mario_ = nullptr;
-	auto jNewEnd = std::remove_if(objects_.begin(), objects_.end(), [&object](const Object* i)
+	auto jNewEnd = std::remove_if(objects_.begin(), objects_.end(), [&](const Object* i)
 	{ 
 		if (i == object)
 		{
@@ -102,6 +105,8 @@ void Arena::removeOutOfBoundObject()
 			i = nullptr;
 			return true;
 		}
+		if (i->getType() == BULLET && (i->getx() < centerx_ || i->getx() > centerx_ + GAME_WIDTH))
+			return true;
 		return false; });
 	objects_.erase(iNewEnd, objects_.end());
 }
@@ -224,7 +229,7 @@ void Arena::processEvent()
 		case DESTROY:
 			if (timeElapsed > i.getwParam())
 			{
-				erase(i.getObject());
+				deleteObject(i.getObject());
 				return true;
 			}
 			return false;
@@ -247,6 +252,14 @@ void Arena::processEvent()
 			if (timeElapsed > i.getwParam())
 			{
 				i.getObject()->setvx(i.getlParam());
+				return true;
+			}
+			return false;
+			break;
+		case START_MOVING_Y:
+			if (timeElapsed > i.getwParam())
+			{
+				i.getObject()->setvy(i.getlParam());
 				return true;
 			}
 			return false;
@@ -355,4 +368,60 @@ void Arena::levelPlus()
 {
 	exit(0); // change this to some words.
 	++level_;
+}
+
+void Arena::addScore(int score)
+{
+	score_ += score;
+}
+
+int Arena::getScore() const
+{
+	return score_;
+}
+
+void Arena::addCoin(int coin)
+{
+	coin_ += coin;
+}
+
+int Arena::getCoin() const
+{
+	return coin_;
+}
+
+bool Arena::getMarioShootable() const
+{
+	return mario_->getType() == MARIO_SUPER;
+}
+
+void Arena::MarioShoot()
+{
+	static LARGE_INTEGER LastShootTime;
+	LARGE_INTEGER frequency; 
+	LARGE_INTEGER currentTime;
+	QueryPerformanceFrequency(&frequency);
+	QueryPerformanceCounter(&currentTime);
+
+	if ((currentTime.QuadPart - LastShootTime.QuadPart) / (double)(frequency.QuadPart) < 1.0)
+		return;
+	else
+		LastShootTime = currentTime;
+
+	if (mario_->getFacingDirection() == RIGHT)
+		addObject(new ObjectBullet(mario_->getx() + mario_->getWidth() / 2, mario_->gety() + mario_->getHeight() / 2, 1000, 0));
+	else
+		addObject(new ObjectBullet(mario_->getx() + mario_->getWidth() / 2, mario_->gety() + mario_->getHeight() / 2, -1000, 0));
+}
+
+void Arena::deleteEvent(const Object* pObject)
+{
+	auto iNewEnd = std::remove_if(events_.begin(), events_.end(), [&](Event& i)
+	{
+		if (i.getObject() == pObject)
+			return true;
+		else
+			return false;
+	});
+	events_.erase(iNewEnd, events_.end());
 }

@@ -1,6 +1,6 @@
 #include "ObjectCoin.h"
 
-ObjectCoin::ObjectCoin(int x, int y) : Object(x, y)
+ObjectCoin::ObjectCoin(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
 	width_ = COIN_WIDTH;
 	height_ = COIN_HEIGHT;
@@ -21,15 +21,10 @@ void ObjectCoin::collide(const Object& object, Direction collideDirection)
 	if (collideDirection == NONE)
 		return;
 
-	switch (object.getType())
-	{
-	case MARIO_SMALL:
-	case MARIO_BIG:
-	case MARIO_SUPER:
-		switch (collideDirection)
-		{
-		default:
-			destroy();
-		}
-	}
+	destroy();
+}
+
+int ObjectCoin::getScore() const
+{
+	return COIN_SCORE;
 }

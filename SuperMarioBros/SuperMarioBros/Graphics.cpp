@@ -167,7 +167,7 @@ void Graphics::drawString(int x, int y, DWORD color, const char* string)
 	HFONT hFont = (HFONT)GetStockObject(SYSTEM_FONT);
 	LPD3DXFONT pFont = 0;
 
-	hResult = D3DXCreateFont(device3d_, hFont, &pFont);
+	//hResult = D3DXCreateFont(device3d_, hFont, &pFont);
 }
 
 HRESULT Graphics::getDeviceState()

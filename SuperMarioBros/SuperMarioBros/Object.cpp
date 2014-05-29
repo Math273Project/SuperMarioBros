@@ -85,6 +85,7 @@ void Object::destroy(int delay)
 {	
 	Arena& arena = Arena::getUniqueInstance();
 	dying_ = true;
+	arena.addScore(this->getScore());
 	arena.addEvent(DESTROY, this, delay, NULL);
 }
 
@@ -281,4 +282,9 @@ bool Object::getInEvent() const
 void Object::setInEvent(bool inEvent)
 {
 	inEvent_ = inEvent;
+}
+
+int Object::getScore() const
+{
+	return 0;
 }

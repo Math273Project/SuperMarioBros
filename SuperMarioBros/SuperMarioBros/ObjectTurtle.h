@@ -10,6 +10,7 @@ public:
 	ObjectType getType() const override;
 	int getPriority() const override;
 	void changeType();
+	int getScore() const override;
 protected:
 	bool spin_; // if the turtle is spining or not.
 	

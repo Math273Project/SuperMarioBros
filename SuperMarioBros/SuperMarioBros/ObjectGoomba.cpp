@@ -18,6 +18,9 @@ void ObjectGoomba::collide(const Object& object, Direction collideDirection)
 		return;
 	switch (object.getType())
 	{
+	case BULLET:
+		destroy();
+		break;
 	case BLOCK:
 	case QUESTION_BLOCK:
 	case FLOOR:
@@ -26,6 +29,8 @@ void ObjectGoomba::collide(const Object& object, Direction collideDirection)
 	case PIPE_MIDDLE:
 	case PIPE_SMALL:
 	case MUSHROOM_DYING:
+	case GOOMBA:
+	case TURTLE:
 	case GOOMBA_DYING:
 		adjustPosition(object, collideDirection);
 		switch (collideDirection)
@@ -88,4 +93,9 @@ void ObjectGoomba::changeType()
 	height_ = GOOMBA_DYING_HEIGHT;
 	vx_ = 0;
 	y_ += GOOMBA_HEIGHT - GOOMBA_DYING_HEIGHT;
+}
+
+int ObjectGoomba::getScore() const 
+{
+	return GOOMBA_SCORE;
 }

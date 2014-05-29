@@ -4,6 +4,7 @@ ObjectBullet::ObjectBullet(int x, int y, int vx, int vy) : MovingObject(x, y, vx
 {
 	width_ = BULLET_WIDTH;
 	height_ = BULLET_HEIGHT;
+	gravityAffected_ = false;
 }
 
 void ObjectBullet::collide(const Object& object, Direction collideDirection)
@@ -11,11 +12,9 @@ void ObjectBullet::collide(const Object& object, Direction collideDirection)
 	if (collideDirection == NONE)
 		return;
 
-	switch (object.getType())
+	if (object.getType() != MARIO_SMALL && object.getType() != MARIO_BIG && object.getType() != MARIO_SUPER)
 	{
-	default:
 		destroy();
-		break;
 	}
 }
 

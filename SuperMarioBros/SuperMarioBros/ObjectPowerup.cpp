@@ -13,6 +13,9 @@ void ObjectPowerup::collide(const Object& object, Direction collideDirection)
 
 	switch (object.getType())
 	{
+	case BULLET:
+		destroy();
+		break;
 	case BLOCK:
 	case FLOOR:
 	case PIPE_BIG:
@@ -55,4 +58,10 @@ ObjectType ObjectPowerup::getType() const
 int ObjectPowerup::getPriority() const
 {
 	return POWERUP_PRIORITY; // change it later
+}
+
+
+int ObjectPowerup::getScore() const
+{
+	return POWERUP_SCORE;
 }

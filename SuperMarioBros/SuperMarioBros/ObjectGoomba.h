@@ -9,6 +9,7 @@ public:
 	void collide(const Object& object, Direction collideDirection) override;
 	ObjectType getType() const override;
 	int getPriority() const override;
+	int getScore() const override;
 protected:
 	void changeType();
 	
