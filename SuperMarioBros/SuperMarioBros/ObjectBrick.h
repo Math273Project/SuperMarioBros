@@ -10,5 +10,5 @@ public:
 	ObjectType getType() const override;
 	int getPriority() const override;
 protected:
-	void changeType();
+
 };

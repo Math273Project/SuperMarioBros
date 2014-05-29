@@ -44,6 +44,9 @@ public:
 
 	void drawSprite(const SpriteData &spriteData, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 
+	//output text
+	void drawString(int x, int y, DWORD color, const char* string);
+
 	//Returns direct3d
 	LPDIRECT3D9 get3D() { return direct3d_; }
 

@@ -159,6 +159,17 @@ void Graphics::drawSprite(const SpriteData &spriteData, D3DCOLOR color)
 	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
 }
 
+
+void Graphics::drawString(int x, int y, DWORD color, const char* string)
+{
+	HRESULT hResult;
+
+	HFONT hFont = (HFONT)GetStockObject(SYSTEM_FONT);
+	LPD3DXFONT pFont = 0;
+
+	hResult = D3DXCreateFont(device3d_, hFont, &pFont);
+}
+
 HRESULT Graphics::getDeviceState()
 {
 	hResult_ = E_FAIL; // Default to fail, replace on success

@@ -12,6 +12,7 @@
 #include "ObjectCoin.h"
 #include "ObjectFlagPole.h"
 #include "ObjectTurtle.h"
+#include "ObjectVictorySpot.h"
 
 MarioGame::MarioGame()
 {
@@ -46,8 +47,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	//Initialize images
 	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
-	background1_.initialize(graphics_, 5530, GAME_HEIGHT, 1, &backgroundTexture1_);
-	background2_.initialize(graphics_, 5530, GAME_HEIGHT, 1, &backgroundTexture2_);
+	background1_.initialize(graphics_, 5170, GAME_HEIGHT, 1, &backgroundTexture1_);
+	background2_.initialize(graphics_, 5170, GAME_HEIGHT, 1, &backgroundTexture2_);
 	block_.initialize(graphics_, BLOCK_WIDTH, BLOCK_HEIGHT, 6, &blocksTexture_);
 	block_.setCurrentFrame(5);
 	goomba_.initialize(graphics_, GOOMBA_WIDTH, GOOMBA_HEIGHT, 2, &goombaTexture_);
@@ -83,24 +84,38 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 void MarioGame::update()
 {
-	arena.move(frameTime_ * 1000);
-	arena.freeFall(frameTime_ * 1000);
-	arena.collisionDetection();
-	arena.processEvent();
-	arena.removeOutOfBoundObject();
+	arena.move(frameTime_ * 1000); //update arena
+	arena.freeFall(frameTime_ * 1000); //update ungrounded ogjects
+	arena.collisionDetection(); //detect collision
+	arena.processEvent(); //process collisions
+	arena.removeOutOfBoundObject(); //delete out of bound objects
 	
-	if (input_->isKeyDown(MOVE_RIGHT_KEY))
+	if (input_->isKeyDown(MOVE_RIGHT_KEY)) //right key pressed
 	{
 		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
-		marioRun();
+		if (!arena.MarioDownToEarth()) //mario is moving and airborne
+		{
+			marioJump();
+		}
+		else
+		{
+			marioRun();
+		}
 
 	}
-	else if (input_->isKeyDown(MOVE_LEFT_KEY)) // some edit here to make Mario cannot go back
+	else if (input_->isKeyDown(MOVE_LEFT_KEY))
 	{
 		mario_.flipHorizontal(true);
 		arena.setMarioVx(-MARIO_SPEED);
-		marioRun();
+		if (!arena.MarioDownToEarth()) 
+		{
+			marioJump();
+		}
+		else
+		{
+			marioRun();
+		}
 	}
 	else if (arena.getMarioDying())
 	{
@@ -115,7 +130,10 @@ void MarioGame::update()
 	else
 	{
 		arena.setMarioVx(0);
-		marioStop();
+		if (!arena.MarioDownToEarth())
+			marioJump();
+		else
+			marioStop();
 	}
 
 	if (input_->isKeyDown(MOVE_UP_KEY))
@@ -133,12 +151,13 @@ void MarioGame::update()
 		marioDown();
 	}
 
+
 	if (arena.isGameOver())
 	{
 		PostQuitMessage(0); // end the game
 	}
 
-	if (arena.getMarioX() - arena.getCenterx() > GAME_WIDTH / 2) // move the center.
+	if (arena.getMarioX() - GAME_WIDTH / 2 > arena.getCenterx() && arena.getMarioX() + GAME_WIDTH / 2 <= 10340) // move the center.
 	{
 		arena.setCenterx(arena.getMarioX() - GAME_WIDTH / 2);
 	}
@@ -150,7 +169,7 @@ void MarioGame::render()
 	graphics_->spriteBegin();
 
 	background1_.setX(-arena.getCenterx());
-	background2_.setX(5530 - arena.getCenterx());
+	background2_.setX(5170 - arena.getCenterx());
 	background1_.draw();
 	background2_.draw();
 	
@@ -207,12 +226,49 @@ void MarioGame::render()
 				break;
 			case MARIO_SMALL:
 			case MARIO_DYING:
-			case MARIO_BIG:
-			case MARIO_SUPER:
+				if (arena.getMarioInvisible() || marioPrev == 1)
+				{
+					transparancy = 100;
+					marioDowngrade();
+				}
+				else
+				{
+					transparancy = 255;
+				}
 				mario_.setX(i->getx() - arena.getCenterx());
 				mario_.setY(i->gety());
 				mario_.update(frameTime_);
-				mario_.draw();
+				mario_.draw(D3DCOLOR_ARGB(transparancy, 255, 255, 255));
+				break;
+			case MARIO_BIG:
+				if (arena.getMarioInvisible() || marioPrev == 0)
+				{
+					transparancy = 100;
+					marioUpgrade();
+					marioPrev = 1;
+				}
+				else
+				{
+					transparancy = 255;
+				}
+				mario_.setX(i->getx() - arena.getCenterx());
+				mario_.setY(i->gety());
+				mario_.update(frameTime_);
+				mario_.draw(D3DCOLOR_ARGB(transparancy, 255, 255, 255));
+				break;
+			case MARIO_SUPER:
+				if (arena.getMarioInvisible())
+				{
+					transparancy = 100;
+				}
+				else
+				{
+					transparancy = 255;
+				}
+				mario_.setX(i->getx() - arena.getCenterx());
+				mario_.setY(i->gety());
+				mario_.update(frameTime_);
+				mario_.draw(D3DCOLOR_ARGB(transparancy, 255, 255, 255));
 				break;
 
 			case MUSHROOM:
@@ -267,6 +323,7 @@ void MarioGame::render()
 				{
 					goomba_.flipHorizontal(false);
 				}
+				goomba_.update(frameTime_);
 				goomba_.setX(i->getx() - arena.getCenterx());
 				goomba_.setY(i->gety());
 				goomba_.draw();
@@ -274,6 +331,7 @@ void MarioGame::render()
 
 			case GOOMBA_DYING:
 				goombaDying_.setFrames(2, 3);
+				goombaDying_.update(frameTime_);
 				goombaDying_.setX(i->getx() - arena.getCenterx());
 				goombaDying_.setY(i->gety());
 				goombaDying_.draw();
@@ -369,7 +427,7 @@ void MarioGame::marioStop()
 		case MARIO_BIG:
 			mario_.setHeight(MARIO_BIG_HEIGHT);
 			mario_.setCols(MARIO_COLS);
-			mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME);
+			mario_.setFrames(MARIO_START_FRAME, MARIO_START_FRAME);
 			mario_.setCurrentFrame(MARIO_START_FRAME);
 			done = true;
 			break;
@@ -416,19 +474,17 @@ void MarioGame::marioDown()
 
 void MarioGame::marioUpgrade()
 {
-
+	mario_.setLoop(true);
+	mario_.setHeight(MARIO_BIG_HEIGHT);
+	mario_.setCols(MARIO_COLS);
+	mario_.setFrames(MARIO_END_FRAME, MARIO_START_FRAME);
+	mario_.setFrameDelay(1);
 }
 
 void MarioGame::marioDowngrade()
 {	
-	bool done = false;
-	while (!done)
-	{
-		mario_.setHeight(MARIO_SUPER_HEIGHT);
-		mario_.setCols(MARIO_SUPER_COLS);
-		mario_.setFrames(MARIO_SUPER_START_FRAME + 5, MARIO_SUPER_START_FRAME + 5);
-		mario_.setCurrentFrame(MARIO_SUPER_START_FRAME + 5);
-	}
+	mario_.setHeight(MARIO_SMALL_HEIGHT);
+	mario_.setCols(MARIO_SMALL_COLS);
 	
 }
 
@@ -443,64 +499,132 @@ void MarioGame::marioDeath()
 void MarioGame::level_one()
 {
 	Object* obj = nullptr;
-	arena.addObject(new ObjectMario(50, 661-MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
-	//arena.addObject(new ObjectBlock(50, 250));
-	arena.addObject(new ObjectFloor(0, 661, 3650));
-	arena.addObject(new ObjectQuestion(845, 450, POWERUP));
+	arena.addObject(new ObjectMario(50, 620-MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
+	arena.addObject(new ObjectFloor(0, 620, 3411));
+	arena.addObject(new ObjectQuestion(791, 422, POWERUP));
 
-	arena.addObject(new ObjectBrick(1056, 450));
-	arena.addObject(new ObjectQuestion(1056+BRICK_WIDTH, 450, POWERUP));
-	arena.addObject(new ObjectBrick(1056 + BRICK_WIDTH+ QUESTION_WIDTH, 450));
-	arena.addObject(new ObjectQuestion(1056 + 2* BRICK_WIDTH + QUESTION_WIDTH, 450, COIN));
-	arena.addObject(new ObjectBrick(1056 + 2* BRICK_WIDTH + 2 * QUESTION_WIDTH, 450));
-
-	arena.addObject(new ObjectQuestion(1163, 238, COIN));
 	arena.addObject(new ObjectPowerup(400, 300, 0, 0));
-	arena.addObject(new ObjectCoin(700, 661-COIN_HEIGHT));
+	arena.addObject(new ObjectBrick(989, 422));
+	arena.addObject(new ObjectQuestion(989+BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectBrick(989 + BRICK_WIDTH+ QUESTION_WIDTH, 422));
+	arena.addObject(new ObjectQuestion(989 + 2* BRICK_WIDTH + QUESTION_WIDTH, 422, COIN));
+	arena.addObject(new ObjectBrick(989 + 2* BRICK_WIDTH + 2 * QUESTION_WIDTH, 422));
+
+	arena.addObject(new ObjectGoomba(1040, 622 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectQuestion(1087, 224, COIN));
 
 	
-	arena.addObject(new ObjectPipe(1483, 661-PIPE_SMALL_HEIGHT, PIPE_SMALL));
+	arena.addObject(new ObjectPipe(1384, 620-PIPE_SMALL_HEIGHT, PIPE_SMALL));
+	arena.addObject(new ObjectGoomba(1500, 622 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectPipe(1878, 620 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
+	arena.addObject(new ObjectPipe(2274, 620 - PIPE_BIG_HEIGHT, PIPE_BIG));
+	arena.addObject(new ObjectPipe(2819, 620 - PIPE_BIG_HEIGHT, PIPE_BIG));
+	arena.addObject(new ObjectTurtle(500, 620-TURTLE_HEIGHT, 100, 0));
 
-/*<<<<<<< HEAD
-	arena.addObject(new ObjectPipe(2274, 420, PIPE_BIG));
-	arena.addObject(new ObjectPipe(1878, 469, PIPE_MIDDLE));
-	arena.addObject(new ObjectPipe(1384, 519, PIPE_SMALL));
-	arena.addObject(new ObjectFlagPole(9802, 150));
-	arena.addObject(obj=new ObjectGoomba(500, 570, -100, 0));
-	arena.addObject(new ObjectTurtle(1800, 570, 100, 0));
+	arena.addObject(new ObjectQuestion(3164, 372, POWERUP));
+	arena.addObject(new ObjectFloor(3511, 620, 4252));
+	arena.addObject(new ObjectBrick(3807, 422));
+	arena.addObject(new ObjectQuestion(3807 + BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectBrick(3807 + BRICK_WIDTH + QUESTION_WIDTH, 422));
 
-	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
-=======
-	arena.addObject(new ObjectPipe(2013, 661 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
-	arena.addObject(new ObjectPipe(2435, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
-	arena.addObject(new ObjectPipe(3020, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
-	arena.addObject(new ObjectFlagPole(1300, 661-FLAG_POLE_HEIGHT));
-	arena.addObject(obj=new ObjectGoomba(500, 661-GOOMBA_HEIGHT, -100, 0));
-	arena.addObject(new ObjectTurtle(500, 661-TURTLE_HEIGHT, 100, 0));
-=======*/
+	arena.addObject(new ObjectBrick(3956, 224));
+	arena.addObject(new ObjectBrick(3956 + BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(3956 + 2 * BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(3956 + 3 * BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(3956 + 4 * BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(3956 + 5 * BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(3956 + 6 * BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(3956 + 7 * BRICK_WIDTH, 224));
 
-	
-	arena.addObject(new ObjectPipe(1483, 661-PIPE_SMALL_HEIGHT, PIPE_SMALL));
+	arena.addObject(new ObjectBrick(4499, 224));
+	arena.addObject(new ObjectBrick(4499 + BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(4499 + 2*BRICK_WIDTH, 224));
+	arena.addObject(new ObjectQuestion(4499 + 3 * BRICK_WIDTH, 224, COIN));
 
-	arena.addObject(new ObjectPipe(2013, 661 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
-	arena.addObject(new ObjectPipe(2435, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
-	arena.addObject(new ObjectPipe(3020, 661 - PIPE_BIG_HEIGHT, PIPE_BIG));
-	arena.addObject(new ObjectFlagPole(1300, 661-FLAG_POLE_HEIGHT));
-	arena.addObject(obj=new ObjectGoomba(500, 661-GOOMBA_HEIGHT, -100, 0));
-	arena.addObject(new ObjectTurtle(500, 661-TURTLE_HEIGHT, 100, 0));
+	arena.addObject(new ObjectQuestion(4647, 422, POWERUP));
+	arena.addObject(new ObjectFloor(4401, 620, 2394 + 5170));
 
-	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
-	arena.addObject(new ObjectQuestion(3385, 400, POWERUP));
-	arena.addObject(new ObjectFloor(3754, 661, 4548));
-	arena.addObject(new ObjectBrick(4072, 450));
-	arena.addObject(new ObjectQuestion(4072 + BRICK_WIDTH, 450, POWERUP));
-	arena.addObject(new ObjectBrick(4072 + BRICK_WIDTH + QUESTION_WIDTH, 450));
+	arena.addObject(new ObjectBrick(4944, 422));
+	arena.addObject(new ObjectQuestion(4944+BRICK_WIDTH, 422, POWERUP));
+
+	arena.addObject(new ObjectQuestion(71 + 5170, 422, COIN));
+	arena.addObject(new ObjectQuestion(219 + 5170, 422, COIN));
+	arena.addObject(new ObjectQuestion(219 + 5170, 224, FLOWER));
+	arena.addObject(new ObjectQuestion(368 + 5170, 422, COIN));
+
+	arena.addObject(new ObjectBrick(664 + 5170, 422));
+
+	arena.addObject(new ObjectBrick(813 + 5170, 224));
+	arena.addObject(new ObjectBrick(813 + 5170 + BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(813 + 5170 +2 * BRICK_WIDTH, 224));
+
+	arena.addObject(new ObjectBrick(1159 + 5170, 224));
+	arena.addObject(new ObjectQuestion(1159 + 5170 + BRICK_WIDTH, 224, COIN));
+	arena.addObject(new ObjectQuestion(1159 + 5170 + BRICK_WIDTH + QUESTION_WIDTH, 224, COIN));
+	arena.addObject(new ObjectBrick(1159 + 5170 + BRICK_WIDTH + 2* QUESTION_WIDTH, 224));
+
+	arena.addObject(new ObjectBrick(1208 + 5170, 422));
+	arena.addObject(new ObjectBrick(1208 + 5170 + BRICK_WIDTH, 422));
 
 
-	arena.addEvent(START_MOVING_X_CENTERX, obj, 100, -100);
-	arena.addObject(new ObjectQuestion(3385, 400, POWERUP));
-	arena.addObject(new ObjectFloor(3754, 661, 4548));
-	arena.addObject(new ObjectBrick(4072, 450));
-	arena.addObject(new ObjectQuestion(4072 + BRICK_WIDTH, 450, POWERUP));
-	arena.addObject(new ObjectBrick(4072 + BRICK_WIDTH + QUESTION_WIDTH, 450));
+	arena.addObject(new ObjectFloor(2494 + 5170, 620, 5169 + 5170));
+
+	for (int i = 0; i <= 3; ++i)
+	{
+		for (int j = 1; j <= i + 1; ++j)
+		{
+			arena.addObject(new ObjectBlock(5170+ 1456 + i*BLOCK_WIDTH, 622 - j*BLOCK_HEIGHT));
+		}
+	}
+	for (int i = 0; i <= 3; ++i)
+	{
+		for (int j = 1; j <= 4 - i; ++j)
+		{
+			arena.addObject(new ObjectBlock(5170 + 1752 + i*BLOCK_WIDTH, 622 - j*BLOCK_HEIGHT));
+		}
+	}
+	for (int i = 0; i <= 3; ++i)
+	{
+		for (int j = 1; j <= i + 1; ++j)
+		{
+			arena.addObject(new ObjectBlock(5170 + 2148 + i*BLOCK_WIDTH, 622 - j*BLOCK_HEIGHT));
+		}
+	}
+
+	for (int i = 1; i <= 4; ++i)
+		arena.addObject(new ObjectBlock(5170 + 2346, 622 - i*BLOCK_HEIGHT));
+
+	for (int i = 0; i <= 3; ++i)
+	{
+		for (int j = 1; j <= 4 - i; ++j)
+		{
+			arena.addObject(new ObjectBlock(5170 + 2494 + i*BLOCK_WIDTH, 622 - j*BLOCK_HEIGHT));
+		}
+	}
+
+	arena.addObject(new ObjectPipe(2889 + 5170, 622 - PIPE_SMALL_HEIGHT, PIPE_SMALL));
+
+	arena.addObject(new ObjectBrick(3137 + 5170, 422));
+	arena.addObject(new ObjectBrick(3137 + 5170 + BRICK_WIDTH, 422));
+	arena.addObject(new ObjectQuestion(3137 + 5170 + 2 * BRICK_WIDTH, 422, COIN));
+	arena.addObject(new ObjectBrick(3137 + 5170 + 2 * BRICK_WIDTH + QUESTION_WIDTH, 422));
+
+	arena.addObject(new ObjectPipe(3680 + 5170, 622 - PIPE_SMALL_HEIGHT, PIPE_SMALL));
+
+	for (int i = 0; i <= 7; ++i)
+	{
+		for (int j = 1; j <= i + 1; ++j)
+		{
+			arena.addObject(new ObjectBlock(5170 + 3779 + i*BLOCK_WIDTH, 622 - j*BLOCK_HEIGHT));
+		}
+	}
+
+	for (int i = 1; i <= 8; ++i)
+		arena.addObject(new ObjectBlock(5170 + 4175, 622 - i*BLOCK_HEIGHT));
+
+	arena.addObject(new ObjectBlock(4620 + 5170, 622 - BLOCK_HEIGHT));
+	arena.addObject(new ObjectFlagPole(4632 + 5170, 101));
+
+	arena.addObject(new ObjectVictorySpot(4930 + 5170, 622 - VICTORY_SPOT_HEIGHT));
+
 }

@@ -5,6 +5,11 @@ ObjectGoomba::ObjectGoomba(int x, int y, int vx, int vy) : MovingObject(x, y, vx
 {
 	width_ = GOOMBA_WIDTH;
 	height_ = GOOMBA_HEIGHT;
+	Arena& arena = Arena::getUniqueInstance();
+	arena.addEvent(START_MOVING_X_CENTERX, this, x - GAME_WIDTH, vx);
+	vx_ = 0;
+	gravityAffected_ = false;
+	vy_ = 0;
 }
 
 void ObjectGoomba::collide(const Object& object, Direction collideDirection)

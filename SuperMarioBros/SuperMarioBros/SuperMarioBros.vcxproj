@@ -35,6 +35,7 @@
     <ClCompile Include="ObjectPowerup.cpp" />
     <ClCompile Include="ObjectQuestion.cpp" />
     <ClCompile Include="ObjectTurtle.cpp" />
+    <ClCompile Include="ObjectVictorySpot.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -64,6 +65,7 @@
     <ClInclude Include="ObjectPowerup.h" />
     <ClInclude Include="ObjectQuestion.h" />
     <ClInclude Include="ObjectTurtle.h" />
+    <ClInclude Include="ObjectVictorySpot.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>

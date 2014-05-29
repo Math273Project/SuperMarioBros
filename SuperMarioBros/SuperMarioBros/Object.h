@@ -35,6 +35,7 @@ enum ObjectType
 	FLOOR,
 	FLAG_POLE,
 	FLAG,
+	VICTORY_SPOT,
 	// etc...
 };
 

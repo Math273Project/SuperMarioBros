@@ -53,6 +53,7 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 				case POWERUP:
 					attachedObject_->setPassable(true);
 					arena.addEvent(KEEP_MOVING_Y, attachedObject_, POWERUP_HEIGHT * 1000 / 40, -40);
+					arena.addEvent(START_MOVING_X, attachedObject_, POWERUP_HEIGHT * 1000 / 40, 100);
 					break;
 
 				case COIN:

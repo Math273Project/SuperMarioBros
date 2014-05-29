@@ -59,8 +59,6 @@ const int BRICK_DYING_DURATION = 500;
 const int BRICK_PRIORITY = 5;
 const int BRICK_WIDTH = 50;
 const int BRICK_HEIGHT = 50;
-const int BRICK_DYING_WIDTH = 50;
-const int BRICK_DYING_HEIGHT = 50;
 
 const int BULLET_DYING_DURATION = 50;
 const int BULLET_PRIORITY = 50;
@@ -93,8 +91,8 @@ const int FLAG_POLE_WIDTH = 25;
 const int FLAG_POLE_HEIGHT = 470;
 
 const int FLOOR_PRIORITY = 5;
-const int FLOOR_WIDTH = 53;
-const int FLOOR_HEIGHT = 107;
+const int FLOOR_WIDTH = 50;
+const int FLOOR_HEIGHT = 100;
 
 const int MARIO_DYING_DURATION = 10000;
 const int MARIO_PRIORITY = INT_MAX;
@@ -134,13 +132,18 @@ const int TURTLE_WIDTH = 50;
 const int TURTLE_HEIGHT = 75;
 const int TURTLE_SPIN_WIDTH = 50;
 const int TURTLE_SPIN_HEIGHT = 47;
+
+const int VICTORY_SPOT_PRIORITY = 0;
+const int VICTORY_SPOT_WIDTH = 50;
+const int VICTORY_SPOT_HEIGHT = 50;
+const int VICTORY_SPOT_DYING_DURATION = 0;
 //constants
 
 
 const char CLASS_NAME[] = "Super Mario Bros";
 const char WINDOW_NAME[] = "Super Mario Bros";
-const int GAME_WIDTH = 1366;      // width of game in pixels
-const int GAME_HEIGHT = 768;      // height of game in pixels
+const int GAME_WIDTH = 1280;      // width of game in pixels
+const int GAME_HEIGHT = 720;      // height of game in pixels
 
 
 // key mappings

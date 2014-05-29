@@ -43,7 +43,7 @@ private:
 	//All the animations are done with an image
 	//std::list<Image> staticImages_;
 
-	Image mario_; 
+	Image mario_;
 	Image background1_;
 	Image background2_;
 	Image coin_;
@@ -65,7 +65,11 @@ private:
 	Image turtle_;
 	Image turtleSpin_;
 
+	int transparancy = 255; // 1 - 255
+	int marioPrev = 0;
+
 	//animations
+
 	void marioRun();
 	void marioStop();
 	void marioJump();
