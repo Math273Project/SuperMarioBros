@@ -32,9 +32,6 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 				changed_ = true;
 				switch (attachedObjectType_)
 				{
-				case FLOWER:
-					attachedObject_ = (Object*)(new ObjectFlower(x_, y_));
-					break;
 				case MUSHROOM:
 					attachedObject_ = new ObjectMushroom(x_, y_, 0, 0);
 					break;
@@ -44,6 +41,9 @@ void ObjectQuestion::collide(const Object& object, Direction collideDirection)
 				case POWERUP:
 					attachedObject_ = new ObjectPowerup(x_, y_, 0, 0);
 					break;	
+				case FLOWER:
+					attachedObject_ = new ObjectFlower(x_, y_);
+					break;
 				}
 				arena.addObject(attachedObject_);
 				switch (attachedObject_->getType())

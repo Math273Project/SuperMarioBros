@@ -45,7 +45,7 @@ public:
 	void levelPlus(); // add code for victory screen text here.
 	void addScore(int score);
 	int getScore() const;
-	void addCoin(int coin);
+	void addCoin(int coin = 1);
 	int getCoin() const;
 	bool getMarioShootable() const;
 	void MarioShoot();
