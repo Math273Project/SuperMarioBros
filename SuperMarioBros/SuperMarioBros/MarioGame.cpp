@@ -57,6 +57,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	block_.setCurrentFrame(5);
 	goomba_.initialize(graphics_, GOOMBA_WIDTH, GOOMBA_HEIGHT, 2, &goombaTexture_);
 	turtle_.initialize(graphics_, GOOMBA_WIDTH, TURTLE_HEIGHT, 6, &turtleTexture_);
+	turtleSpin_.initialize(graphics_, TURTLE_SPIN_WIDTH, TURTLE_SPIN_HEIGHT, 5, &turtleTexture_);
 	goombaDying_.initialize(graphics_, GOOMBA_DYING_WIDTH, GOOMBA_DYING_HEIGHT, 4, &goombaTexture_);
 	floor_.initialize(graphics_, FLOOR_WIDTH, FLOOR_HEIGHT, 1, &floorTexture_);
 	brick_.initialize(graphics_, BRICK_WIDTH, BRICK_HEIGHT, 2, &blocksTexture_);
@@ -83,14 +84,17 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	turtle_.setFrameDelay(.2);
 	turtle_.setFrames(2, 3);
 
-	goomba_.setFrameDelay(.2);
+	goomba_.setFrameDelay(2);
 	goomba_.setFrames(0, 1);
+
+	turtleSpin_.setCurrentFrame(4);
 }
 
 void MarioGame::update()
 {
-	arena.move(frameTime_ * 1000); //update arena
+	 
 	arena.freeFall(frameTime_ * 1000); //update ungrounded ogjects
+	arena.move(frameTime_ * 1000);//update arena`
 	arena.collisionDetection(); //detect collision
 	arena.processEvent(); //process collisions
 	arena.removeOutOfBoundObject(); //delete out of bound objects
@@ -350,7 +354,8 @@ void MarioGame::render()
 				break;
 
 			case GOOMBA_DYING:
-				goombaDying_.setFrames(2, 3);
+				goombaDying_.setFrames(2,3);
+				goombaDying_.setCurrentFrame(2);
 				goombaDying_.update(frameTime_);
 				goombaDying_.setX(i->getx() - arena.getCenterx());
 				goombaDying_.setY(i->gety());
@@ -370,6 +375,11 @@ void MarioGame::render()
 				turtle_.setY(i->gety());
 				turtle_.draw();
 				break;
+
+			case TURTLE_SPIN:
+				turtleSpin_.setX(i->getx() - arena.getCenterx());
+				turtleSpin_.setY(i->gety());
+				turtleSpin_.draw();
 			}
 		}
 	}
@@ -519,23 +529,23 @@ void MarioGame::marioDeath()
 void MarioGame::level_one()
 {
 	Object* obj = nullptr;
-	arena.addObject(new ObjectMario(50, 620-MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
+	arena.addObject(new ObjectMario(50, 620 - MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
 	arena.addObject(new ObjectFloor(0, 620, 3411));
 	arena.addObject(new ObjectQuestion(791, 422, POWERUP));
 
 	arena.addObject(new ObjectPowerup(400, 300, 0, 0));
 	arena.addObject(new ObjectPowerup(500, 300, 0, 0));
 	arena.addObject(new ObjectBrick(989, 422));
-	arena.addObject(new ObjectQuestion(989+BRICK_WIDTH, 422, POWERUP));
-	arena.addObject(new ObjectBrick(989 + BRICK_WIDTH+ QUESTION_WIDTH, 422));
-	arena.addObject(new ObjectQuestion(989 + 2* BRICK_WIDTH + QUESTION_WIDTH, 422, COIN));
-	arena.addObject(new ObjectBrick(989 + 2* BRICK_WIDTH + 2 * QUESTION_WIDTH, 422));
+	arena.addObject(new ObjectQuestion(989 + BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectBrick(989 + BRICK_WIDTH + QUESTION_WIDTH, 422));
+	arena.addObject(new ObjectQuestion(989 + 2 * BRICK_WIDTH + QUESTION_WIDTH, 422, COIN));
+	arena.addObject(new ObjectBrick(989 + 2 * BRICK_WIDTH + 2 * QUESTION_WIDTH, 422));
 
 	arena.addObject(new ObjectGoomba(1040, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectQuestion(1087, 224, COIN));
 
-	
-	arena.addObject(new ObjectPipe(1384, 620-PIPE_SMALL_HEIGHT, PIPE_SMALL));
+
+	arena.addObject(new ObjectPipe(1384, 620 - PIPE_SMALL_HEIGHT, PIPE_SMALL));
 	arena.addObject(new ObjectGoomba(1500, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectPipe(1878, 620 - PIPE_MIDDLE_HEIGHT, PIPE_MIDDLE));
 	arena.addObject(new ObjectGoomba(2000, 620 - GOOMBA_HEIGHT, -100, 0));
@@ -559,12 +569,12 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectBrick(3956 + 6 * BRICK_WIDTH, 224));
 	arena.addObject(new ObjectBrick(3956 + 7 * BRICK_WIDTH, 224));
 
-	arena.addObject(new ObjectGoomba(4000, 224- GOOMBA_HEIGHT, -100, 0));
-	arena.addObject(new ObjectGoomba(4100, 224-GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(4100, 224 - GOOMBA_HEIGHT, -100, 0));
+	arena.addObject(new ObjectGoomba(4200, 224 - GOOMBA_HEIGHT, -100, 0));
 
 	arena.addObject(new ObjectBrick(4499, 224));
 	arena.addObject(new ObjectBrick(4499 + BRICK_WIDTH, 224));
-	arena.addObject(new ObjectBrick(4499 + 2*BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(4499 + 2 * BRICK_WIDTH, 224));
 	arena.addObject(new ObjectQuestion(4499 + 3 * BRICK_WIDTH, 224, COIN));
 
 	arena.addObject(new ObjectQuestion(4647, 422, POWERUP));
@@ -575,7 +585,7 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectTurtle(5000, 620 - TURTLE_HEIGHT, -100, 0));
 
 	arena.addObject(new ObjectBrick(4944, 422));
-	arena.addObject(new ObjectQuestion(4944+BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectQuestion(4944 + BRICK_WIDTH, 422, POWERUP));
 
 	arena.addObject(new ObjectGoomba(5170 + 350, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectGoomba(5170 + 400, 620 - GOOMBA_HEIGHT, -100, 0));
@@ -585,19 +595,19 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectQuestion(219 + 5170, 224, FLOWER));
 	arena.addObject(new ObjectQuestion(368 + 5170, 422, COIN));
 
-	
+
 	arena.addObject(new ObjectBrick(664 + 5170, 422));
 	arena.addObject(new ObjectGoomba(800 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectGoomba(900 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
 
 	arena.addObject(new ObjectBrick(813 + 5170, 224));
 	arena.addObject(new ObjectBrick(813 + 5170 + BRICK_WIDTH, 224));
-	arena.addObject(new ObjectBrick(813 + 5170 +2 * BRICK_WIDTH, 224));
+	arena.addObject(new ObjectBrick(813 + 5170 + 2 * BRICK_WIDTH, 224));
 
 	arena.addObject(new ObjectBrick(1159 + 5170, 224));
 	arena.addObject(new ObjectQuestion(1159 + 5170 + BRICK_WIDTH, 224, COIN));
 	arena.addObject(new ObjectQuestion(1159 + 5170 + BRICK_WIDTH + QUESTION_WIDTH, 224, COIN));
-	arena.addObject(new ObjectBrick(1159 + 5170 + BRICK_WIDTH + 2* QUESTION_WIDTH, 224));
+	arena.addObject(new ObjectBrick(1159 + 5170 + BRICK_WIDTH + 2 * QUESTION_WIDTH, 224));
 	arena.addObject(new ObjectGoomba(1000 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectGoomba(1100 + 5170, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectBrick(1208 + 5170, 422));
@@ -610,7 +620,7 @@ void MarioGame::level_one()
 	{
 		for (int j = 1; j <= i + 1; ++j)
 		{
-			arena.addObject(new ObjectBlock(5170+ 1456 + i*BLOCK_WIDTH, 622 - j*BLOCK_HEIGHT));
+			arena.addObject(new ObjectBlock(5170 + 1456 + i*BLOCK_WIDTH, 622 - j*BLOCK_HEIGHT));
 		}
 	}
 	for (int i = 0; i <= 3; ++i)

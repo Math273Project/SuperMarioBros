@@ -8,7 +8,7 @@ const double MIN_FRAME_RATE = 10.0;
 const double MIN_FRAME_TIME = 1.0 / FRAME_RATE;
 const double MAX_FRAME_TIME = 1.0 / MIN_FRAME_RATE;
 
-const double GRAVITY = 400;
+const double GRAVITY = 370;
 const double LOWEST_POSITION = 1500; // the biggest y-position. 
 									// The object beyond this position will be deleted in deleteDyingObject(). 
 // Texture constants
