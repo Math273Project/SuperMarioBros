@@ -1,4 +1,5 @@
 #include "ObjectCoin.h"
+#include "Arena.h"
 
 ObjectCoin::ObjectCoin(int x, int y, int vx, int vy) : MovingObject(x, y, vx, vy)
 {
@@ -21,6 +22,8 @@ void ObjectCoin::collide(const Object& object, Direction collideDirection)
 	if (collideDirection == NONE)
 		return;
 
+	Arena& arena = Arena::getUniqueInstance();
+	arena.addCoin();
 	destroy();
 }
 

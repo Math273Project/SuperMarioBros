@@ -80,7 +80,7 @@ const int GOOMBA_WIDTH = 50;
 const int GOOMBA_HEIGHT = 50;
 const int GOOMBA_COLS = 2;
 const int GOOMBA_DYING_WIDTH = 50;
-const int GOOMBA_DYING_HEIGHT = 33;
+const int GOOMBA_DYING_HEIGHT = 25;
 
 const int FLAG_PRIORITY = 5;
 const int FLAG_WIDTH = 50;
