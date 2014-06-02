@@ -176,6 +176,8 @@ void MarioGame::update()
 void MarioGame::render()
 {
 	graphics_->spriteBegin();
+	graphics_->drawString(D3DCOLOR_XRGB(255, 255, 255), Level_.c_str());
+	graphics_->drawString(D3DCOLOR_XRGB(255, 255, 255), levelScore_.c_str());
 
 	background1_.setX(-arena.getCenterx());
 	background2_.setX(5170 - arena.getCenterx());

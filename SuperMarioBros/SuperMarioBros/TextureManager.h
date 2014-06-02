@@ -41,5 +41,4 @@ private:
 	bool    initialized_;    // true when successfully initialized
 	HRESULT hResult_;
 
-
 };

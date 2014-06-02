@@ -166,4 +166,3 @@ protected:
 		bool    animationComplete_;   // true when loop is false and endFrame has finished displaying
 		friend class Arena;
 };
-

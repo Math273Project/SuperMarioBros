@@ -60,4 +60,3 @@ protected:
 	int score_;
 	int coin_;
 };
-

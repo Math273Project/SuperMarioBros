@@ -17,4 +17,3 @@ protected:
 	void destroy();
 	void setType(ObjectType type); // will change the sprite
 };
-

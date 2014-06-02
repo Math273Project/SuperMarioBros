@@ -2,6 +2,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <d3d9.h>
 #include <d3dx9tex.h>
+#include <d3dx9core.h>
 #include "constants.h"
 #include "gameError.h"
 
@@ -45,7 +46,7 @@ public:
 	void drawSprite(const SpriteData &spriteData, D3DCOLOR color = D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	//output text
-	void drawString(int x, int y, DWORD color, const char* string);
+	void drawString(DWORD color, const char* string, int x = 0, int y = 0);
 
 	//Returns direct3d
 	LPDIRECT3D9 get3D() { return direct3d_; }
@@ -81,6 +82,9 @@ private:
 	LPDIRECT3D9 direct3d_;
 	LPDIRECT3DDEVICE9 device3d_;
 	D3DPRESENT_PARAMETERS d3dpp_;
+
+	//Font Pointer
+	ID3DXFont* pFont = nullptr;
 
 	//Sprite pointers
 	LPD3DXSPRITE sprite_;

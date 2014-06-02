@@ -160,14 +160,26 @@ void Graphics::drawSprite(const SpriteData &spriteData, D3DCOLOR color)
 }
 
 
-void Graphics::drawString(int x, int y, DWORD color, const char* string)
+void Graphics::drawString(DWORD color, const char* string, int x, int y)
 {
-	HRESULT hResult;
+	RECT position;
+	position.left = x;
+	position.top = y;
+	position.right = 1024;
+	position.bottom = 50;
 
-	HFONT hFont = (HFONT)GetStockObject(SYSTEM_FONT);
-	LPD3DXFONT pFont = 0;
+	hResult_ = E_FAIL;
 
-	//hResult = D3DXCreateFont(device3d_, hFont, &pFont);
+	hResult_ = D3DXCreateFont(device3d_, 15, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+		"Arial", &pFont);
+
+	if (FAILED(hResult_))
+	{
+		throw(GameError(gameErrors::WARNING, "Error: String output failed"));
+	}
+
+	pFont->DrawTextA(nullptr, string, -1, &position, DT_RIGHT, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 HRESULT Graphics::getDeviceState()

@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "MovingObject.h"
 #include "Arena.h"
+#include <string>
 
 class MarioGame : public Game
 {
@@ -71,7 +72,8 @@ private:
 
 	int transparancy = 255; // 1 - 255
 	int marioPrev = 0;
-
+	std::string Level_ = "World 1 - 1";
+	std::string levelScore_ = "0";
 	//animations
 
 	void marioRun();

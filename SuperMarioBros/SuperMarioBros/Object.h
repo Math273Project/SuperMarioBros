@@ -73,7 +73,7 @@ public:
 							// add the object to dyingObject in arena class. 
 							// the object will be destroyed in arena class.
 							//call it when, example: Mario is killed, Block is destoryed
-							// and split to severl pieces or
+							// and split to several pieces or
 							//	enemy is killed.
 	bool getPassable() const;
 	void setPassable(bool passable);
@@ -87,7 +87,7 @@ public:
 	virtual double getvx() const;
 	virtual double getvy() const;
 	virtual Direction getFacingDirection() const;
-	virtual void setvx(double vx); // will callsetFacingDirection if the direction of velocity changes;
+	virtual void setvx(double vx); // will call setFacingDirection if the direction of velocity changes
 	virtual void setvy(double vy);
 	virtual bool getMoveable() const;
 	virtual void setFacingDirection(Direction facingDirection);
@@ -109,4 +109,3 @@ protected:
 	bool inEvent_;
 	Object(int x, int y);
 };
-

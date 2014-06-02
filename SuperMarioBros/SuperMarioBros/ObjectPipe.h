@@ -13,4 +13,3 @@ public:
 protected:
 	ObjectType type_;
 };
-
