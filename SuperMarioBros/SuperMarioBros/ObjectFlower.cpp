@@ -54,7 +54,7 @@ ObjectType ObjectFlower::getType() const
 
 int ObjectFlower::getPriority() const
 {
-	return FLOWER_PRIORITY; 
+	return FLOWER_PRIORITY;
 }
 
 int ObjectFlower::getScore() const

@@ -13,7 +13,6 @@ Game::Game()
 Game::~Game()
 {
 	deleteAll();
-	ShowCursor(true);
 }
 
 LRESULT Game::messageHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -106,7 +105,7 @@ void Game::run(HWND hWnd)
 
 void Game::releaseAll()
 {
-
+	
 }
 
 void Game::resetAll()
@@ -117,8 +116,8 @@ void Game::resetAll()
 void Game::deleteAll()
 {
 	releaseAll();
-	graphics_->releaseAll();
-	input_->~Input();
+	SAFE_DELETE(graphics_);
+	SAFE_DELETE(input_)
 	initialized_ = false;
 }
 

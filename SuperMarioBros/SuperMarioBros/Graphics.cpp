@@ -17,21 +17,9 @@ Graphics::~Graphics()
 
 void Graphics::releaseAll()
 {
-	if (sprite_)
-	{
-		sprite_->Release();
-		sprite_ = NULL;
-	}
-	if (device3d_)
-	{
-		device3d_->Release();
-		device3d_ = NULL;
-	}
-	if (direct3d_)
-	{
-		direct3d_->Release();
-		direct3d_ = NULL;
-	}
+	SAFE_RELEASE(sprite_);
+	SAFE_RELEASE(device3d_);
+	SAFE_RELEASE(direct3d_);
 }
 
 void Graphics::initD3Dpp()
@@ -159,29 +147,6 @@ void Graphics::drawSprite(const SpriteData &spriteData, D3DCOLOR color)
 	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
 }
 
-
-void Graphics::drawString(DWORD color, const char* string, int x, int y)
-{
-	RECT position;
-	position.left = x;
-	position.top = y;
-	position.right = 1024;
-	position.bottom = 50;
-
-	hResult_ = E_FAIL;
-
-	hResult_ = D3DXCreateFont(device3d_, 15, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
-		"Arial", &pFont);
-
-	if (FAILED(hResult_))
-	{
-		throw(GameError(gameErrors::WARNING, "Error: String output failed"));
-	}
-
-	pFont->DrawTextA(nullptr, string, -1, &position, DT_RIGHT, D3DCOLOR_XRGB(255, 255, 255));
-}
-
 HRESULT Graphics::getDeviceState()
 {
 	hResult_ = E_FAIL; // Default to fail, replace on success
@@ -208,6 +173,7 @@ HRESULT Graphics::beginScene()
 	{
 		return hResult_;
 	}
+
 	// Clear backbuffer to backColor
 	device3d_->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 0.0, 0);
 	hResult_ = device3d_->BeginScene(); // Begin scene for drawing

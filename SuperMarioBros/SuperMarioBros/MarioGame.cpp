@@ -83,7 +83,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	turtle_.setFrameDelay(.2);
 	turtle_.setFrames(2, 3);
 
-	goomba_.setFrameDelay(.2);
+	goomba_.setFrameDelay(2);
 	goomba_.setFrames(0, 1);
 }
 
@@ -176,8 +176,6 @@ void MarioGame::update()
 void MarioGame::render()
 {
 	graphics_->spriteBegin();
-	graphics_->drawString(D3DCOLOR_XRGB(255, 255, 255), Level_.c_str());
-	graphics_->drawString(D3DCOLOR_XRGB(255, 255, 255), levelScore_.c_str());
 
 	background1_.setX(-arena.getCenterx());
 	background2_.setX(5170 - arena.getCenterx());
@@ -252,6 +250,7 @@ void MarioGame::render()
 				{
 					transparancy = 100;
 					marioDowngrade();
+					marioPrev = 0;
 				}
 				else
 				{
@@ -353,6 +352,7 @@ void MarioGame::render()
 
 			case GOOMBA_DYING:
 				goombaDying_.setFrames(2, 3);
+				goombaDying_.setCurrentFrame(2);
 				goombaDying_.update(frameTime_);
 				goombaDying_.setX(i->getx() - arena.getCenterx());
 				goombaDying_.setY(i->gety());
@@ -491,7 +491,27 @@ void MarioGame::marioJump()
 
 void MarioGame::marioDown()
 {
-
+	bool done = false;
+	for (auto& i = arena.getObjects().begin(); i != arena.getObjects().end() && !done; ++i)
+	{
+		switch ((*i)->getType())
+		{
+		case MARIO_SUPER:
+			mario_.setHeight(MARIO_SUPER_HEIGHT);
+			mario_.setCols(MARIO_SUPER_COLS);
+			mario_.setFrames(MARIO_SUPER_START_FRAME + 6, MARIO_SUPER_START_FRAME + 6);
+			mario_.setCurrentFrame(MARIO_SUPER_START_FRAME + 6);
+			done = true;
+			break;
+		case MARIO_BIG:
+			mario_.setHeight(MARIO_BIG_HEIGHT);
+			mario_.setCols(MARIO_COLS);
+			mario_.setFrames(MARIO_START_FRAME + 6, MARIO_START_FRAME + 6);
+			mario_.setCurrentFrame(MARIO_START_FRAME + 6);
+			done = true;
+			break;
+		}
+	}
 }
 
 void MarioGame::marioUpgrade()
@@ -525,10 +545,10 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectFloor(0, 620, 3411));
 	arena.addObject(new ObjectQuestion(791, 422, POWERUP));
 
-	arena.addObject(new ObjectPowerup(400, 300, 0, 0));
-	arena.addObject(new ObjectPowerup(500, 300, 0, 0));
+	//arena.addObject(new ObjectPowerup(400, 300, 0, 0));
+	//arena.addObject(new ObjectPowerup(500, 300, 0, 0));
 	arena.addObject(new ObjectBrick(989, 422));
-	arena.addObject(new ObjectQuestion(989+BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectQuestion(989+BRICK_WIDTH, 422, COIN));
 	arena.addObject(new ObjectBrick(989 + BRICK_WIDTH+ QUESTION_WIDTH, 422));
 	arena.addObject(new ObjectQuestion(989 + 2* BRICK_WIDTH + QUESTION_WIDTH, 422, COIN));
 	arena.addObject(new ObjectBrick(989 + 2* BRICK_WIDTH + 2 * QUESTION_WIDTH, 422));
@@ -549,7 +569,7 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectQuestion(3164, 372, POWERUP));
 	arena.addObject(new ObjectFloor(3511, 620, 4252));
 	arena.addObject(new ObjectBrick(3807, 422));
-	arena.addObject(new ObjectQuestion(3807 + BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectQuestion(3807 + BRICK_WIDTH, 422, COIN));
 	arena.addObject(new ObjectBrick(3807 + BRICK_WIDTH + QUESTION_WIDTH, 422));
 
 	arena.addObject(new ObjectBrick(3956, 224));
@@ -569,7 +589,7 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectBrick(4499 + 2*BRICK_WIDTH, 224));
 	arena.addObject(new ObjectQuestion(4499 + 3 * BRICK_WIDTH, 224, COIN));
 
-	arena.addObject(new ObjectQuestion(4647, 422, POWERUP));
+	arena.addObject(new ObjectQuestion(4647, 422, COIN));
 	arena.addObject(new ObjectFloor(4401, 620, 2394 + 5170));
 
 	arena.addObject(new ObjectGoomba(4700, 620 - GOOMBA_HEIGHT, -100, 0));
@@ -577,7 +597,7 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectTurtle(5000, 620 - TURTLE_HEIGHT, -100, 0));
 
 	arena.addObject(new ObjectBrick(4944, 422));
-	arena.addObject(new ObjectQuestion(4944+BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectQuestion(4944+BRICK_WIDTH, 422, COIN));
 
 	arena.addObject(new ObjectGoomba(5170 + 350, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectGoomba(5170 + 400, 620 - GOOMBA_HEIGHT, -100, 0));

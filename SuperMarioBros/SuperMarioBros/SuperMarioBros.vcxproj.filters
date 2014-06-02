@@ -96,6 +96,9 @@
     <ClInclude Include="ObjectVictorySpot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectFlower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arena.cpp">
@@ -167,16 +170,13 @@
     <ClCompile Include="ObjectFlag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectFlower.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectFlower.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectGoomba.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ObjectVictorySpot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFlower.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

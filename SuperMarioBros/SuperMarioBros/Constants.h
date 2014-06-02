@@ -161,3 +161,14 @@ const UCHAR MOVE_LEFT_KEY = VK_LEFT;     // left arrow
 const UCHAR MOVE_RIGHT_KEY = VK_RIGHT;    // right arrow
 const UCHAR MOVE_UP_KEY = VK_UP;       // up arrow
 const UCHAR MOVE_DOWN_KEY = VK_DOWN;     // down arrow
+
+// Safely delete pointer referenced item
+#define SAFE_DELETE(ptr)       { if (ptr) { delete (ptr); (ptr)=NULL; } }
+// Safely release pointer referenced item
+#define SAFE_RELEASE(ptr)      { if(ptr) { (ptr)->Release(); (ptr)=NULL; } }
+// Safely delete pointer referenced array
+#define SAFE_DELETE_ARRAY(ptr) { if(ptr) { delete [](ptr); (ptr)=NULL; } }
+// Safely call onLostDevice
+#define SAFE_ON_LOST_DEVICE(ptr)    { if(ptr) { ptr->onLostDevice(); } }
+// Safely call onResetDevice
+#define SAFE_ON_RESET_DEVICE(ptr)   { if(ptr) { ptr->onResetDevice(); } }

@@ -13,10 +13,7 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-	if (texture_)
-	{
-		texture_->Release();
-	}
+	SAFE_RELEASE(texture_);
 }
 
 bool TextureManager::initialize(Graphics* graphics, const char* file)
@@ -47,11 +44,7 @@ void TextureManager::onLostDevice()
 	{
 		return;
 	}
-	if (texture_)
-	{
-		texture_->Release();
-		texture_ = NULL;
-	}
+	SAFE_RELEASE(texture_);
 }
 
 void TextureManager::onResetDevice()
