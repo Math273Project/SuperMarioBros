@@ -186,16 +186,6 @@ Direction Object::didCollide(const Object& object) const
 	if (vx == 0 && vy == 0)
 	{
 		double minDistance = INT_MAX;
-		if (((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left < minDistance)
-		{
-			minDistance = left;
-			direction = LEFT;
-		}
-		if (((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right < minDistance)
-		{
-			minDistance = right;
-			direction = RIGHT;
-		}
 		if (((up > 0 && up <= object.getHeight()) || (up > 0 && down > 0)) && up < minDistance)
 		{
 			minDistance = up;
@@ -206,7 +196,21 @@ Direction Object::didCollide(const Object& object) const
 			minDistance = down;
 			direction = DOWN;
 		}
+		if (((left > 0 && left <= object.getWidth()) || (left > 0 && right > 0)) && left < minDistance)
+		{
+			minDistance = left;
+			direction = LEFT;
+		}
+		if (((right > 0 && right <= object.getWidth()) || (left > 0 && right > 0)) && right < minDistance)
+		{
+			minDistance = right;
+			direction = RIGHT;
+		}
 	}
+	else if (vy > 0 && vy < 20 && up > 0 && up <= 10.0)
+		return UP;
+	else if (vy < 0 && vy > -20 && down > 0 && down <= 10.0)
+		return DOWN;
 	else
 	{
 		double minTime = INT_MAX;

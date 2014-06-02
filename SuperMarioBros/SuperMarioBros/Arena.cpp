@@ -44,9 +44,18 @@ void Arena::freeFall(double time)
 		mario_->setvy(mario_->getvy() + GRAVITY * time / 1000);
 	else
 	{
-		bool onTopOrCollide = false;
 		for (auto& i = objects_.begin(); i != objects_.end(); ++i)
 		{
+			/*bool onTopOrCollide = false;
+			for (auto& j = objects_.begin(); !onTopOrCollide && j != objects_.end(); ++j)
+			{
+				if (i != j)
+				{
+					if ((*i)->didCollide(**j) != NONE)
+						onTopOrCollide = true;
+				}
+			}
+			if (!onTopOrCollide && (*i)->getGravityAffected())*/
 			if ((*i)->getGravityAffected())
 				(*i)->setvy((*i)->getvy() + GRAVITY * time / 1000);
 		}

@@ -13,5 +13,5 @@ public:
 	int getScore() const override;
 protected:
 	bool spin_; // if the turtle is spining or not.
-	
+	int spinStartTime_;
 };
