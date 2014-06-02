@@ -17,7 +17,6 @@ const char BULLET_TEXTURE[] = "Textures\\Bullet.bmp";
 const char BACKGROUND1_TEXTURE[] = "Textures\\Background1.bmp"; 
 const char BACKGROUND2_TEXTURE[] = "Textures\\Background2.bmp";
 const char GOOMBA_TEXTURE[] = "Textures\\Enemies.bmp";
-const char GOOMBA_2_TEXTURE[] = "Textures\\Enemies2.bmp";
 const char MARIO_TEXTURE[] = "Textures\\Robot_Mario.bmp";
 const char BLOCKS[] = "Textures\\Blocks.bmp";
 const char FLOOR_TEXTURE[] = "Textures\\floor.bmp";
@@ -147,7 +146,6 @@ const int VICTORY_SPOT_HEIGHT = 50;
 const int VICTORY_SPOT_DYING_DURATION = 0;
 //constants
 
-//const int MUSHROOM_RED_
 
 const char CLASS_NAME[] = "Super Mario Bros";
 const char WINDOW_NAME[] = "Super Mario Bros";

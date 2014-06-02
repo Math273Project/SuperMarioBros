@@ -79,13 +79,13 @@ bool Image::initialize(Graphics* graphics, int width, int height, int ncols,
 
 // Pre : spriteBegin() is called
 // Post: spriteEnd() is called
-void Image::draw()
+void Image::draw(D3DCOLOR filter)
 {
 	if (visible_ || graphics_ != NULL)
 	{
 		spriteData_.texture = textureManager_->getTexture();  // get fresh texture incase onReset() was called
 
-		graphics_->drawSprite(spriteData_);
+		graphics_->drawSprite(spriteData_, filter);
 	}
 }
 

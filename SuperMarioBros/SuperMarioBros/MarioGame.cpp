@@ -17,7 +17,7 @@
 
 MarioGame::MarioGame()
 {
-	
+
 }
 
 MarioGame::~MarioGame()
@@ -38,7 +38,6 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	backgroundTexture1_.initialize(graphics_, BACKGROUND1_TEXTURE); //background should be split in multiple parts
 	backgroundTexture2_.initialize(graphics_, BACKGROUND2_TEXTURE);
 	goombaTexture_.initialize(graphics_, GOOMBA_TEXTURE);
-	turtleTexture_.initialize(graphics_, GOOMBA_2_TEXTURE);
 	blocksTexture_.initialize(graphics_, BLOCKS);
 	floorTexture_.initialize(graphics_, FLOOR_TEXTURE);
 	pipeBigTexture_.initialize(graphics_, PIPE_BIG_TEXTURE);
@@ -81,36 +80,47 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	turtleSpin_.initialize(graphics_, TURTLE_SPIN_WIDTH, TURTLE_SPIN_HEIGHT, 6, &turtleTexture_);
 	flower_.initialize(graphics_, FLOWER_WIDTH, FLOWER_HEIGHT, 1, &flowerTexture_);
 
-	mario_.setX(50);     
-	mario_.setY(512); //get rid of magic constant
-	mario_.setFrames(MARIO_SMALL_START_FRAME , MARIO_SMALL_END_FRAME);   // animation frames
-	mario_.setCurrentFrame(MARIO_SMALL_START_FRAME + 1);     // starting frame
-	mario_.setFrameDelay(MARIO_SMALL_ANIMATION_DELAY);
-	mario_.setDegrees(0);
-	mario_.setScale(MARIO_SMALL_SCALE);
+	turtle_.setFrameDelay(.2);
+	turtle_.setFrames(2, 3);
 
+	goomba_.setFrameDelay(.2);
+	goomba_.setFrames(0, 1);
 }
 
 void MarioGame::update()
 {
-	arena.move(frameTime_ * 1000);
-	arena.freeFall(frameTime_ * 1000);
-	arena.collisionDetection();
-	arena.processEvent();
-	arena.removeOutOfBoundObject();
+	arena.move(frameTime_ * 1000); //update arena
+	arena.freeFall(frameTime_ * 1000); //update ungrounded ogjects
+	arena.collisionDetection(); //detect collision
+	arena.processEvent(); //process collisions
+	arena.removeOutOfBoundObject(); //delete out of bound objects
 	
-	if (input_->isKeyDown(MOVE_RIGHT_KEY))
+	if (input_->isKeyDown(MOVE_RIGHT_KEY)) //right key pressed
 	{
 		mario_.flipHorizontal(false);
 		arena.setMarioVx(MARIO_SPEED);
-		marioRun();
+		if (!arena.MarioDownToEarth()) //mario is moving and airborne
+		{
+			marioJump();
+		}
+		else
+		{
+			marioRun();
+		}
 
 	}
-	else if (input_->isKeyDown(MOVE_LEFT_KEY)) // some edit here to make Mario cannot go back
+	else if (input_->isKeyDown(MOVE_LEFT_KEY))
 	{
 		mario_.flipHorizontal(true);
 		arena.setMarioVx(-MARIO_SPEED);
-		marioRun();
+		if (!arena.MarioDownToEarth()) 
+		{
+			marioJump();
+		}
+		else
+		{
+			marioRun();
+		}
 	}
 	else if (arena.getMarioDying())
 	{
@@ -125,7 +135,10 @@ void MarioGame::update()
 	else
 	{
 		arena.setMarioVx(0);
-		marioStop();
+		if (!arena.MarioDownToEarth())
+			marioJump();
+		else
+			marioStop();
 	}
 
 	if (input_->isKeyDown(MOVE_UP_KEY))
@@ -142,10 +155,12 @@ void MarioGame::update()
 		//Very minimal usage: only works if mario can move down
 		marioDown();
 	}
+
 	if (input_->isKeyDown('Z') && arena.getMarioShootable())
 	{
 		arena.MarioShoot();
 	}
+
 	if (arena.isGameOver())
 	{
 		PostQuitMessage(0); // end the game
@@ -213,9 +228,9 @@ void MarioGame::render()
 					x = i->getx();
 				while ((x + FLOOR_WIDTH < i->getx() + i->getWidth()) && (x + FLOOR_WIDTH - arena.getCenterx() < GAME_WIDTH))
 				{
-						floor_.setX(x - arena.getCenterx());
-						floor_.setY(i->gety());
-						floor_.draw();
+					floor_.setX(x - arena.getCenterx());
+					floor_.setY(i->gety());
+					floor_.draw();
 					x += FLOOR_WIDTH;
 				}
 				floor_.setX(x - arena.getCenterx());
@@ -231,12 +246,49 @@ void MarioGame::render()
 				break;
 			case MARIO_SMALL:
 			case MARIO_DYING:
-			case MARIO_BIG:
-			case MARIO_SUPER:
+				if (arena.getMarioInvisible() || marioPrev == 1)
+				{
+					transparancy = 100;
+					marioDowngrade();
+				}
+				else
+				{
+					transparancy = 255;
+				}
 				mario_.setX(i->getx() - arena.getCenterx());
 				mario_.setY(i->gety());
 				mario_.update(frameTime_);
-				mario_.draw();
+				mario_.draw(D3DCOLOR_ARGB(transparancy, 255, 255, 255));
+				break;
+			case MARIO_BIG:
+				if (arena.getMarioInvisible() || marioPrev == 0)
+				{
+					transparancy = 100;
+					marioUpgrade();
+					marioPrev = 1;
+				}
+				else
+				{
+					transparancy = 255;
+				}
+				mario_.setX(i->getx() - arena.getCenterx());
+				mario_.setY(i->gety());
+				mario_.update(frameTime_);
+				mario_.draw(D3DCOLOR_ARGB(transparancy, 255, 255, 255));
+				break;
+			case MARIO_SUPER:
+				if (arena.getMarioInvisible())
+				{
+					transparancy = 100;
+				}
+				else
+				{
+					transparancy = 255;
+				}
+				mario_.setX(i->getx() - arena.getCenterx());
+				mario_.setY(i->gety());
+				mario_.update(frameTime_);
+				mario_.draw(D3DCOLOR_ARGB(transparancy, 255, 255, 255));
 				break;
 
 			case MUSHROOM:
@@ -284,28 +336,36 @@ void MarioGame::render()
 
 			case GOOMBA:
 				if (i->getvx() >= 0)
-					goomba_.setCurrentFrame(0);
+				{
+					goomba_.flipHorizontal(true);
+				}
 				else
-					goomba_.setCurrentFrame(1);
+				{
+					goomba_.flipHorizontal(false);
+				}
+				goomba_.update(frameTime_);
 				goomba_.setX(i->getx() - arena.getCenterx());
 				goomba_.setY(i->gety());
 				goomba_.draw();
 				break;
 
 			case GOOMBA_DYING:
-				if (i->getvx() >= 0)
-					goombaDying_.setCurrentFrame(2);
-				else
-					goombaDying_.setCurrentFrame(3);
+				goombaDying_.setFrames(2, 3);
+				goombaDying_.update(frameTime_);
 				goombaDying_.setX(i->getx() - arena.getCenterx());
 				goombaDying_.setY(i->gety());
 				goombaDying_.draw();
 				break;
 			case TURTLE:
 				if (i->getvx() >= 0)
-					turtle_.setCurrentFrame(2);
+				{
+					turtle_.flipHorizontal(true);
+				}
 				else
-					turtle_.setCurrentFrame(3);
+				{
+					turtle_.flipHorizontal(false);
+				}
+				turtle_.update(frameTime_);
 				turtle_.setX(i->getx() - arena.getCenterx());
 				turtle_.setY(i->gety());
 				turtle_.draw();
@@ -387,7 +447,7 @@ void MarioGame::marioStop()
 		case MARIO_BIG:
 			mario_.setHeight(MARIO_BIG_HEIGHT);
 			mario_.setCols(MARIO_COLS);
-			mario_.setFrames(MARIO_START_FRAME, MARIO_END_FRAME);
+			mario_.setFrames(MARIO_START_FRAME, MARIO_START_FRAME);
 			mario_.setCurrentFrame(MARIO_START_FRAME);
 			done = true;
 			break;
@@ -434,12 +494,18 @@ void MarioGame::marioDown()
 
 void MarioGame::marioUpgrade()
 {
-
+	mario_.setLoop(true);
+	mario_.setHeight(MARIO_BIG_HEIGHT);
+	mario_.setCols(MARIO_COLS);
+	mario_.setFrames(MARIO_END_FRAME, MARIO_START_FRAME);
+	mario_.setFrameDelay(1);
 }
 
 void MarioGame::marioDowngrade()
-{
-
+{	
+	mario_.setHeight(MARIO_SMALL_HEIGHT);
+	mario_.setCols(MARIO_SMALL_COLS);
+	
 }
 
 void MarioGame::marioDeath()
@@ -454,7 +520,6 @@ void MarioGame::level_one()
 {
 	Object* obj = nullptr;
 	arena.addObject(new ObjectMario(50, 620-MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
-	//arena.addObject(new ObjectBlock(50, 250));
 	arena.addObject(new ObjectFloor(0, 620, 3411));
 	arena.addObject(new ObjectQuestion(791, 422, POWERUP));
 
@@ -468,8 +533,6 @@ void MarioGame::level_one()
 
 	arena.addObject(new ObjectGoomba(1040, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectQuestion(1087, 224, COIN));
-	
-	//arena.addObject(new ObjectCoin(700, 620-COIN_HEIGHT));
 
 	
 	arena.addObject(new ObjectPipe(1384, 620-PIPE_SMALL_HEIGHT, PIPE_SMALL));
@@ -480,7 +543,7 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectGoomba(2400, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectGoomba(2600, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectPipe(2819, 620 - PIPE_BIG_HEIGHT, PIPE_BIG));
-	
+
 	arena.addObject(new ObjectQuestion(3164, 372, POWERUP));
 	arena.addObject(new ObjectFloor(3511, 620, 4252));
 	arena.addObject(new ObjectBrick(3807, 422));
@@ -602,7 +665,5 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectFlagPole(4632 + 5170, 101));
 
 	arena.addObject(new ObjectVictorySpot(4930 + 5170, 622 - VICTORY_SPOT_HEIGHT));
-
-	
 
 }

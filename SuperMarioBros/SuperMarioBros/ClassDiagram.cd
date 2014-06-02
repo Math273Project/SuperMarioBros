@@ -3,7 +3,7 @@
   <Class Name="Arena" Collapsed="true">
     <Position X="11" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAQADEAECAgAACAQAAMQQCAAwEAAAEAAIAoEAgBAAA=</HashCode>
+      <HashCode>oAIQBDEAECAkAACAQAEOYQCQCwEgAAGAAIAoEAgBAAA=</HashCode>
       <FileName>Arena.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -31,7 +31,7 @@
   <Class Name="Graphics" Collapsed="true">
     <Position X="3" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAwASAAEBIgkAIBgQFEAAACACAQEBAEIIAAAAAAAAAE=</HashCode>
+      <HashCode>AAwAWAAEBIgkAIBgQFEAAACACAQEBAEIIAAAAAAAAAE=</HashCode>
       <FileName>Graphics.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -81,24 +81,14 @@
         <Point X="3.75" Y="5.125" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="background_" Type="Image" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="2.25" Y="5.25" />
-        <Point X="2.374" Y="5.25" />
-        <Point X="2.374" Y="5.375" />
-        <Point X="3.75" Y="5.375" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>ACAgEAAwwCwACQAEACEIQASQBQUAFBAIACAQAAFUBAI=</HashCode>
+      <HashCode>AKAghAkVSD4ACIAAACEMQISAAUdAFgEIAKAQAAlVBAg=</HashCode>
       <FileName>MarioGame.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="marioTexture_" />
-      <Field Name="backgroundTexture_" />
-      <Field Name="mario_" />
-      <Field Name="background_" />
       <Field Name="arena" />
+      <Field Name="marioTexture_" />
+      <Field Name="mario_" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MovingObject" Collapsed="true">
@@ -111,7 +101,7 @@
   <Class Name="Object" Collapsed="true">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>SlAABEgAQQAAWQaoQQJAIcaCCQQEQAAEYABARAAAMCA=</HashCode>
+      <HashCode>SlAABEgAQQAAWQaoQQJAIcaCCQQEQACEYABARAAAMCA=</HashCode>
       <FileName>Object.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -125,35 +115,28 @@
   <Class Name="ObjectBrick" Collapsed="true">
     <Position X="14.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAACAAAAAAAABAQAEAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAACAAAAAAAAAAQAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ObjectBrick.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObjectCoin" Collapsed="true">
     <Position X="19.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAAAIAAAQAEAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAIAAAQAEAACAAAAAAAAAAAA=</HashCode>
       <FileName>ObjectCoin.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ObjectEnemy" Collapsed="true">
-    <Position X="5.75" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAAAAABAQAEAAAEAABAAAAAAAA=</HashCode>
-      <FileName>ObjectEnemy.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObjectMario" Collapsed="true">
     <Position X="8" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAACAAAAAAAAAAAEAAARAEAAAAAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAACAAAAAQAAIAAEAAARAEAAAAAAAgIAAAAAA=</HashCode>
       <FileName>ObjectMario.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObjectMushroom" Collapsed="true">
     <Position X="10.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAAAAABAQAEACAAAABAAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAABAQAEACCAAABAAAAAAAA=</HashCode>
       <FileName>ObjectMushroom.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -167,7 +150,7 @@
   <Class Name="ObjectPowerup" Collapsed="true">
     <Position X="12.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAQAEAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAQAEAACCAAAAAAAAAAA=</HashCode>
       <FileName>ObjectPowerup.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -205,7 +188,7 @@
   <Enum Name="ObjectType" Collapsed="true">
     <Position X="21.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QJEJBAAAACYAIAAAAAAAAADAAgAAACEACAAAAUABGQA=</HashCode>
+      <HashCode>QJEJBAAAACQAIAAAAACAAAjEAgAAICEAAAAAAUABGQA=</HashCode>
       <FileName>Object.h</FileName>
     </TypeIdentifier>
   </Enum>

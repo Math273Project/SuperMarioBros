@@ -69,10 +69,11 @@ private:
 	Image turtleSpin_;
 	Image flower_;
 
-
-	
+	int transparancy = 255; // 1 - 255
+	int marioPrev = 0;
 
 	//animations
+
 	void marioRun();
 	void marioStop();
 	void marioJump();

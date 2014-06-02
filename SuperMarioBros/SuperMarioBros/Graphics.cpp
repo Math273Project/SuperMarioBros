@@ -124,7 +124,7 @@ HRESULT Graphics::showBackbuffer()
 	return hResult_;
 }
 
-void Graphics::drawSprite(const SpriteData &spriteData)
+void Graphics::drawSprite(const SpriteData &spriteData, D3DCOLOR color)
 {
 	if (spriteData.texture == NULL) // If no texture
 	{
@@ -156,7 +156,18 @@ void Graphics::drawSprite(const SpriteData &spriteData)
 
 	sprite_->SetTransform(&matrix);
 
-	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
+	sprite_->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
+}
+
+
+void Graphics::drawString(int x, int y, DWORD color, const char* string)
+{
+	HRESULT hResult;
+
+	HFONT hFont = (HFONT)GetStockObject(SYSTEM_FONT);
+	LPD3DXFONT pFont = 0;
+
+	//hResult = D3DXCreateFont(device3d_, hFont, &pFont);
 }
 
 HRESULT Graphics::getDeviceState()
