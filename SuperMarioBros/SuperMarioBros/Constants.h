@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Windows.h>
 // Directx constants
 
 const double PI = 3.14159265;
@@ -27,6 +28,8 @@ const char FLAG_POLE_TEXTURE[] = "Textures\\Flag_Pole.bmp";
 const char FLAG_TEXTURE[] = "Textures\\Flag.bmp";
 const char TURTLE_TEXTURE[] = "Textures\\turtles.bmp";
 const char FLOWER_TEXTURE[] = "Textures\\flower.bmp";
+const char FONT[] = "Textures\\font.png";
+const char SEVENSEGMENTS[] = "Textures\\dashboard.png";
 
 // Sprite constants
 
@@ -163,11 +166,11 @@ const UCHAR MOVE_UP_KEY = VK_UP;       // up arrow
 const UCHAR MOVE_DOWN_KEY = VK_DOWN;     // down arrow
 
 // Safely delete pointer referenced item
-#define SAFE_DELETE(ptr)       { if (ptr) { delete (ptr); (ptr)=NULL; } }
+#define SAFE_DELETE(ptr)       { if (ptr) { delete (ptr); (ptr)=nullptr; } }
 // Safely release pointer referenced item
-#define SAFE_RELEASE(ptr)      { if(ptr) { (ptr)->Release(); (ptr)=NULL; } }
+#define SAFE_RELEASE(ptr)      { if(ptr) { (ptr)->Release(); (ptr)=nullptr; } }
 // Safely delete pointer referenced array
-#define SAFE_DELETE_ARRAY(ptr) { if(ptr) { delete [](ptr); (ptr)=NULL; } }
+#define SAFE_DELETE_ARRAY(ptr) { if(ptr) { delete [](ptr); (ptr)=nullptr; } }
 // Safely call onLostDevice
 #define SAFE_ON_LOST_DEVICE(ptr)    { if(ptr) { ptr->onLostDevice(); } }
 // Safely call onResetDevice

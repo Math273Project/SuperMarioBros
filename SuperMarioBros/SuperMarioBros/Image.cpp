@@ -91,14 +91,14 @@ void Image::draw(D3DCOLOR filter)
 
 // Pre : spriteBegin() is called
 // Post: spriteEnd() is called
-void Image::draw(SpriteData spriteData)
+void Image::draw(SpriteData spriteData, D3DCOLOR filter)
 {
 	if (visible_ || graphics_ != NULL)
 	{
 		spriteData.rect = spriteData_.rect;                  // use this Images rect to select texture
 		spriteData.texture = textureManager_->getTexture();  // get fresh texture incase onReset() was called
 
-		graphics_->drawSprite(spriteData);
+		graphics_->drawSprite(spriteData, filter);
 	}
 }
 

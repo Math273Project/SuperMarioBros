@@ -30,7 +30,7 @@ public:
 
 	// Draw this image using the specified SpriteData.
 	// The current SpriteData.rect is used to select the texture.
-	virtual void draw(SpriteData spriteData);
+	virtual void draw(SpriteData spriteData, D3DCOLOR filter = D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	// Update the animation. frameTime is used to regulate the speed.
 	// All code that needs to be synchronized with elapsed time should be placed here.

@@ -5,6 +5,8 @@
 #include "Object.h"
 #include "MovingObject.h"
 #include "Arena.h"
+#include "Dashboard.h"
+#include "Text.h"
 #include <string>
 
 class MarioGame : public Game
@@ -42,9 +44,9 @@ private:
 	TextureManager flagPoleTexture_;
 	TextureManager flagTexture_;
 	TextureManager turtleTexture_;
+	TextureManager scoreTexture_;
 
 	//All the animations are done with an image
-	//std::list<Image> staticImages_;
 
 	Image bullet_;
 	Image mario_; 
@@ -69,6 +71,9 @@ private:
 	Image turtle_;
 	Image turtleSpin_;
 	Image flower_;
+
+	Text levelID_;
+	SevenSegment score_;
 
 	int transparancy = 255; // 1 - 255
 	int marioPrev = 0;

@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arena.cpp" />
+    <ClCompile Include="Dashboard.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -35,12 +36,14 @@
     <ClCompile Include="ObjectQuestion.cpp" />
     <ClCompile Include="ObjectTurtle.cpp" />
     <ClCompile Include="ObjectVictorySpot.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Dashboard.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="ObjectFlag.h" />
     <ClInclude Include="ObjectFlagPole.h" />
@@ -66,6 +69,7 @@
     <ClInclude Include="ObjectQuestion.h" />
     <ClInclude Include="ObjectTurtle.h" />
     <ClInclude Include="ObjectVictorySpot.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>

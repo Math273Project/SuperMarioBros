@@ -32,6 +32,7 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 	//load level; only have one to start
 	level_one();
+	levelID_.initialize(graphics_, 48, "Arial");
 	
 	bulletTexture_.initialize(graphics_, BULLET_TEXTURE);
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
@@ -47,8 +48,10 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	flagTexture_.initialize(graphics_, FLAG_TEXTURE);
 	turtleTexture_.initialize(graphics_, TURTLE_TEXTURE);
 	flowerTexture_.initialize(graphics_, FLOWER_TEXTURE);
+	scoreTexture_.initialize(graphics_, SEVENSEGMENTS);
 
 	//Initialize images
+	score_.initialize(graphics_, &scoreTexture_, 500, 0, .3, 6, D3DCOLOR_XRGB(255, 255, 255));
 	bullet_.initialize(graphics_, BULLET_WIDTH, BULLET_HEIGHT, 1, &bulletTexture_);
 	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
 	background1_.initialize(graphics_, 5170, GAME_HEIGHT, 1, &backgroundTexture1_);
@@ -185,6 +188,8 @@ void MarioGame::render()
 	background2_.setX(5170 - arena.getCenterx());
 	background1_.draw();
 	background2_.draw();
+	levelID_.print("World 1 -1", 100, 0);
+	score_.draw(D3DCOLOR_XRGB(255, 255, 255));
 	
 	for (const auto& i : arena.getObjects())
 	{
@@ -555,7 +560,7 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectQuestion(791, 422, POWERUP));
 	arena.addObject(new ObjectBrick(989, 422));
 
-	arena.addObject(new ObjectQuestion(989 + BRICK_WIDTH, 422, POWERUP));
+	arena.addObject(new ObjectQuestion(989 + BRICK_WIDTH, 422, COIN));
 	arena.addObject(new ObjectBrick(989 + BRICK_WIDTH + QUESTION_WIDTH, 422));
 	arena.addObject(new ObjectQuestion(989 + 2 * BRICK_WIDTH + QUESTION_WIDTH, 422, COIN));
 	arena.addObject(new ObjectBrick(989 + 2 * BRICK_WIDTH + 2 * QUESTION_WIDTH, 422));
