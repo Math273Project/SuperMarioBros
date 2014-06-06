@@ -171,6 +171,8 @@ Direction Object::didCollide(const Object& object) const
 {
 	double vx = getvx() - object.getvx();
 	double vy = getvy() - object.getvy();
+	Arena& arena = Arena::getUniqueInstance();
+	double frameTime = arena.getFrameTime();
 	if (!enabled_ || !object.isEnabled())
 		return NONE;
 	if (passable_ || object.getPassable())
@@ -207,9 +209,9 @@ Direction Object::didCollide(const Object& object) const
 			direction = RIGHT;
 		}
 	}
-	else if (vy > 0 && vy < 20 && up > 0 && up <= 10.0)
+	else if (vy > 0 && vy < (int)(GRAVITY * frameTime / 1000 + 2) && up > 0 && up <= 10.0)
 		return UP;
-	else if (vy < 0 && vy > -20 && down > 0 && down <= 10.0)
+	else if (vy < 0 && vy >= -(int)(GRAVITY * frameTime / 1000 + 2) && down > 0 && down <= 10.0)
 		return DOWN;
 	else
 	{

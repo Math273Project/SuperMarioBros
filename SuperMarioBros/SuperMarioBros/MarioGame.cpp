@@ -95,9 +95,9 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 void MarioGame::update()
 {
-	 
-	arena.freeFall(frameTime_ * 1000); //update ungrounded ogjects
-	arena.move(frameTime_ * 1000);//update arena`
+	arena.setFrameTime(frameTime_ * 1000);
+	arena.freeFall(); //update ungrounded ogjects
+	arena.move();//update arena`
 	arena.collisionDetection(); //detect collision
 	arena.processEvent(); //process collisions
 	arena.removeOutOfBoundObject(); //delete out of bound objects
@@ -553,7 +553,7 @@ void MarioGame::marioDeath()
 }
 
 void MarioGame::level_one()
-{
+{arena.addObject(new ObjectQuestion(219, 400, FLOWER));
 	Object* obj = nullptr;
 	arena.addObject(new ObjectMario(50, 620 - MARIO_SMALL_HEIGHT, (int)MARIO_SPEED, 0));
 	arena.addObject(new ObjectFloor(0, 620, 3411));

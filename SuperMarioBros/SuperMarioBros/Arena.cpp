@@ -14,6 +14,7 @@ Arena::Arena()
 	score_ = 0;
 	coin_ = 0;
 	pause_ = false;
+	frameTime_ = 100;
 }
 
 void Arena::addEvent(EventType type, Object* pObject, int wParam, double lParam)
@@ -108,12 +109,12 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 	}
 }
 
-void Arena::freeFall(double time)
+void Arena::freeFall()
 {
 	if (pause_)
 		return;
 	if (getMarioDying())
-		mario_->setvy(mario_->getvy() + GRAVITY * time / 1000);
+		mario_->setvy(mario_->getvy() + GRAVITY * frameTime_ / 1000);
 	else
 	{
 		for (auto& i = objects_.begin(); i != objects_.end(); ++i)
@@ -129,7 +130,7 @@ void Arena::freeFall(double time)
 			}
 			if (!onTopOrCollide && (*i)->getGravityAffected())*/
 			if ((*i)->getGravityAffected())
-				(*i)->setvy((*i)->getvy() + GRAVITY * time / 1000);
+				(*i)->setvy((*i)->getvy() + GRAVITY * frameTime_ / 1000);
 		}
 	}
 }
@@ -166,13 +167,13 @@ void Arena::addObject(Object* pObject)
 	}
 }
 
-void Arena::move(double time)
+void Arena::move()
 {
 	if (getMarioDying())
-		mario_->move(time);
+		mario_->move(frameTime_);
 	else
 		for (auto& i: objects_)
-			i->move(time);
+			i->move(frameTime_);
 }
 
 void Arena::removeOutOfBoundObject()
@@ -518,12 +519,12 @@ void Arena::deleteEvent(const Object* pObject)
 	events_.erase(iNewEnd, events_.end());
 }
 
-void Arena::pause()
+void Arena::setFrameTime(int frameTime)
 {
-	pause_ = true;
+	frameTime_ = frameTime;
 }
 
-void Arena::unpause()
+double Arena::getFrameTime() const
 {
-	pause_ = false;
+	return frameTime_;
 }

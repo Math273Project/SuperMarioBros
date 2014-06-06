@@ -27,13 +27,10 @@ void MovingObject::setvx(double vx)
 {
 	if (enabled_)
 	{
-		if (vx_ * vx < 0)
-		{
-			if (vx < 0)
-				setFacingDirection(LEFT);
-			else
-				setFacingDirection(RIGHT);
-		}
+		if (vx < 0)
+			setFacingDirection(LEFT);
+		else if (vx > 0)
+			setFacingDirection(RIGHT);
 		vx_ = vx;
 	}
 }
