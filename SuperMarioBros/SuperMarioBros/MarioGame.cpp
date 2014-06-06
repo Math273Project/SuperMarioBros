@@ -115,9 +115,11 @@ void MarioGame::update()
 	{
 		return;
 	}
-	
-	arena.freeFall(frameTime_ * 1000); //update ungrounded ogjects
-	arena.move(frameTime_ * 1000);//update arena`
+
+	arena.setFrameTime(frameTime_ * 1000);
+	arena.freeFall(); //update ungrounded ogjects
+	arena.move();//update arena`
+
 	arena.collisionDetection(); //detect collision
 	arena.processEvent(); //process collisions
 	arena.removeOutOfBoundObject(); //delete out of bound objects

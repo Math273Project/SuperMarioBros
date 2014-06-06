@@ -7,6 +7,8 @@
 class Arena
 {
 public:
+	void setFrameTime(int frameTime); // must be set
+	double getFrameTime() const;
 	Arena(const Arena&) = delete; // Unique Instance
 	Arena& operator=(const Arena&) = delete;
 	static Arena& getUniqueInstance()
@@ -16,12 +18,12 @@ public:
 	}
 	void addEvent(EventType type, Object* pObject, int wParam, double lParam);
 	void collisionDetection(); // Do collisionDetection of every objects in Arena
-	void freeFall(double time); //adjust the object' vy according to gravity if it is in the air
+	void freeFall(); //adjust the object' vy according to gravity if it is in the air in one frameTime_;
 	void deleteObject(const Object* pObject);
 	void deleteEvent(const Object* pObject);
 	void addObject(Object* pObject);
-	void move(double time); // move all objects according to current velocity.
-	void removeOutOfBoundObject(); //remove objects that exit the screen
+	void move(); // move all objects according to current velocity in one frameTime_;
+	void removeOutOfBoundObject();
 	void setMarioVx(double vx);
 	void setMarioVy(double vy);
 	bool getMarioDying() const;
@@ -56,4 +58,5 @@ protected:
 	int level_;
 	int score_;
 	int coin_;
+	double frameTime_;
 };
