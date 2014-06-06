@@ -40,27 +40,68 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 			}
 		}
 	}
-	double minDis = INT_MAX;
-	Direction collideDirection = NONE;
-	Object* obj = nullptr;
+	double minDisUp = INT_MAX, minDisDown = INT_MAX, minDisLeft = INT_MAX, minDisRight = INT_MAX;
+	Object* objUp = nullptr, *objDown = nullptr, *objLeft = nullptr, *objRight = nullptr;
 	for (auto i = objects_.begin(); i != objects_.end(); ++i)
 	{
 		double dis = sqrt(pow(mario_->getx() - (*i)->getx(), 2) + pow(mario_->gety() - (*i)->gety(), 2));
-		if (*i != mario_ && dis < minDis)
+		if (*i != mario_)
 		{
 			Direction temp = mario_->didCollide(**i);
 			if (temp != NONE)
 			{
-				dis = minDis;
-				collideDirection = temp;
-				obj = *i;
+				switch (temp)
+				{
+				case UP:
+					if (dis < minDisUp)
+					{
+						minDisUp = dis;
+						objUp = *i;
+					}
+					break;
+				case DOWN:
+					if (dis < minDisDown)
+					{
+						minDisDown = dis;
+						objDown = *i;
+					}
+					break;
+				case LEFT:
+					if (dis < minDisLeft)
+					{
+						minDisLeft = dis;
+						objLeft = *i;
+					}
+					break;
+				case RIGHT:
+					if (dis < minDisRight)
+					{
+						minDisRight = dis;
+						objRight = *i;
+					}
+				}
 			}
 		}
 	}
-	if (collideDirection != NONE)
+	if (objLeft != nullptr)
 	{
-		mario_->collide(*obj, collideDirection);
-		obj->collide(*mario_, (Direction)((collideDirection + 2) % 4));
+		mario_->collide(*objLeft, LEFT);
+		objLeft->collide(*mario_, RIGHT);
+	}
+	if (objRight != nullptr)
+	{
+		mario_->collide(*objRight, RIGHT);
+		objRight->collide(*mario_, LEFT);
+	}
+	if (objUp != nullptr)
+	{
+		mario_->collide(*objUp, UP);
+		objUp->collide(*mario_, DOWN);
+	}
+	if (objDown != nullptr)
+	{
+		mario_->collide(*objDown, DOWN);
+		objDown->collide(*mario_, UP);
 	}
 }
 

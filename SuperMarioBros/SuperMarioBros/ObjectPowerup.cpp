@@ -35,10 +35,10 @@ void ObjectPowerup::collide(const Object& object, Direction collideDirection)
 			setvy(0);
 			break;
 		case LEFT:
-			setvx(0);
+			setvx(-vx_);
 			break;
 		case RIGHT:
-			setvx(0);
+			setvx(-vx_);
 			break;
 		}
 		break;
