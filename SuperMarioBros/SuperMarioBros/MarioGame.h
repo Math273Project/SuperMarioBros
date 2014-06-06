@@ -75,8 +75,9 @@ private:
 	Text levelID_;
 	SevenSegment score_;
 
-	int transparancy = 255; // 1 - 255
+	int transparancy_ = 255; // 1 - 255
 	int marioPrev = 0;
+	std::string currentLevel_ = "";
 	//animations
 
 	void marioRun();

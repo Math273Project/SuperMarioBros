@@ -8,10 +8,11 @@ SevenSegment::SevenSegment()
 
 SevenSegment::~SevenSegment()
 {
+
 }
 
 bool SevenSegment::initialize(Graphics *graphics, TextureManager *textureM,
-	int left, int top, float scale, UINT digs, DWORD color)
+	int left, int top, float scale, UINT digits, DWORD color)
 {
 	try {
 		Image::initialize(graphics, dashboardNS::IMAGE_SIZE, dashboardNS::IMAGE_SIZE,
@@ -20,9 +21,9 @@ bool SevenSegment::initialize(Graphics *graphics, TextureManager *textureM,
 		spriteData_.x = (float)left;
 		spriteData_.y = (float)top;
 		spriteData_.scale = scale;
-		if (digs < 1)
-			digs = 1;
-		digits_ = digs;
+		if (digits < 1)
+			digits = 1;
+		digits_ = digits;
 
 		decimal_.initialize(graphics, dashboardNS::IMAGE_SIZE, dashboardNS::IMAGE_SIZE,
 			dashboardNS::TEXTURE_COLS, textureM);
