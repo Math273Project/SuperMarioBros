@@ -92,9 +92,6 @@ void ObjectMario::collide(const Object& object, Direction collideDirection)
 		case MARIO_SMALL:
 			setType(MARIO_BIG);
 			break;
-		case MARIO_BIG:
-			setType(MARIO_SUPER);
-			break;
 		}
 		break;
 
