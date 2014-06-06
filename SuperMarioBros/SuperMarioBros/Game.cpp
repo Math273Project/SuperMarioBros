@@ -92,11 +92,10 @@ void Game::run(HWND hWnd)
 
 	// reset the elapsed time to 0
 	timeStart_ = timeEnd_;
-	if (!paused_)
-	{
-		//Pure virtual functions defined by derived Classes
-		update(); // Update all game items
-	}
+	
+	//Pure virtual functions defined by derived Classes
+	update(); // Update all game items
+	
 	renderGame(); //renderGame() draws all items and calls pure virtual function render
 	// Clear input
 	// Call this after all key checks are done

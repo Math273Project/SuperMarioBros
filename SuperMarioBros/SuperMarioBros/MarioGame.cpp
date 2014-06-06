@@ -99,27 +99,31 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 void MarioGame::update()
 {
-	 
+	if (input_->isKeyDown(ENTER_KEY))
+	{
+		if (paused_)
+		{
+			paused_ = false;
+			input_->clear(ENTER_KEY);
+		}
+		else
+		{
+			paused_ = true;
+			input_->clear(ENTER_KEY);
+		}
+	}
+	if (paused_)
+	{
+		input_->clear(ENTER_KEY);
+		return;
+	}
+	
 	arena.freeFall(frameTime_ * 1000); //update ungrounded ogjects
 	arena.move(frameTime_ * 1000);//update arena`
 	arena.collisionDetection(); //detect collision
 	arena.processEvent(); //process collisions
 	arena.removeOutOfBoundObject(); //delete out of bound objects
-	
-	if (input_->isKeyDown(ENTER_KEY))
-	{
-		static bool onlyonce = false;
-		if (!onlyonce)
-		{
-			paused_ = true;
-			onlyonce = true;
-		}
-		else
-		{
-			paused_ = false;
-			onlyonce = false;
-		}
-	}
+
 	if (input_->isKeyDown(MOVE_RIGHT_KEY)) //right key pressed
 	{
 		mario_.flipHorizontal(false);
