@@ -4,9 +4,6 @@
 #include "ObjectMario.h"
 #include "event.h"
 
-
-// call this name?
-
 class Arena
 {
 public:
@@ -24,18 +21,18 @@ public:
 	void deleteEvent(const Object* pObject);
 	void addObject(Object* pObject);
 	void move(double time); // move all objects according to current velocity.
-	void removeOutOfBoundObject();
+	void removeOutOfBoundObject(); //remove objects that exit the screen
 	void setMarioVx(double vx);
 	void setMarioVy(double vy);
 	bool getMarioDying() const;
-	bool MarioDownToEarth() const;
+	bool MarioDownToEarth() const; //returns true if mario is grounded ex: on top of block
 	double getMarioVx() const;
 	double getMarioVy() const;
 	double getMarioX() const;
 	double getMarioY() const;
-	bool getMarioInvisible() const;
+	bool getMarioInvisible() const; //return true if mario is passable
 	bool getMarioInEvent() const;
-	bool isGameOver() const;
+	bool isGameOver() const; //return true if game over
 	void processEvent();
 	~Arena();
 	const std::list<Object*>& getObjects() const;
@@ -50,7 +47,7 @@ public:
 	bool getMarioShootable() const;
 	void MarioShoot();
 protected:
-	std::list<Object*> objects_; //  in accedning order of priority
+	std::list<Object*> objects_; //  in ascending order of priority
 	Arena(); // Unique Instance
 	ObjectMario* mario_;
 	std::list<Event> events_;

@@ -106,6 +106,20 @@ void MarioGame::update()
 	arena.processEvent(); //process collisions
 	arena.removeOutOfBoundObject(); //delete out of bound objects
 	
+	if (input_->isKeyDown(ENTER_KEY))
+	{
+		static bool onlyonce = false;
+		if (!onlyonce)
+		{
+			paused_ = true;
+			onlyonce = true;
+		}
+		else
+		{
+			paused_ = false;
+			onlyonce = false;
+		}
+	}
 	if (input_->isKeyDown(MOVE_RIGHT_KEY)) //right key pressed
 	{
 		mario_.flipHorizontal(false);
