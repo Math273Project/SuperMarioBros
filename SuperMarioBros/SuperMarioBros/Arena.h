@@ -46,6 +46,8 @@ public:
 	int getCoin() const;
 	bool getMarioShootable() const;
 	void MarioShoot();
+	void pause();
+	void unpause();
 protected:
 	std::list<Object*> objects_; //  in ascending order of priority
 	Arena(); // Unique Instance
@@ -56,4 +58,5 @@ protected:
 	int level_;
 	int score_;
 	int coin_;
+	bool pause_;
 };

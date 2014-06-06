@@ -13,6 +13,7 @@ Arena::Arena()
 	level_ = 1;
 	score_ = 0;
 	coin_ = 0;
+	pause_ = false;
 }
 
 void Arena::addEvent(EventType type, Object* pObject, int wParam, double lParam)
@@ -24,6 +25,8 @@ void Arena::addEvent(EventType type, Object* pObject, int wParam, double lParam)
 
 void Arena::collisionDetection() // Do collisionDetection of every objects in Arena
 {
+	if (pause_)
+		return;
 	Direction collideDirection1 = NONE, collideDirection2 = NONE;
 	for (auto i = objects_.begin(), j = i; i != objects_.end(); ++i)
 	{
@@ -107,6 +110,8 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 
 void Arena::freeFall(double time)
 {
+	if (pause_)
+		return;
 	if (getMarioDying())
 		mario_->setvy(mario_->getvy() + GRAVITY * time / 1000);
 	else
@@ -293,6 +298,8 @@ bool Arena::MarioDownToEarth() const
 
 void Arena::processEvent()
 {
+	if (pause_)
+		return;
 	LARGE_INTEGER frequency, now;
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&now);
@@ -480,6 +487,8 @@ bool Arena::getMarioShootable() const
 
 void Arena::MarioShoot()
 {
+	if (pause_)
+		return;
 	static LARGE_INTEGER LastShootTime;
 	LARGE_INTEGER frequency; 
 	LARGE_INTEGER currentTime;
@@ -507,4 +516,14 @@ void Arena::deleteEvent(const Object* pObject)
 			return false;
 	});
 	events_.erase(iNewEnd, events_.end());
+}
+
+void Arena::pause()
+{
+	pause_ = true;
+}
+
+void Arena::unpause()
+{
+	pause_ = false;
 }
