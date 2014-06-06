@@ -1,7 +1,9 @@
 #include "Arena.h"
 #include "Constants.h"
 #include "ObjectBullet.h"
+#include <math.h>
 #include <algorithm>
+#include <vector>
 
 
 Arena::Arena()
@@ -27,14 +29,38 @@ void Arena::collisionDetection() // Do collisionDetection of every objects in Ar
 	{
 		for (auto j = std::next(i, 1); j != objects_.end(); ++j)
 		{
-			collideDirection1 = collideDirection2 = NONE;
-			collideDirection1 = (*i)->didCollide(**j);
-			if (collideDirection1 != NONE)
-				collideDirection2 = (Direction)((collideDirection1 + 2) % 4);
-
-			(*i)->collide(**j, collideDirection1);
-			(*j)->collide(**i, collideDirection2);
+			if (*i != mario_ && *j != mario_)
+			{
+				collideDirection1 = collideDirection2 = NONE;
+				collideDirection1 = (*i)->didCollide(**j);
+				if (collideDirection1 != NONE)
+					collideDirection2 = (Direction)((collideDirection1 + 2) % 4);
+				(*i)->collide(**j, collideDirection1);
+				(*j)->collide(**i, collideDirection2);
+			}
 		}
+	}
+	double minDis = INT_MAX;
+	Direction collideDirection = NONE;
+	Object* obj = nullptr;
+	for (auto i = objects_.begin(); i != objects_.end(); ++i)
+	{
+		double dis = sqrt(pow(mario_->getx() - (*i)->getx(), 2) + pow(mario_->gety() - (*i)->gety(), 2));
+		if (*i != mario_ && dis < minDis)
+		{
+			Direction temp = mario_->didCollide(**i);
+			if (temp != NONE)
+			{
+				dis = minDis;
+				collideDirection = temp;
+				obj = *i;
+			}
+		}
+	}
+	if (collideDirection != NONE)
+	{
+		mario_->collide(*obj, collideDirection);
+		obj->collide(*mario_, (Direction)((collideDirection + 2) % 4));
 	}
 }
 
@@ -229,6 +255,7 @@ void Arena::processEvent()
 	LARGE_INTEGER frequency, now;
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&now);
+	std::vector<Object*> deletingObjects;
 	auto iNewEnd = std::remove_if(events_.begin(), events_.end(), [&](Event& i)
 	{
 		double timeElapsed = ((double)(now.QuadPart - i.getStartTime()) / (double)frequency.QuadPart) * 1000;
@@ -238,7 +265,7 @@ void Arena::processEvent()
 		case DESTROY:
 			if (timeElapsed > i.getwParam())
 			{
-				deleteObject(i.getObject());
+				deletingObjects.push_back(i.getObject());
 				return true;
 			}
 			return false;
@@ -340,6 +367,12 @@ void Arena::processEvent()
 		return false;
 	});
 	events_.erase(iNewEnd, events_.end());
+	for (const auto& i : deletingObjects)
+	{
+		auto jNewEnd = std::remove_if(events_.begin(), events_.end(), [&](Event& j){return i == j.getObject(); });
+		events_.erase(jNewEnd, events_.end());
+		deleteObject(i);
+	}
 }
 
 bool Arena::getMarioDying() const

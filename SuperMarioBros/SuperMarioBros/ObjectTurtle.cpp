@@ -70,8 +70,8 @@ void ObjectTurtle::collide(const Object& object, Direction collideDirection)
 				LARGE_INTEGER endTime, frequency;
 				QueryPerformanceCounter(&endTime);
 				QueryPerformanceFrequency(&frequency);
-				int time = (endTime.QuadPart - spinStartTime_) / (double)frequency.QuadPart /1000;
-				if (time > 1000)
+				double time = (endTime.QuadPart - spinStartTime_) / (double)frequency.QuadPart;
+				if (time > 2.0)
 				{
 					setvx(0);
 					destroy(TURTLE_DYING_DURATION);
@@ -101,9 +101,9 @@ void ObjectTurtle::changeType()
 	width_ = TURTLE_SPIN_WIDTH;
 	height_ = TURTLE_SPIN_HEIGHT;
 	if (vx_ < 0)
-		setvx(-500);
+		setvx(-300);
 	else
-		setvx(500);
+		setvx(300);
 	y_ += TURTLE_HEIGHT - TURTLE_SPIN_HEIGHT;
 	LARGE_INTEGER tmp;
 	QueryPerformanceCounter(&tmp);
