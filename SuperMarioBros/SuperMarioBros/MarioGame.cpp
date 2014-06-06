@@ -99,22 +99,20 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 
 void MarioGame::update()
 {
-	if (input_->isKeyDown(ENTER_KEY))
+	if (input_->isKeyDown(ENTER_KEY)) //Pause the game
 	{
 		if (paused_)
 		{
 			paused_ = false;
-			input_->clear(ENTER_KEY);
 		}
 		else
 		{
 			paused_ = true;
-			input_->clear(ENTER_KEY);
 		}
+		input_->clear(ENTER_KEY);
 	}
 	if (paused_)
 	{
-		input_->clear(ENTER_KEY);
 		return;
 	}
 	
@@ -243,7 +241,8 @@ void MarioGame::render()
 			case QUESTION:
 				question_.setX(i->getx() - arena.getCenterx());
 				question_.setY(i->gety());
-				question_.update(frameTime_);
+				if (!paused_)
+					question_.update(frameTime_);
 				question_.draw();
 				break;
 			case QUESTION_BLOCK:
@@ -289,7 +288,8 @@ void MarioGame::render()
 				}
 				mario_.setX(i->getx() - arena.getCenterx());
 				mario_.setY(i->gety());
-				mario_.update(frameTime_);
+				if (!paused_)
+					mario_.update(frameTime_);
 				mario_.draw(D3DCOLOR_ARGB(transparancy_, 255, 255, 255));
 				break;
 			case MARIO_BIG:
@@ -305,13 +305,15 @@ void MarioGame::render()
 				}
 				mario_.setX(i->getx() - arena.getCenterx());
 				mario_.setY(i->gety());
-				mario_.update(frameTime_);
+				if (!paused_)
+					mario_.update(frameTime_);
 				mario_.draw(D3DCOLOR_ARGB(transparancy_, 255, 255, 255));
 				break;
 			case MARIO_SUPER:
 				mario_.setX(i->getx() - arena.getCenterx());
 				mario_.setY(i->gety());
-				mario_.update(frameTime_);
+				if (!paused_)
+					mario_.update(frameTime_);
 				mario_.draw();
 				break;
 
@@ -367,7 +369,8 @@ void MarioGame::render()
 				{
 					goomba_.flipHorizontal(false);
 				}
-				goomba_.update(frameTime_);
+				if (!paused_)
+					goomba_.update(frameTime_);
 				goomba_.setX(i->getx() - arena.getCenterx());
 				goomba_.setY(i->gety());
 				goomba_.draw();
@@ -375,7 +378,8 @@ void MarioGame::render()
 
 			case GOOMBA_DYING:
 				goombaDying_.setFrameDelay(.3);
-				goombaDying_.update(frameTime_);
+				if (!paused_)
+					goombaDying_.update(frameTime_);
 				goombaDying_.setX(i->getx() - arena.getCenterx());
 				goombaDying_.setY(i->gety());
 				goombaDying_.draw();
@@ -389,7 +393,8 @@ void MarioGame::render()
 				{
 					turtle_.flipHorizontal(false);
 				}
-				turtle_.update(frameTime_);
+				if (!paused_)
+					turtle_.update(frameTime_);
 				turtle_.setX(i->getx() - arena.getCenterx());
 				turtle_.setY(i->gety());
 				turtle_.draw();
