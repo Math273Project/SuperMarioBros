@@ -33,6 +33,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	//load level; only have one to start
 	level_one();
 	levelID_.initialize(graphics_, 48, "Arial");
+	ScoreText_.initialize(graphics_, 48, "Arial");
+	equal_.initialize(graphics_, 32, "Arial");
 	
 	bulletTexture_.initialize(graphics_, BULLET_TEXTURE);
 	marioTexture_.initialize(graphics_, MARIO_TEXTURE);
@@ -51,7 +53,8 @@ void MarioGame::initialize(HWND hWnd, bool fullscreen)
 	scoreTexture_.initialize(graphics_, SEVENSEGMENTS);
 
 	//Initialize images
-	score_.initialize(graphics_, &scoreTexture_, 500, 0, .3, 4, D3DCOLOR_XRGB(255, 255, 255));
+	score_.initialize(graphics_, &scoreTexture_, 50, 50, .3, 6, D3DCOLOR_XRGB(255, 255, 255));
+	coinsCollected_.initialize(graphics_, &scoreTexture_, 600, 5, .3, 2, D3DCOLOR_XRGB(255, 255, 255));
 	bullet_.initialize(graphics_, BULLET_WIDTH, BULLET_HEIGHT, 1, &bulletTexture_);
 	mario_.initialize(graphics_, MARIO_SMALL_WIDTH, MARIO_SMALL_HEIGHT, MARIO_SMALL_COLS, &marioTexture_);
 	background1_.initialize(graphics_, 5170, GAME_HEIGHT, 1, &backgroundTexture1_);
@@ -179,7 +182,8 @@ void MarioGame::update()
 		}
 	}
 
-	if (input_->isKeyDown(MOVE_DOWN_KEY))
+	if (input_->isKeyDown(MOVE_DOWN_KEY) && arena.MarioDownToEarth()
+		&& !input_->isKeyDown(MOVE_RIGHT_KEY) && !input_->isKeyDown(MOVE_LEFT_KEY))
 	{
 		//Very minimal usage: only works if mario can move down
 		marioDown();
@@ -210,7 +214,14 @@ void MarioGame::render()
 	background2_.setX(5170 - arena.getCenterx());
 	background1_.draw();
 	background2_.draw();
-	levelID_.print(currentLevel_, 100, 0);
+
+	levelID_.print(currentLevel_, 250, 0);
+	ScoreText_.print("Mario", 50, 0);
+	coin_.setX(540);
+	coin_.setY(7);
+	coin_.setScale(.6);
+	coin_.draw();
+	equal_.print("X", 570, 6);
 	
 	for (const auto& i : arena.getObjects())
 	{
@@ -345,6 +356,7 @@ void MarioGame::render()
 				break;
 
 			case COIN:
+				coin_.setScale(1);
 				coin_.setX(i->getx() - arena.getCenterx());
 				coin_.setY(i->gety());
 				coin_.draw();
@@ -411,7 +423,10 @@ void MarioGame::render()
 	}
 
 	score_.set(arena.getScore());
-	score_.draw(D3DCOLOR_XRGB(255, 255, 255));
+	score_.draw();
+
+	coinsCollected_.set(arena.getCoin());
+	coinsCollected_.draw();
 
 	graphics_->spriteEnd();
 }

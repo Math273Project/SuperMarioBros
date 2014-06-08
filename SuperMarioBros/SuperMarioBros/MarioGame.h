@@ -73,7 +73,12 @@ private:
 	Image flower_;
 
 	Text levelID_;
+	
+	Text ScoreText_;
 	SevenSegment score_;
+
+	Text equal_;
+	SevenSegment coinsCollected_;
 
 	int transparancy_ = 255; // 1 - 255
 	int marioPrev = 0;

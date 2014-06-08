@@ -56,7 +56,7 @@ public:
 	// Draw decimal point (internal use)
 	void drawDecimal(DWORD color);
 	// Draw Image using color as filter. Default color is WHITE.
-	virtual void draw(DWORD color);
+	virtual void draw(DWORD color = D3DCOLOR_XRGB(255, 255, 255));
 private:
 	Image decimal_;
 	UINT digits_;
