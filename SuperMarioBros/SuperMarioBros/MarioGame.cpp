@@ -617,10 +617,10 @@ void MarioGame::level_one()
 	arena.addObject(new ObjectGoomba(2600, 620 - GOOMBA_HEIGHT, -100, 0));
 	arena.addObject(new ObjectPipe(2819, 620 - PIPE_BIG_HEIGHT, PIPE_BIG));
 
-	arena.addObject(new ObjectQuestion(3164, 372, POWERUP));
+	arena.addObject(new ObjectQuestion(3164, 372, COIN));
 	arena.addObject(new ObjectFloor(3511, 620, 4252));
 	arena.addObject(new ObjectBrick(3807, 422));
-	arena.addObject(new ObjectQuestion(3807 + BRICK_WIDTH, 422, COIN));
+	arena.addObject(new ObjectQuestion(3807 + BRICK_WIDTH, 422, FLOWER));
 	arena.addObject(new ObjectBrick(3807 + BRICK_WIDTH + QUESTION_WIDTH, 422));
 
 	arena.addObject(new ObjectBrick(3956, 224));
@@ -655,7 +655,7 @@ void MarioGame::level_one()
 
 	arena.addObject(new ObjectQuestion(71 + 5170, 422, COIN));
 	arena.addObject(new ObjectQuestion(219 + 5170, 422, COIN));
-	arena.addObject(new ObjectQuestion(219 + 5170, 224, FLOWER));
+	arena.addObject(new ObjectQuestion(219 + 5170, 224, POWERUP));
 	arena.addObject(new ObjectQuestion(368 + 5170, 422, COIN));
 
 
